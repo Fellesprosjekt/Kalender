@@ -3,14 +3,8 @@ package databaseConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
+import appLogic.Employee;
 
-import company.Employee;
-/**
- * The Factory should be the interface where Objects are created and they are mapped to entries in the database
- * 
- * @author orestis
- *
- */
 public class Factory {
 	
 	DBConnection db;
@@ -21,11 +15,11 @@ public class Factory {
 		 db=new DBConnection(properties);
 	}
 	
-	public  Employee  createEmployee(String name, int birthYear) throws ClassNotFoundException, SQLException
+	public  Employee  createEmployee(String name) throws ClassNotFoundException, SQLException
 	{
-		Employee e=new Employee(name,birthYear);
+		Employee e= new Employee(name);
 		String query=String.format("insert into employee " +
-				"(name,birthYear) values ('%s', %d)",name,birthYear); 
+				"(name) values ('%s')",name); 
 		db.initialize();
 		db.makeSingleUpdate(query);
 		db.close();
@@ -33,23 +27,21 @@ public class Factory {
 		return e;
 	}
 	
-	public Employee getEmployee(int id) throws ClassNotFoundException, SQLException
+	public Employee getEmployee(String email) throws ClassNotFoundException, SQLException
 	{
 		
-		String birthYearString="birthYear";//done for demonstration reasons
+		String emailYearString="peterts@stud.ntnu.no";//done for demonstration reasons
 		
-		String query=String.format("Select name,%s from employee where id=%d",birthYearString,id);
+		String query=String.format("Select name,%s from employee where id=%d",emailYearString,email);
 		db.initialize();
 		ResultSet rs=db.makeSingleQuery(query);
 		String name=null;
-		int birthYear=-1;
 		while(rs.next())
 		{
 			name=rs.getString(1);
-			birthYear=rs.getInt(2);
 		}
 		
-		Employee e=new Employee(name,birthYear);
+		Employee e=new Employee(name);
 		rs.close();
 		db.close();
 		
