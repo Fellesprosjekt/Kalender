@@ -16,7 +16,7 @@ public class User implements AppointmentListener {
 		return this.email;
 	}
 	
-	public String getName() { //Skal hente navn på enten EMPLOYEE eller GROUP eller PEDER
+	public String getName() { //Skal hente navn på enten EMPLOYEE eller GROUP
 	}
 	
 	public Calendar getCalendar() {
