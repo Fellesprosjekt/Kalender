@@ -13,6 +13,7 @@ public class User implements AppointmentListener {
 	}
 	
 	public String getEmail() {
+		return this.email;
 	}
 	
 	public String getName() { //Skal hente navn på enten EMPLOYEE eller GROUP
