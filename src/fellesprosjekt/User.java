@@ -20,6 +20,7 @@ public class User implements AppointmentListener {
 	}
 	
 	public Calendar getCalendar() {
+		return this.calendar;
 	}
 	
 	private void acceptAppointment(Appointment appointment) {
