@@ -23,7 +23,7 @@ public class TestDB {
 		
 		String insert="insert into calendaruser (email, name, UType)" +
 				" values('mail@eksempel.org','Peter','Employee')";
-		db.initialize();
+		db.initialize(); //Heihei
 		db.makeSingleUpdate(insert);
 		db.close();
 		
