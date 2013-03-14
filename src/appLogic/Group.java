@@ -22,4 +22,8 @@ public class Group extends User {
 	
 	public void removeMember(Employee employee) {
 	}
+	
+	public String getName(){
+		return name;
+	}
 }

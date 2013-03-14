@@ -12,4 +12,12 @@ public class Employee extends User{
 
 	private void setEMployeeName(String name) {
 	}
+	
+	public String getFirstNnme(){
+		return firstname;
+	}
+	
+	public String getLastname(){
+		return firstname;
+	}
 }
