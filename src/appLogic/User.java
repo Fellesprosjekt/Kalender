@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 import org.joda.time.DateTime;
 
 public class User implements AppointmentListener {
-
 	private String email;
 	private Calendar calendar;
 	private Pattern pattern;
