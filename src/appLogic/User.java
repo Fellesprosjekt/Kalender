@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 public class User implements AppointmentListener {
 	private String email;
 	private Calendar calendar;
+	//Disse brukes for Œ validere strenger
 	private Pattern pattern;
 	private Matcher matcher;
 	private static final String EMAIL_PATTERN = 
@@ -16,6 +17,7 @@ public class User implements AppointmentListener {
 	
 	public User(String email) throws InvalidEmailException{
 		setEmail(email);
+		calendar = new Calendar();
 	}
 	
 	
