@@ -15,11 +15,13 @@ public class User implements AppointmentListener {
 			"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	
-	public User(String email) {	
+	public User(String email) {
+		setEmail(email);
 	}
 	
 	
 	private void setEmail(String email) {
+		if(isValidEmail(email)) this.email=email;
 	}
 	
 	public String getEmail() {
