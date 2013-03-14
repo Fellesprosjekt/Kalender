@@ -25,7 +25,7 @@ public class Calendar implements Iterable<CalendarRow>{
 	}
 	
 	/* oppretter ny CalendarRow og legger inn i calendar */
-	public void addAppointment(DateTime start, DateTime end, Appointment appointment) {
+	public void addAppointment(DateTime start, DateTime end, Appointment appointment) throws DateTimeException {
 		calendar.add(new CalendarRow(start, end, appointment)); 
 	}
 	
