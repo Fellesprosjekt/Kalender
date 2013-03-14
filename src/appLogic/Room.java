@@ -13,6 +13,7 @@ public class Room implements AppointmentListener{
 	public Room(int size) {
 		this.size = size;
 		this.room_calendar = new Calendar();
+		rooms.add(this); 
 	}
 	
 	
