@@ -1,10 +1,11 @@
 package appLogic;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.joda.time.DateTime;
 
 
-public class Calendar {
+public class Calendar implements Iterable<CalendarRow>{
 	
 	private ArrayList<CalendarRow> calendar;
 	
@@ -45,6 +46,11 @@ public class Calendar {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public Iterator<CalendarRow> iterator() {
+		return calendar.iterator();
 	}
 	
 }

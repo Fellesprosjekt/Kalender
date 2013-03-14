@@ -8,11 +8,11 @@ public class Room implements AppointmentListener{
 
 	public static ArrayList<Room> rooms = new ArrayList<Room>(); 
 	private final int size;
-	private Calendar calendar;
+	private Calendar room_calendar;
 	
 	public Room(int size) {
 		this.size = size;
-		this.calendar = new Calendar();
+		this.room_calendar = new Calendar();
 	}
 	
 	
@@ -21,13 +21,18 @@ public class Room implements AppointmentListener{
 	}
 	
 	public Calendar getCalendar() {
-		return this.calendar;
+		return this.room_calendar;
 	}
 	
-	/* maa vel vite slutt-tid også??  */
-	public boolean isBooked(DateTime start) {
-		//TODO
-		return true;
+	/* -- endret input til calendarRow --
+	 * gar gjennom alle innslagene i rommets kalender og sjekker om other
+	 * krasjer med noen av de andre
+	 */
+	public boolean isBooked(CalendarRow other) {
+		for (CalendarRow row : room_calendar)
+			if(other.isOverlapping(row))
+				return true;
+		return false;
 	}
 	
 	public ArrayList<Room> getFreeRooms(DateTime start, DateTime end) {
