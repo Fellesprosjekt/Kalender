@@ -1,4 +1,5 @@
 package appLogic;
+import org.joda.*;
 
 public class Alarm {
 
@@ -18,8 +19,11 @@ public class Alarm {
 		return this.time;
 	}
 	
-	public void setLabel(String label) {
-		// TODO : restriksjon pa lengde av label ? mtp. database
+	public void setLabel(String label) throws //Some Exception e{
+		if (label.length()<100){
+			this.label = label;
+		}
+		
 	}
 	
 	public void fireAlarm() {

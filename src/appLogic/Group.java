@@ -12,7 +12,9 @@ public class Group extends User {
 	}
 	
 	private void setGroupName(String name) {
-		
+		if (name.length()<100){
+			this.name = name;
+		}
 	}
 	
 	public ArrayList<Employee> getMembers(){
