@@ -3,6 +3,8 @@ package appLogic;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.joda.time.DateTime;
+
 public class User implements AppointmentListener {
 
 	private String email;
