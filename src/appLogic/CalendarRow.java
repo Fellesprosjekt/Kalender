@@ -6,6 +6,16 @@ import org.joda.time.DateTime;
 
 public class CalendarRow implements Comparable<CalendarRow>{
 
+	/*
+	 * 
+	 * 
+	 *   Ferdig 14.03.2013
+	 * 	 (sannsynligvis)
+	 * 
+	 * 
+	 */
+	
+	
 	private DateTime start;
 	private DateTime end;
 	private final Appointment appointment;
