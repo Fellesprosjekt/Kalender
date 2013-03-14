@@ -12,15 +12,19 @@ public class Group extends User {
 	}
 	
 	private void setGroupName(String name) {
+		
 	}
 	
-	public ArrayList<Employee> getMembers() {
+	public ArrayList<Employee> getMembers(){
+		return members;
 	}
 	
 	public void addMember(Employee employee) {
+		members.add(employee);
 	}
 	
 	public void removeMember(Employee employee) {
+		members.remove(employee);
 	}
 	
 	public String getName(){
