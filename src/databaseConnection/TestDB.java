@@ -21,8 +21,8 @@ public class TestDB {
 	{
 		DBConnection db=new DBConnection(p);
 		
-		String insert="insert into employee (name,birthYear)" +
-				" values('George',1983)";
+		String insert="insert into calendaruser (email, name, UType)" +
+				" values('mail@eksempel.org','Peter','Employee')";
 		db.initialize();
 		db.makeSingleUpdate(insert);
 		db.close();
