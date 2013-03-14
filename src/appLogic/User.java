@@ -15,13 +15,14 @@ public class User implements AppointmentListener {
 			"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	
-	public User(String email) {
+	public User(String email) throws InvalidEmailException{
 		setEmail(email);
 	}
 	
 	
-	private void setEmail(String email) {
-		if(isValidEmail(email)) this.email=email;
+	private void setEmail(String email) throws InvalidEmailException{
+		if(!isValidEmail(email)) throw new InvalidEmailException();
+		else this.email = email;
 	}
 	
 	public String getEmail() {
@@ -41,7 +42,7 @@ public class User implements AppointmentListener {
 	private boolean isValidEmail(String email){
 		pattern = Pattern.compile(EMAIL_PATTERN);
 		matcher = pattern.matcher(email);
-		return matcher.matches();
+		return matcher.matches() && email.length()<=40;
 	}
 
 	@Override
@@ -73,6 +74,4 @@ public class User implements AppointmentListener {
 	public void participantDeclined(User user) {
 		// TODO Auto-generated method stub
 	}
-	
-	
 }
