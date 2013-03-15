@@ -12,12 +12,6 @@ public class Group extends User {
 		setGroupName(name);
 	}
 	
-<<<<<<< HEAD
-	private void setGroupName(String name) {
-		if (name.length()<100){
-			this.name = name;
-		}
-=======
 	private void setGroupName(String name) throws InvalidNameException{
 		if(!isValidName(name)) throw new InvalidNameException();
 		else this.name = name;
@@ -29,7 +23,6 @@ public class Group extends User {
 			if(!Character.isLetterOrDigit(name.charAt(i))) return false;
 		}
 		return true;
->>>>>>> 15c1bf1b1cea49ab07fa67fd9fa083ce6e77716b
 	}
 	
 	public ArrayList<Employee> getMembers(){

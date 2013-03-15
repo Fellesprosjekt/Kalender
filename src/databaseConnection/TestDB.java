@@ -88,7 +88,7 @@ public class TestDB {
 		TestDB t=new TestDB();
 		Properties p=new Properties();
 		try {
-			p.load(new FileInputStream(new File("Properties.properties")));
+			p.load(t.getClass().getResourceAsStream("/jdbc.properties"));
 			//t.readTest(p);
 			t.batchTest(p);
 			

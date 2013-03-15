@@ -32,9 +32,9 @@ public class Factory {
 	public Employee getEmployee(String email) throws ClassNotFoundException, SQLException, InvalidNameException, InvalidEmailException
 	{
 		
-		String emailYearString="peterts@stud.ntnu.no";//done for demonstration reasons
+		String emailString="peterts@stud.ntnu.no";//done for demonstration reasons
 		
-		String query=String.format("Select name,%s from employee where id=%d",emailYearString,email);
+		String query=String.format("Select name,%s from employee where id=%d",emailString,email);
 		db.initialize();
 		ResultSet rs=db.makeSingleQuery(query);
 		String name=null;
