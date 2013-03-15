@@ -47,8 +47,8 @@ public class User implements AppointmentListener {
 	}
 
 	@Override
-	public void appointmentCreated(Appointment appointment, DateTime start, DateTime end) {
-		// TODO Auto-generated method stub	
+	public void appointmentCreated(Appointment appointment, DateTime start, DateTime end) throws DateTimeException {
+		calendar.addAppointment(start, end, appointment);
 	}
 
 	@Override

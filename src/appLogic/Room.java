@@ -26,7 +26,7 @@ public class Room implements AppointmentListener{
 	}
 	
 	/* -- endret input til calendarRow --
-	 * gar gjennom alle innslagene i rommets kalender og sjekker om other
+	 * gar gjennom alle innslagene i rommets kalender og sjekker om row
 	 * krasjer med noen av de andre
 	 */
 	public boolean isBooked(CalendarRow row) {
@@ -40,14 +40,10 @@ public class Room implements AppointmentListener{
 		//TODO
 		return null;
 	}
-	
-	public void bookRoom(CalendarRow row){
-		room_calendar.addCalendarRow(row);
-	}
 
 	@Override
-	public void appointmentCreated(Appointment appointment, DateTime start, DateTime end) {
-		// TODO Auto-generated method stub
+	public void appointmentCreated(Appointment appointment, DateTime start, DateTime end) throws DateTimeException {
+		room_calendar.addAppointment(start, end, appointment);
 	}
 
 	@Override
