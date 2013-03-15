@@ -1,8 +1,11 @@
 package appLogic;
 import java.util.ArrayList;
+import java.util.Iterator;
+
+import org.joda.time.DateTime;
 
 
-public class Calendar {
+public class Calendar implements Iterable<CalendarRow>{
 	
 	private ArrayList<CalendarRow> calendar;
 	
@@ -22,7 +25,7 @@ public class Calendar {
 	}
 	
 	/* oppretter ny CalendarRow og legger inn i calendar */
-	public void addAppointment(DateTime start, DateTime end, Appointment appointment) {
+	public void addAppointment(DateTime start, DateTime end, Appointment appointment) throws DateTimeException {
 		calendar.add(new CalendarRow(start, end, appointment)); 
 	}
 	
@@ -43,6 +46,11 @@ public class Calendar {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public Iterator<CalendarRow> iterator() {
+		return calendar.iterator();
 	}
 	
 }

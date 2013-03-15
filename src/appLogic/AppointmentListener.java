@@ -1,5 +1,7 @@
 package appLogic;
 
+import org.joda.time.DateTime;
+
 public interface AppointmentListener {
 
 	/* sjekk: public el. private */
