@@ -17,15 +17,20 @@ public class Calendar implements Iterable<CalendarRow>{
 		return calendar;
 	}
 	
+	public void addCalendarRow(CalendarRow calendarRow) {
+		calendar.add(calendarRow);
+	}
+	
 	
 	public ArrayList<CalendarRow> getWeekCalendar(int weekNumber) {
-		// TODO: mulig fordel a lage hjelpemetode for a finne DateTime
-		//       for forste dag i uken
-		return null;
+		ArrayList<CalendarRow> week = new ArrayList<CalendarRow>();
+		for (CalendarRow)
+		
 	}
 	
 	/* oppretter ny CalendarRow og legger inn i calendar */
 	public void addAppointment(DateTime start, DateTime end, Appointment appointment) throws DateTimeException {
+		if (end.isBefore(start)) {throw new DateTimeException("end is before start"); }
 		calendar.add(new CalendarRow(start, end, appointment)); 
 	}
 	
