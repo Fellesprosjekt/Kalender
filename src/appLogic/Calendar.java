@@ -7,6 +7,16 @@ import org.joda.time.DateTime;
 
 public class Calendar implements Iterable<CalendarRow>{
 	
+	/*
+	 * 
+	 * 
+	 *   Ferdig 15.03.2013
+	 * 	 (sannsynligvis)
+	 * 
+	 * 
+	 */
+	
+	
 	private ArrayList<CalendarRow> calendar;
 	
 	public Calendar() {
@@ -21,11 +31,15 @@ public class Calendar implements Iterable<CalendarRow>{
 		calendar.add(calendarRow);
 	}
 	
-	
+	/* returnerer alle calendarRow som har starttid tilsvarende weekNumber */
 	public ArrayList<CalendarRow> getWeekCalendar(int weekNumber) {
 		ArrayList<CalendarRow> week = new ArrayList<CalendarRow>();
-		for (CalendarRow)
-		
+		for (CalendarRow row: calendar) {
+			if (row.getStart().getWeekOfWeekyear() == weekNumber) {
+				week.add(row);
+			}
+		}
+		return week;
 	}
 	
 	/* oppretter ny CalendarRow og legger inn i calendar */
