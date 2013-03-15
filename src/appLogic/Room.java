@@ -29,16 +29,20 @@ public class Room implements AppointmentListener{
 	 * gar gjennom alle innslagene i rommets kalender og sjekker om other
 	 * krasjer med noen av de andre
 	 */
-	public boolean isBooked(CalendarRow other) {
-		for (CalendarRow row : room_calendar)
-			if(other.isOverlapping(row))
+	public boolean isBooked(CalendarRow row) {
+		for (CalendarRow other : room_calendar)
+			if(row.isOverlapping(other))
 				return true;
 		return false;
 	}
 	
-	public ArrayList<Room> getFreeRooms(DateTime start, DateTime end) {
+	public static ArrayList<Room> getFreeRooms(DateTime start, DateTime end) {
 		//TODO
 		return null;
+	}
+	
+	public void bookRoom(CalendarRow row){
+		room_calendar.addCalendarRow(row);
 	}
 
 	@Override

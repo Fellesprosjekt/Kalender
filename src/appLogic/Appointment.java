@@ -9,12 +9,12 @@ public class Appointment {
 	private final Employee leader;
 	private HashMap<User, Boolean> participants;
 	
-	public Appointment() {
+	public Appointment(){
 		//TODO
 	}
 	
-	public void setRoom(Room room) {
-		//TODO
+	public void setRoom(Room room){
+		this.room = room;
 	}
 	
 	public Room getRoom() {

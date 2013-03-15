@@ -24,13 +24,11 @@ public class Alarm {
 	public void setLabel(String label) throws //Some Exception e{
 		if (label.length()<100){
 			this.label = label;
-		}
-		
+		}	
 	}
 	
 	public void fireAlarm() {
 		//TODO: "Noe"
 	}
-	
 	
 }
