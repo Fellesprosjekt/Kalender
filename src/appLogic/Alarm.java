@@ -1,5 +1,4 @@
 package appLogic;
-import org.joda.*;
 
 import org.joda.time.DateTime;
 
@@ -21,10 +20,13 @@ public class Alarm {
 		return this.time;
 	}
 	
-	public void setLabel(String label) throws //Some Exception e{
+	/* sorger for at label ikke blir lenger enn 100 tegn */
+	public void setLabel(String label) {
 		if (label.length()<100){
 			this.label = label;
-		}	
+		} else {
+			this.label = label.substring(0, 99); 
+		}
 	}
 	
 	public void fireAlarm() {
