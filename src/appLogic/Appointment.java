@@ -40,8 +40,7 @@ public class Appointment implements ObservableAppointment{
 	
 	// Dersom beskrivelsen er lengre enn det databsen st¿tter trimmer vi den til maxlengde
 	public void setDescription(String description) {
-		if(description.length()>100) this.description=description.substring(0, 99);
-		else this.description=description;
+		this.description = (description.length() < 100 ? description : description.substring(0, 99)); 
 	}
 	
 	public String getDescription() {

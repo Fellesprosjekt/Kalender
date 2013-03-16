@@ -22,11 +22,7 @@ public class Alarm {
 	
 	/* sorger for at label ikke blir lenger enn 100 tegn */
 	public void setLabel(String label) {
-		if (label.length()<100){
-			this.label = label;
-		} else {
-			this.label = label.substring(0, 99); 
-		}
+		this.label = ( label.length() < 100 ? label : label.substring(0, 99) ); 
 	}
 	
 	public void fireAlarm() {
