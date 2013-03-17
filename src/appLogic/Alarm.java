@@ -6,9 +6,11 @@ public class Alarm {
 
 	private final DateTime time;
 	private String label;
+	private final Appointment appointment;
 	
-	public Alarm(DateTime time, String label) {
+	public Alarm(DateTime time, String label, Appointment appointment) {
 		this.time = time;
+		this.appointment=appointment;
 		setLabel(label);
 	}
 	
@@ -18,6 +20,10 @@ public class Alarm {
 	
 	public DateTime getTime() {
 		return this.time;
+	}
+	
+	public Appointment getAppointment(){
+		return this.appointment;
 	}
 	
 	/* sorger for at label ikke blir lenger enn 100 tegn */

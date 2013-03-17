@@ -1,17 +1,23 @@
 package appLogic;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.joda.time.DateTime;
+
 import exceptions.InvalidEmailException;
 import exceptions.InvalidNameException;
 
 public class Employee extends User{
-
 	private String firstname;
 	private String lastname;
+	private ArrayList<Alarm> alarms;
 	
 	
 	public Employee(String name, String email) throws InvalidNameException, InvalidEmailException{
 		super(email);
 		setEmployeeName(name);
+		alarms = new ArrayList<Alarm>();
 	}
 
 	private void setEmployeeName(String name) throws InvalidNameException {
@@ -34,6 +40,26 @@ public class Employee extends User{
 	
 	public String getLastname(){
 		return lastname;
+	}
+	
+	public void addAlarm(Alarm alarm){
+		if(isValidAlarm(alarm)) alarms.add(alarm);
+	}
+	
+	public void removeAlarm(Alarm alarm){
+		if(alarms.contains(alarm)) alarms.remove(alarm);
+	}
+	
+	public boolean isValidAlarm(Alarm alarm){
+		HashMap<Appointment,DateTime> test = new HashMap<Appointment, DateTime>();
+		for(Alarm a : alarms){
+			Appointment app = a.getAppointment();
+			DateTime dt = a.getTime();
+			if(test.containsKey(app)){
+				if(test.get(app).equals(dt)) return false;
+			}else test.put(app, dt);
+		}
+		return true;
 	}
 	
 	private boolean isValidName(String name){
