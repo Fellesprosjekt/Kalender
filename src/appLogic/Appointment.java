@@ -20,7 +20,7 @@ public class Appointment implements ObservableAppointment{
 		int numOfParticipants = participants.size();
 		bookRoom(start,end,room,numOfParticipants);
 		setDescription(description);
-		leader.appointmentCreated(this, start, end);
+		fireAppointmentCreated(start, end);
 	}
 	/* Sjekker om reommet er ledig
 	 * Setter rommet og "booker" det ved Œ legge det i romkalenderen til rommet dersom det er ledig
@@ -51,6 +51,18 @@ public class Appointment implements ObservableAppointment{
 		return this.leader;
 	}
 	
+	public void setParticipantStaus(User user, boolean status){
+		if(participants.containsKey(user)) participants.put(user, status);
+	}
+	
+	public void setStart(DateTime start){
+		fireStartChanged(start);
+	}
+	
+	public void setEnd(DateTime end){
+		fireEndChanged(end);
+	}
+	
 	@Override
 	public void addParticipant(User user) {
 		participants.put(user, null);
@@ -60,22 +72,41 @@ public class Appointment implements ObservableAppointment{
 		if(participants.containsKey(user)) participants.remove(user);
 		
 	}
+	
 	@Override
-	public void fireAppointmentCreated() {
-		// TODO Auto-generated method stub		
+	public void fireAppointmentCreated(DateTime start, DateTime end) throws DateTimeException {
+		for(User u : participants.keySet()){
+			u.appointmentCreated(this, start, end);
+		}
 	}
 	@Override
 	public void fireDescriptionChanged() {
-		// TODO Auto-generated method stub
-		
+		for(User u : participants.keySet()){
+			u.descriptionChanged(this);
+		}	
 	}
 	@Override
 	public void fireRoomChanged() {
-		// TODO Auto-generated method stub
-		
+		for(User u : participants.keySet()){
+			u.roomChanged(this);
+		}
 	}
 	@Override
-	public void fireParticipantChangedStatus(User user, boolean status) {
-		if(participants.containsKey(user)) participants.put(user, status);
-	}	
+	public void fireParticipantDeclined(User user){
+		for(User u : participants.keySet()){
+			u.participantDeclined(this, user);
+		}
+	}
+	@Override
+	public void fireStartChanged(DateTime start) {
+		for(User u : participants.keySet()){
+			u.startChanged(this, start);
+		}	
+	}
+	@Override
+	public void fireEndChanged(DateTime end) {
+		for(User u : participants.keySet()){
+			u.endChanged(this, end);
+		}		
+	}
 }
