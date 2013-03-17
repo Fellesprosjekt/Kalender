@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.joda.time.DateTime;
 
 import exceptions.DateTimeException;
+import exceptions.RoomBookedException;
 
 
 public class Room implements AppointmentListener{
@@ -55,14 +56,23 @@ public class Room implements AppointmentListener{
 
 
 	@Override
-	public void startChanged(Appointment appointment, DateTime start) throws DateTimeException {
-			
+	public void startChanged(Appointment appointment, DateTime start) throws DateTimeException, RoomBookedException {
+		CalendarRow row = room_calendar.findCalendarRow(appointment);
+		if(!row.equals(null)){
+			DateTime end = row.getEnd();
+			if(isBooked(new CalendarRow(start,end,null))) throw new RoomBookedException();
+			else row.setStart(start);
+		}
 	}
 
 	@Override
-	public void endChanged(Appointment appointment, DateTime end) throws DateTimeException {
-		// TODO Auto-generated method stub
-		
+	public void endChanged(Appointment appointment, DateTime end) throws DateTimeException, RoomBookedException {
+		CalendarRow row = room_calendar.findCalendarRow(appointment);
+		if(!row.equals(null)){
+			DateTime start = row.getStart();
+			if(isBooked(new CalendarRow(start,end,null))) throw new RoomBookedException();
+			else row.setEnd(end);
+		}	
 	}
 
 

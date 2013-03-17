@@ -5,8 +5,10 @@ import java.util.regex.Pattern;
 
 import org.joda.time.DateTime;
 
+import exceptions.BusyUserException;
 import exceptions.DateTimeException;
 import exceptions.InvalidEmailException;
+import exceptions.RoomBookedException;
 
 public class User implements AppointmentListener {
 	private String email;
@@ -57,20 +59,29 @@ public class User implements AppointmentListener {
 	}
 
 	@Override
-	public void appointmentCreated(Appointment appointment, DateTime start, DateTime end) throws DateTimeException {
+	public void appointmentCreated(Appointment appointment, DateTime start, DateTime end) throws DateTimeException, BusyUserException {
+		if(isBusy(new CalendarRow(start,end,null))) throw new BusyUserException();
 		calendar.addAppointment(start, end, appointment);
 	}
 
 	@Override
-	public void startChanged(Appointment appointment, DateTime start) throws DateTimeException {
+	public void startChanged(Appointment appointment, DateTime start) throws DateTimeException, BusyUserException {
 		CalendarRow row = calendar.findCalendarRow(appointment);
-		if(!row.equals(null)) row.setStart(start);
+		if(!row.equals(null)){
+			DateTime end = row.getEnd();
+			if(isBusy(new CalendarRow(start,end,null))) throw new BusyUserException();
+			else row.setStart(start);
+		}
 	}
 	
 	@Override
-	public void endChanged(Appointment appointment, DateTime end) throws DateTimeException {
+	public void endChanged(Appointment appointment, DateTime end) throws DateTimeException, BusyUserException {
 		CalendarRow row = calendar.findCalendarRow(appointment);
-		if(!row.equals(null)) row.setEnd(end);
+		if(!row.equals(null)){
+			DateTime start = row.getStart();
+			if(isBusy(new CalendarRow(start,end,null))) throw new BusyUserException();
+			else row.setEnd(end);
+		}
 	}
 
 	@Override

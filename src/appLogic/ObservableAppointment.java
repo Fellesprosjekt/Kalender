@@ -3,6 +3,7 @@ package appLogic;
 import org.joda.time.DateTime;
 
 import exceptions.DateTimeException;
+import exceptions.RoomBookedException;
 
 public interface ObservableAppointment {
 
@@ -18,8 +19,8 @@ public interface ObservableAppointment {
 
 	public void fireAppointmentCreated(DateTime start, DateTime end) throws DateTimeException;
 	
-	public void fireStartChanged(DateTime start) throws DateTimeException;
+	public void fireStartChanged(DateTime start) throws DateTimeException, RoomBookedException;
 	
-	public void fireEndChanged(DateTime end) throws DateTimeException;
+	public void fireEndChanged(DateTime end) throws DateTimeException, RoomBookedException;
 	
 }

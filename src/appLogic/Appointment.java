@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import org.joda.time.DateTime;
 
+import exceptions.BusyUserException;
 import exceptions.DateTimeException;
 import exceptions.RoomBookedException;
 import exceptions.RoomSizeException;
@@ -30,8 +31,8 @@ public class Appointment implements ObservableAppointment{
 	 * Setter rommet og "booker" det ved Œ legge det i romkalenderen til rommet dersom det er ledig
 	 */
 	public void bookRoom(DateTime start, DateTime end, Room room,int numOfParticipants) throws DateTimeException, RoomBookedException, RoomSizeException{
-		if(room.isBooked(new CalendarRow(start, end, this))) throw new RoomBookedException();
-		if(numOfParticipants>room.getSize()) throw new RoomSizeException();
+		if(room.isBooked(new CalendarRow(start, end, null))) throw new RoomBookedException();
+		else if(numOfParticipants>room.getSize()) throw new RoomSizeException();
 		else{
 			if(!this.room.equals(null)){
 				this.room.getCalendar().removeCalendarRow(this);
@@ -68,11 +69,11 @@ public class Appointment implements ObservableAppointment{
 		}
 	}
 	
-	public void setStart(DateTime start) throws DateTimeException{
+	public void setStart(DateTime start) throws DateTimeException, RoomBookedException{
 		fireStartChanged(start);
 	}
 	
-	public void setEnd(DateTime end) throws DateTimeException{
+	public void setEnd(DateTime end) throws DateTimeException, RoomBookedException{
 		fireEndChanged(end);
 	}
 	
@@ -88,7 +89,12 @@ public class Appointment implements ObservableAppointment{
 	@Override
 	public void fireAppointmentCreated(DateTime start, DateTime end) throws DateTimeException {
 		for(User u : participants.keySet()){
-			u.appointmentCreated(this, start, end);
+			try{
+				u.appointmentCreated(this, start, end);
+			}catch(BusyUserException e){
+				participants.put(u, false);
+				fireParticipantDeclined(u);
+			}
 		}
 		room.appointmentCreated(this, start, end);
 	}
@@ -111,16 +117,26 @@ public class Appointment implements ObservableAppointment{
 		}
 	}
 	@Override
-	public void fireStartChanged(DateTime start) throws DateTimeException {
+	public void fireStartChanged(DateTime start) throws DateTimeException, RoomBookedException {
 		for(User u : participants.keySet()){
-			u.startChanged(this, start);
+			try{
+				u.startChanged(this, start);
+			}catch(BusyUserException e){
+				participants.put(u, false);
+				fireParticipantDeclined(u);
+			}
 		}
 		room.startChanged(this, start);
 	}
 	@Override
-	public void fireEndChanged(DateTime end) throws DateTimeException {
+	public void fireEndChanged(DateTime end) throws DateTimeException, RoomBookedException {
 		for(User u : participants.keySet()){
-			u.endChanged(this, end);
+			try{
+				u.endChanged(this, end);
+			}catch(BusyUserException e){
+				participants.put(u, false);
+				fireParticipantDeclined(u);
+			}
 		}
 		room.endChanged(this, end);
 	}
