@@ -1,7 +1,5 @@
 package appLogic;
 
-import java.util.ArrayList;
-
 import exceptions.InvalidEmailException;
 import exceptions.InvalidNameException;
 

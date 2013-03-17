@@ -33,7 +33,11 @@ public class Appointment implements ObservableAppointment{
 		if(room.isBooked(new CalendarRow(start, end, this))) throw new RoomBookedException();
 		if(numOfParticipants>room.getSize()) throw new RoomSizeException();
 		else{
-			this.room=room;
+			if(!this.room.equals(null)){
+				this.room.getCalendar().removeCalendarRow(this);
+				this.room=room;
+				fireRoomChanged();
+			}else this.room=room;
 			room.appointmentCreated(this, start, end);
 		}
 	}
@@ -44,7 +48,10 @@ public class Appointment implements ObservableAppointment{
 	
 	// Dersom beskrivelsen er lengre enn det databsen st¿tter trimmer vi den til maxlengde
 	public void setDescription(String description) {
-		this.description = (description.length() < 100 ? description : description.substring(0, 99)); 
+		if(!this.description.equals(null)){
+			this.description = (description.length() > 100 ? description.substring(0,99) : description);
+			fireDescriptionChanged();
+		}else this.description = (description.length() > 100 ? description.substring(0,99) : description);
 	}
 	
 	public String getDescription() {
@@ -56,7 +63,10 @@ public class Appointment implements ObservableAppointment{
 	}
 	
 	public void setParticipantStaus(User user, boolean status){
-		if(participants.containsKey(user)) participants.put(user, status);
+		if(participants.containsKey(user)){
+			participants.put(user, status);
+			if(!status) fireParticipantDeclined(user);
+		}
 	}
 	
 	public void setStart(DateTime start) throws DateTimeException{
@@ -74,7 +84,6 @@ public class Appointment implements ObservableAppointment{
 	@Override
 	public void removeParticipant(User user) {
 		if(participants.containsKey(user)) participants.remove(user);
-		
 	}
 	
 	@Override
