@@ -51,7 +51,7 @@ public class Calendar implements Iterable<CalendarRow>{
 	}
 	
 	/* fjerner CalendarRow som er assosiert med gitt appointment */
-	public void removeAppointment(Appointment appointment) {
+	public void removeCalendarRow(Appointment appointment) {
 		for (CalendarRow row : calendar) {
 			if (row.getAppointment().equals(appointment)) {
 				calendar.remove(row); 
