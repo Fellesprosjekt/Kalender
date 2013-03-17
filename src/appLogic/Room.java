@@ -38,9 +38,15 @@ public class Room implements AppointmentListener{
 		return false;
 	}
 	
-	public static ArrayList<Room> getFreeRooms(DateTime start, DateTime end) {
-		//TODO
-		return null;
+	public static ArrayList<Room> getFreeRooms(DateTime start, DateTime end) throws DateTimeException {
+		ArrayList<Room> freeRooms = new ArrayList<Room>();
+		CalendarRow time_slot = new CalendarRow(start, end, null);
+		for (Room room : rooms) {
+			if (!room.isBooked(time_slot)) {
+				freeRooms.add(room);
+			}
+		}
+		return freeRooms;
 	}
 
 	@Override
