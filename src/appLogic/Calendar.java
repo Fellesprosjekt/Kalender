@@ -66,6 +66,16 @@ public class Calendar implements Iterable<CalendarRow>{
 		}
 		return null;
 	}
+	
+	/* returnerer CalendarRow som har gitt appointment, ellers null */
+	public CalendarRow findAppointment(Appointment appointment) {
+		for (CalendarRow row : calendar) {
+			if (row.getAppointment().equals(appointment)) {
+				return row; 
+			}
+		}
+		return null;
+	}
 
 	@Override
 	public Iterator<CalendarRow> iterator() {
