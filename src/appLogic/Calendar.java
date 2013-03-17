@@ -58,7 +58,7 @@ public class Calendar implements Iterable<CalendarRow>{
 	}
 	
 	/* returnerer CalendarRow som har gitt start, ellers null */
-	public CalendarRow findAppointment(DateTime start) {
+	public CalendarRow findCalendarRow(DateTime start) {
 		for (CalendarRow row : calendar) {
 			if (row.getStart().equals(start)) {
 				return row; 
@@ -68,7 +68,7 @@ public class Calendar implements Iterable<CalendarRow>{
 	}
 	
 	/* returnerer CalendarRow som har gitt appointment, ellers null */
-	public CalendarRow findAppointment(Appointment appointment) {
+	public CalendarRow findCalendarRow(Appointment appointment) {
 		for (CalendarRow row : calendar) {
 			if (row.getAppointment().equals(appointment)) {
 				return row; 

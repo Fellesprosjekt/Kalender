@@ -52,7 +52,7 @@ public class User implements AppointmentListener {
 	}
 
 	@Override
-	public void startChanged(DateTime start) {
+	public void startChanged(Appointment appointment, DateTime start) {
 		// TODO Auto-generated method stub
 	}
 
