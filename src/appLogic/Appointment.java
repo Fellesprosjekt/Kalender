@@ -55,11 +55,11 @@ public class Appointment implements ObservableAppointment{
 		if(participants.containsKey(user)) participants.put(user, status);
 	}
 	
-	public void setStart(DateTime start){
+	public void setStart(DateTime start) throws DateTimeException{
 		fireStartChanged(start);
 	}
 	
-	public void setEnd(DateTime end){
+	public void setEnd(DateTime end) throws DateTimeException{
 		fireEndChanged(end);
 	}
 	
@@ -98,13 +98,13 @@ public class Appointment implements ObservableAppointment{
 		}
 	}
 	@Override
-	public void fireStartChanged(DateTime start) {
+	public void fireStartChanged(DateTime start) throws DateTimeException {
 		for(User u : participants.keySet()){
 			u.startChanged(this, start);
 		}	
 	}
 	@Override
-	public void fireEndChanged(DateTime end) {
+	public void fireEndChanged(DateTime end) throws DateTimeException {
 		for(User u : participants.keySet()){
 			u.endChanged(this, end);
 		}		

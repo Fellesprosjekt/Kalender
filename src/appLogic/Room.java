@@ -46,30 +46,40 @@ public class Room implements AppointmentListener{
 		room_calendar.addAppointment(start, end, appointment);
 	}
 
-	@Override
-	public void startChanged(DateTime start) {
-		// TODO Auto-generated method stub
-	}
 
 	@Override
-	public void descriptionChanged(String description) {
+	public void startChanged(Appointment appointment, DateTime start)
+			throws DateTimeException {
 		// TODO Auto-generated method stub
+		
 	}
 
-	@Override
-	public void roomChanged(Room room) {
-		// TODO Auto-generated method stub
-	}
 
 	@Override
-	public void durationChanged(int minutes) {
+	public void endChanged(Appointment appointment, DateTime end)
+			throws DateTimeException {
 		// TODO Auto-generated method stub
+		
 	}
 
+
 	@Override
-	public void participantDeclined(User user) {
+	public void descriptionChanged(Appointment appointment) {
 		// TODO Auto-generated method stub
+		
 	}
-	
-	
+
+
+	@Override
+	public void roomChanged(Appointment appointment) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void participantDeclined(Appointment appointment, User user) {
+		// TODO Auto-generated method stub
+		
+	}
 }

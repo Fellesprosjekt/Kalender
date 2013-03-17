@@ -8,9 +8,9 @@ public interface AppointmentListener {
 	public void appointmentCreated(Appointment appointment, DateTime start, DateTime end) throws DateTimeException;
 	
 	/* kobles disse til noen objekter */
-	public void startChanged(Appointment appointment, DateTime start);
+	public void startChanged(Appointment appointment, DateTime start) throws DateTimeException;
 	
-	public void endChanged(Appointment appointment, DateTime end);
+	public void endChanged(Appointment appointment, DateTime end) throws DateTimeException;
 	
 	public void descriptionChanged(Appointment appointment);
 	

@@ -52,14 +52,15 @@ public class User implements AppointmentListener {
 	}
 
 	@Override
-	public void startChanged(Appointment appointment, DateTime start) {
+	public void startChanged(Appointment appointment, DateTime start) throws DateTimeException {
 		CalendarRow row = calendar.findCalendarRow(appointment);
+		if(!row.equals(null)) row.setStart(start);
 	}
 	
 	@Override
-	public void endChanged(Appointment appointment, DateTime end) {
-		// TODO Auto-generated method stub
-		
+	public void endChanged(Appointment appointment, DateTime end) throws DateTimeException {
+		CalendarRow row = calendar.findCalendarRow(appointment);
+		if(!row.equals(null)) row.setEnd(end);
 	}
 
 	@Override

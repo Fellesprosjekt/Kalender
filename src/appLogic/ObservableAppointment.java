@@ -16,8 +16,8 @@ public interface ObservableAppointment {
 
 	public void fireAppointmentCreated(DateTime start, DateTime end) throws DateTimeException;
 	
-	public void fireStartChanged(DateTime start);
+	public void fireStartChanged(DateTime start) throws DateTimeException;
 	
-	public void fireEndChanged(DateTime end);
+	public void fireEndChanged(DateTime end) throws DateTimeException;
 	
 }
