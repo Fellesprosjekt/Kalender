@@ -11,7 +11,7 @@ public interface ObservableAppointment {
 	public void fireDescriptionChanged();
 	
 	public void fireRoomChanged();
-	
-	public void fireParticipantDeclined(User user);
+
+	void fireParticipantChangedStatus(User user, boolean status);
 	
 }
