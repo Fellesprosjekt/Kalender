@@ -48,6 +48,13 @@ public class User implements AppointmentListener {
 		matcher = pattern.matcher(email);
 		return matcher.matches() && email.length()<=40;
 	}
+	
+	public boolean isBusy(CalendarRow row) {
+		for (CalendarRow other : calendar)
+			if(row.isOverlapping(other))
+				return true;
+		return false;
+	}
 
 	@Override
 	public void appointmentCreated(Appointment appointment, DateTime start, DateTime end) throws DateTimeException {
