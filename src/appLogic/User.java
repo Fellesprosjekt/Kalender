@@ -53,26 +53,31 @@ public class User implements AppointmentListener {
 
 	@Override
 	public void startChanged(Appointment appointment, DateTime start) {
+		CalendarRow row = calendar.findCalendarRow(appointment);
+	}
+	
+	@Override
+	public void endChanged(Appointment appointment, DateTime end) {
 		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	public void descriptionChanged(String description) {
+	public void descriptionChanged(Appointment appointment) {
 		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void roomChanged(Appointment appointment) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	public void roomChanged(Room room) {
+	public void participantDeclined(Appointment appointment, User user) {
 		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void durationChanged(int minutes) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void participantDeclined(User user) {
-		// TODO Auto-generated method stub
+		
 	}
 }
