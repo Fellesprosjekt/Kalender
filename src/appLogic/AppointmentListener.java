@@ -2,6 +2,8 @@ package appLogic;
 
 import org.joda.time.DateTime;
 
+import exceptions.DateTimeException;
+
 public interface AppointmentListener {
 
 	/* sjekk: public el. private */

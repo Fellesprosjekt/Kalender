@@ -3,6 +3,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import org.joda.time.DateTime;
 
+import exceptions.DateTimeException;
+import exceptions.RoomBookedException;
+import exceptions.RoomSizeException;
+
 
 public class Appointment implements ObservableAppointment{
 

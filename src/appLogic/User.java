@@ -5,6 +5,9 @@ import java.util.regex.Pattern;
 
 import org.joda.time.DateTime;
 
+import exceptions.DateTimeException;
+import exceptions.InvalidEmailException;
+
 public class User implements AppointmentListener {
 	private String email;
 	private Calendar calendar;
@@ -66,7 +69,6 @@ public class User implements AppointmentListener {
 	@Override
 	public void descriptionChanged(Appointment appointment) {
 		// TODO Auto-generated method stub
-		
 	}
 
 

@@ -3,9 +3,10 @@ package databaseConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
+
+import exceptions.InvalidEmailException;
+import exceptions.InvalidNameException;
 import appLogic.Employee;
-import appLogic.InvalidEmailException;
-import appLogic.InvalidNameException;
 
 public class Factory {
 	

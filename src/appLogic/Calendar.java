@@ -4,6 +4,8 @@ import java.util.Iterator;
 
 import org.joda.time.DateTime;
 
+import exceptions.DateTimeException;
+
 
 public class Calendar implements Iterable<CalendarRow>{
 	

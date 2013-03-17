@@ -1,6 +1,9 @@
 package appLogic;
 import java.util.ArrayList;
 
+import exceptions.InvalidEmailException;
+import exceptions.InvalidNameException;
+
 
 public class Group extends User {
 

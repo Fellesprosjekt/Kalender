@@ -2,6 +2,9 @@ package appLogic;
 
 import java.util.ArrayList;
 
+import exceptions.InvalidEmailException;
+import exceptions.InvalidNameException;
+
 public class Employee extends User{
 
 	private String firstname;

@@ -3,6 +3,8 @@ import java.util.ArrayList;
 
 import org.joda.time.DateTime;
 
+import exceptions.DateTimeException;
+
 
 public class CalendarRow implements Comparable<CalendarRow>{
 
