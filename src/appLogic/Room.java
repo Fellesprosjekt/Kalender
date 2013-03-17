@@ -7,7 +7,6 @@ import exceptions.DateTimeException;
 
 
 public class Room implements AppointmentListener{
-
 	public static ArrayList<Room> rooms = new ArrayList<Room>(); 
 	private final int size;
 	private Calendar room_calendar;
@@ -50,16 +49,12 @@ public class Room implements AppointmentListener{
 
 
 	@Override
-	public void startChanged(Appointment appointment, DateTime start)
-			throws DateTimeException {
-		// TODO Auto-generated method stub
-		
+	public void startChanged(Appointment appointment, DateTime start) throws DateTimeException {
+			
 	}
 
-
 	@Override
-	public void endChanged(Appointment appointment, DateTime end)
-			throws DateTimeException {
+	public void endChanged(Appointment appointment, DateTime end) throws DateTimeException {
 		// TODO Auto-generated method stub
 		
 	}

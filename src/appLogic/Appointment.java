@@ -38,7 +38,6 @@ public class Appointment implements ObservableAppointment{
 				this.room=room;
 				fireRoomChanged();
 			}else this.room=room;
-			room.appointmentCreated(this, start, end);
 		}
 	}
 	
@@ -91,6 +90,7 @@ public class Appointment implements ObservableAppointment{
 		for(User u : participants.keySet()){
 			u.appointmentCreated(this, start, end);
 		}
+		room.appointmentCreated(this, start, end);
 	}
 	@Override
 	public void fireDescriptionChanged() {
@@ -114,12 +114,14 @@ public class Appointment implements ObservableAppointment{
 	public void fireStartChanged(DateTime start) throws DateTimeException {
 		for(User u : participants.keySet()){
 			u.startChanged(this, start);
-		}	
+		}
+		room.startChanged(this, start);
 	}
 	@Override
 	public void fireEndChanged(DateTime end) throws DateTimeException {
 		for(User u : participants.keySet()){
 			u.endChanged(this, end);
-		}		
+		}
+		room.endChanged(this, end);
 	}
 }
