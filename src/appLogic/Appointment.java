@@ -51,24 +51,18 @@ public class Appointment implements ObservableAppointment{
 		return this.leader;
 	}
 	
-	public void setParticipantStatus(User user, boolean status) {
-		//TODO
-	}
-	
 	@Override
 	public void addParticipant(User user) {
-		// TODO Auto-generated method stub
-		
+		participants.put(user, null);
 	}
 	@Override
 	public void removeParticipant(User user) {
-		// TODO Auto-generated method stub
+		if(participants.containsKey(user)) participants.remove(user);
 		
 	}
 	@Override
 	public void fireAppointmentCreated() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 	@Override
 	public void fireDescriptionChanged() {
@@ -81,10 +75,7 @@ public class Appointment implements ObservableAppointment{
 		
 	}
 	@Override
-	public void fireParticipantDeclined(User user) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
+	public void fireParticipantChangedStatus(User user, boolean status) {
+		if(participants.containsKey(user)) participants.put(user, status);
+	}	
 }
