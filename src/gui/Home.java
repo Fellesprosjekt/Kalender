@@ -19,17 +19,33 @@ public class Home {
 	}
 	
 	private void loadMenu(){
-		System.out.println(" -- Meny -- \nVelg funksjon\nTast 'a' for Registrer ansatt\nTast 'g' for Registrer gruppe");
+		System.out.println(" -- Meny, velg funksjon --");
+		System.out.println("'r' --> Registrer ansatt");
+		System.out.println("'l' --> Logg inn ansatt");
+		System.out.print("Funksjon: ");
+		char valg = sc.nextLine().charAt(0);
+		switch(valg){
+		case('r'):
+			createEmployee();
+			break;
+		case('l'):
+			System.out.println("-- Velg ansatt --");
+			break;
+		default:
+			System.err.println("Ugyldig kommando.");
+			break;
+		}
 	}
 	
 	private void createEmployee(){
-		System.out.println(" -- Opprett ansatt -- ");
+		System.out.println("-- Registrer ansatt -- ");
 		try {
 			System.out.println("Name: ");
 			String name = sc.nextLine();
 			System.out.println("Email: ");
 			String email = sc.nextLine();
-			Employee e = new Employee(0,name, email);
+			System.out.println();
+			Employee e = new Employee(0, name, email);
 			employees.add(e); 
 		} catch (InvalidNameException e) {
 			System.err.println("Ugyldig navn");
