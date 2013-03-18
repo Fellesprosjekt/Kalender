@@ -19,6 +19,7 @@ public class Home {
 	}
 	
 	private void createEmployee(){
+		System.out.println(" -- Opprett ansatt -- ");
 		try {
 			System.out.println("Name: ");
 			String name = sc.nextLine();
@@ -35,11 +36,12 @@ public class Home {
 	}
 
 	private Employee chooseEmployee(){
+		System.out.println(" -- Velg ansatt -- ");
 		System.out.println("Ansatte: " + employees);
-		System.out.print("Skriv inn etternavn > ");
+		System.out.println("Skriv inn etternavn: ");
 		String last = sc.nextLine();
 		for (Employee e : employees){
-			if (e.getLastname().equals(last)) {
+			if (e.getLastname().equals(last)){
 				return e;
 			}
 		}
@@ -68,8 +70,9 @@ public class Home {
 	}
 	
 	private Group chooseGroup(){
+		System.out.println(" -- Velg gruppe -- ");
 		System.out.println("Grupper: " + groups);
-		System.out.print("Skriv inn gruppenavn > ");
+		System.out.print("Skriv inn gruppenavn >>> ");
 		String name = sc.nextLine();
 		for (Group g : groups){
 			if (g.getName().equals(name)){
@@ -84,7 +87,6 @@ public class Home {
 		System.out.println(g);
 		Employee e = chooseEmployee();
 		g.addMember(e);
-		System.out.println(g);
 	}
 
 	

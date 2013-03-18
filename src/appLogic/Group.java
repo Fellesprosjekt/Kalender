@@ -13,6 +13,7 @@ public class Group extends User {
 	public Group(String name, String email) throws InvalidEmailException, InvalidNameException{
 		super(email);
 		setGroupName(name);
+		members = new ArrayList<Employee>();
 	}
 	
 	private void setGroupName(String name) throws InvalidNameException{
