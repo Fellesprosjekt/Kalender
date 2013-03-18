@@ -13,6 +13,7 @@ public class Home {
 	Scanner sc;
 	ArrayList<Group> groups = new ArrayList<Group>();
 	ArrayList<Employee> employees = new ArrayList<Employee>();
+	Employee currentUser;
 	
 	public Home(){
 		sc = new Scanner(System.in);
@@ -104,7 +105,6 @@ public class Home {
 	private void createAlarm(){
 		System.out.println(employees);
 	}
-	
 	
 	public static void main(String[] args) {
 		Home h = new Home();
