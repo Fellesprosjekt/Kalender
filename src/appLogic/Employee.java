@@ -14,8 +14,8 @@ public class Employee extends User{
 	private ArrayList<Alarm> alarms;
 	
 	
-	public Employee(String name, String email) throws InvalidNameException, InvalidEmailException{
-		super(email);
+	public Employee(int id, String name, String email) throws InvalidNameException, InvalidEmailException{
+		super(id, email);
 		setEmployeeName(name);
 		alarms = new ArrayList<Alarm>();
 	}

@@ -11,6 +11,7 @@ import exceptions.InvalidEmailException;
 import exceptions.RoomBookedException;
 
 public class User implements AppointmentListener {
+	private final int id;
 	private String email;
 	private Calendar calendar;
 	//Disse brukes for Œ validere strenger
@@ -20,8 +21,9 @@ public class User implements AppointmentListener {
 			"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	
-	public User(String email) throws InvalidEmailException{
+	public User(int id, String email) throws InvalidEmailException{
 		setEmail(email);
+		this.id = id;
 		calendar = new Calendar();
 	}
 	
@@ -37,6 +39,10 @@ public class User implements AppointmentListener {
 	
 	public Calendar getCalendar() {
 		return this.calendar;
+	}
+	
+	public int getId(){
+		return id;
 	}
 	
 	private void acceptAppointment(Appointment appointment) {

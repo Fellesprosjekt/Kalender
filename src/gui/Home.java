@@ -18,6 +18,10 @@ public class Home {
 		sc = new Scanner(System.in);
 	}
 	
+	private void loadMenu(){
+		System.out.println(" -- Meny -- \nVelg funksjon\nTast 'a' for Registrer ansatt\nTast 'g' for Registrer gruppe");
+	}
+	
 	private void createEmployee(){
 		System.out.println(" -- Opprett ansatt -- ");
 		try {
@@ -97,6 +101,7 @@ public class Home {
 	
 	public static void main(String[] args) {
 		Home h = new Home();
+		h.loadMenu();
 		h.createEmployee();
 		h.createEmployee();
 		h.createGroup();
