@@ -18,6 +18,10 @@ public class Home {
 		sc = new Scanner(System.in);
 	}
 	
+	private void loadMenu(){
+		System.out.println(" -- Meny -- \nVelg funksjon\nTast 'a' for Registrer ansatt\nTast 'g' for Registrer gruppe");
+	}
+	
 	private void createEmployee(){
 		System.out.println(" -- Opprett ansatt -- ");
 		try {
@@ -25,7 +29,7 @@ public class Home {
 			String name = sc.nextLine();
 			System.out.println("Email: ");
 			String email = sc.nextLine();
-			Employee e = new Employee(name, email);
+			Employee e = new Employee(0,name, email);
 			employees.add(e); 
 		} catch (InvalidNameException e) {
 			System.err.println("Ugyldig navn");
@@ -51,7 +55,7 @@ public class Home {
 		System.out.print("Email: ");
 		String email = sc.nextLine();
 		try{
-			Group g = new Group(name,email);
+			Group g = new Group(0,name,email);
 			groups.add(g);
 		}catch(InvalidNameException e){
 			System.err.println("Ugyldig navn.");
@@ -88,6 +92,7 @@ public class Home {
 	
 	public static void main(String[] args) {
 		Home h = new Home();
+		h.loadMenu();
 		h.createEmployee();
 		h.createEmployee();
 		h.createGroup();
