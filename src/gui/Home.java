@@ -44,7 +44,7 @@ public class Home {
 		System.out.println("Ansatte: " + employees);
 		System.out.print("Indeks på ansatt: ");
 		int index = sc.nextInt();
-		System.out.println(" ----------------- \n");
+		System.out.println(" -------------------- \n");
 		return employees.get(index);
 	}
 	
