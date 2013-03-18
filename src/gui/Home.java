@@ -11,31 +11,41 @@ import appLogic.Group;
 
 public class Home {
 	Scanner sc;
-	ArrayList<Group> groups;
-	ArrayList<Employee> employees;
+	ArrayList<Group> groups = new ArrayList<Group>();
+	ArrayList<Employee> employees = new ArrayList<Employee>();
 	
 	public Home(){
 		sc = new Scanner(System.in);
 	}
 	
-	private Employee createEmployee(){
-		System.out.println("Name: ");
-		String name = sc.nextLine();
-		System.out.println("Email: ");
-		String email = sc.nextLine();
-		System.out.println();
+	private void createEmployee(){
 		try {
-			return new Employee(name, email);
+			System.out.println("Name: ");
+			String name = sc.nextLine();
+			System.out.println("Email: ");
+			String email = sc.nextLine();
+			System.out.println();
+			Employee e = new Employee(name, email);
+			employees.add(e); 
 		} catch (InvalidNameException e) {
 			System.err.println("Ugyldig navn");
-			createEmployee();
 		} catch (InvalidEmailException e) {
 			System.err.println("Ugyldig email");
-			createEmployee();
+		}
+	}
+
+	private Employee chooseEmployee(){
+		System.out.println("Ansatte: " + employees);
+		System.out.print("Skriv inn etternavn > ");
+		String last = sc.nextLine();
+		for (Employee e : employees){
+			if (e.getLastname().equals(last)) {
+				return e;
+			}
 		}
 		return null;
 	}
-
+	
 	private Group createGroup(){
 		System.out.print("Name: ");
 		String name = sc.nextLine();
@@ -55,9 +65,34 @@ public class Home {
 		return null;
 	}
 	
+	private Group chooseGroup(){
+		System.out.println("Grupper: " + groups);
+		System.out.print("Skriv inn gruppenavn > ");
+		String name = sc.nextLine();
+		for (Group g : groups){
+			if (g.getName().equals(name)){
+				return g;
+			}
+		}
+		return null;
+	}
+	
+	
+	private void addToGroup() {
+		
+	}
+
+	
+	private void createAlarm(){
+		System.out.println(employees);
+	}
+	
+	
 	public static void main(String[] args) {
 		Home h = new Home();
-		h.createGroup();
 		h.createEmployee();
+		h.createEmployee();
+		h.createAlarm();
+		//h.createGroup();
 	}
 }
