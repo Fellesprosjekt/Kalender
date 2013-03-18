@@ -25,7 +25,6 @@ public class Home {
 			String name = sc.nextLine();
 			System.out.println("Email: ");
 			String email = sc.nextLine();
-			System.out.println();
 			Employee e = new Employee(name, email);
 			employees.add(e); 
 		} catch (InvalidNameException e) {
@@ -33,32 +32,27 @@ public class Home {
 		} catch (InvalidEmailException e) {
 			System.err.println("Ugyldig email");
 		}
+		System.out.println(" -------------------- \n");
 	}
 
 	private Employee chooseEmployee(){
 		System.out.println(" -- Velg ansatt -- ");
 		System.out.println("Ansatte: " + employees);
-		System.out.println("Skriv inn etternavn: ");
-		String last = sc.nextLine();
-		for (Employee e : employees){
-			if (e.getLastname().equals(last)){
-				return e;
-			}
-		}
-		return null;
+		System.out.print("Indeks på ansatt: ");
+		int index = sc.nextInt();
+		System.out.println(" ----------------- \n");
+		return employees.get(index);
 	}
 	
-	private Group createGroup(){
+	private void createGroup(){
 		System.out.println(" -- Opprett gruppe -- ");
 		System.out.print("Name: ");
 		String name = sc.nextLine();
 		System.out.print("Email: ");
 		String email = sc.nextLine();
-		System.out.println();
 		try{
 			Group g = new Group(name,email);
 			groups.add(g);
-			return g;
 		}catch(InvalidNameException e){
 			System.err.println("Ugyldig navn.");
 			createGroup();
@@ -66,30 +60,27 @@ public class Home {
 			System.err.println("Ugyldig epost.");
 			createGroup();
 		}
-		return null;
+		System.out.println(" -------------------- \n");
 	}
 	
 	private Group chooseGroup(){
 		System.out.println(" -- Velg gruppe -- ");
 		System.out.println("Grupper: " + groups);
-		System.out.print("Skriv inn gruppenavn >>> ");
-		String name = sc.nextLine();
-		for (Group g : groups){
-			if (g.getName().equals(name)){
-				return g;
-			}
-		}
-		return null;
+		System.out.print("Indeks på gruppe: ");
+		int index = sc.nextInt();
+		System.out.println(" -------------------- \n");
+		return groups.get(index);
 	}
 	
 	private void addToGroup() {
+		System.out.println(" -- Legg til i gruppe --");
 		Group g = chooseGroup();
 		System.out.println(g);
 		Employee e = chooseEmployee();
 		g.addMember(e);
+		System.out.println(" -------------------- \n");
 	}
 
-	
 	private void createAlarm(){
 		System.out.println(employees);
 	}
@@ -102,6 +93,5 @@ public class Home {
 		h.createGroup();
 		h.addToGroup();
 		h.addToGroup();
-		//h.createGroup();
 	}
 }
