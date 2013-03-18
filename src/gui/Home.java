@@ -16,6 +16,10 @@ public class Home {
 		String name = sc.nextLine();
 	}
 	
+	private void createEmployee(){
+		
+	}
+	
 	public static void main(String[] args) {
 		Home h = new Home();
 		h.createGroup();
