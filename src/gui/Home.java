@@ -47,6 +47,7 @@ public class Home {
 	}
 	
 	private Group createGroup(){
+		System.out.println(" -- Opprett gruppe -- ");
 		System.out.print("Name: ");
 		String name = sc.nextLine();
 		System.out.print("Email: ");
@@ -54,6 +55,7 @@ public class Home {
 		System.out.println();
 		try{
 			Group g = new Group(name,email);
+			groups.add(g);
 			return g;
 		}catch(InvalidNameException e){
 			System.err.println("Ugyldig navn.");
@@ -77,9 +79,12 @@ public class Home {
 		return null;
 	}
 	
-	
 	private void addToGroup() {
-		
+		Group g = chooseGroup();
+		System.out.println(g);
+		Employee e = chooseEmployee();
+		g.addMember(e);
+		System.out.println(g);
 	}
 
 	
@@ -92,7 +97,9 @@ public class Home {
 		Home h = new Home();
 		h.createEmployee();
 		h.createEmployee();
-		h.createAlarm();
+		h.createGroup();
+		h.addToGroup();
+		h.addToGroup();
 		//h.createGroup();
 	}
 }
