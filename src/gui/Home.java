@@ -30,7 +30,7 @@ public class Home {
 			createEmployee();
 			break;
 		case('l'):
-			System.out.println("-- Velg ansatt --");
+			chooseEmployee();
 			break;
 		default:
 			System.err.println("Ugyldig kommando.");
@@ -53,15 +53,17 @@ public class Home {
 		} catch (InvalidEmailException e) {
 			System.err.println("Ugyldig email");
 		}
-		System.out.println(" -------------------- \n");
+		System.out.println("-------------------- \n");
 	}
 
 	private Employee chooseEmployee(){
-		System.out.println(" -- Velg ansatt -- ");
-		System.out.println("Ansatte: " + employees);
-		System.out.print("Indeks på ansatt: ");
-		int index = sc.nextInt();
-		System.out.println(" -------------------- \n");
+		System.out.println("-- Velg ansatt --");
+		for(int i = 0; i<employees.size(); i++){
+			System.out.println(String.format("%d. %s %s", i+1,employees.get(i).getFirstName(),employees.get(i).getLastname()));
+		}
+		System.out.print("Ansattnummer: ");
+		int index = sc.nextInt()-1;
+		System.out.println("--------------------\n");
 		return employees.get(index);
 	}
 	
@@ -108,11 +110,21 @@ public class Home {
 	
 	public static void main(String[] args) {
 		Home h = new Home();
+		try {
+			h.employees.add(new Employee(0, "Peter Sandberg", "peter.sandberg@live.no"));
+			h.employees.add(new Employee(1, "Ola Nordmann", "ola.nordmann@live.no"));
+		} catch (InvalidNameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidEmailException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		h.loadMenu();
-		h.createEmployee();
-		h.createEmployee();
-		h.createGroup();
-		h.addToGroup();
-		h.addToGroup();
+//		h.createEmployee();
+//		h.createEmployee();
+//		h.createGroup();
+//		h.addToGroup();
+//		h.addToGroup();
 	}
 }
