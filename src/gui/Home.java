@@ -40,9 +40,9 @@ public class Home {
 	private void createEmployee(){
 		System.out.println("-- Registrer ansatt -- ");
 		try {
-			System.out.println("Name: ");
+			System.out.print("Navn: ");
 			String name = sc.nextLine();
-			System.out.println("Email: ");
+			System.out.print("Epost: ");
 			String email = sc.nextLine();
 			System.out.println();
 			Employee e = new Employee(0, name, email);
