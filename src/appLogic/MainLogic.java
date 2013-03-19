@@ -20,98 +20,28 @@ import appLogic.User;
 public class MainLogic {
 	/* I tillegg til alle funksjonene som nevnes underveis
 	 * trenger vi funskjoner for Œ:
-	 * - Laste inn alle grupper
 	 * - Laste inn alle ansatte
+	 * - Laste inn alle grupper
 	 * - Laste inn alle appointments og sette statusen til hver bruker i appointmenten lik det som er i AppInvitation
 	 * - Laste inn alle rom
 	 * - Last inn kalenderene til hver bruker (der hvor brukeren har godtatt avtalen)
 	 * - Laste inn kalenderen for hvert rom
 	 * - Laste inn alle alarmer for hver ansatt
+	 * - Dersom noe ugyldig lastes inn fra databasen (exceptions ved opprettelse av objektet), slett det fra databasen.
 	 */
-	
-	Scanner sc;
 	ArrayList<Group> groups = new ArrayList<Group>();
 	ArrayList<Employee> employees = new ArrayList<Employee>();
 	Employee currentUser;
 	
 	
-	private void init(){
-		try {
-			employees.add(new Employee("Ola Nordmann", "ola@nordmann.no"));
-			employees.add(new Employee("Kari Nordmann", "kari@nordmann.no"));
-			employees.add(new Employee("Harald Rex", "harald@rex.no"));
-			employees.add(new Employee("Sonja Haraldsen", "sonja@haraldsen.no"));
-			groups.add(new Group("Nordmann", "nordmann@nordmann.no"));
-			groups.add(new Group("KingKong", "king@kong.no"));
-			groups.get(0).addMember(employees.get(0));
-			groups.get(0).addMember(employees.get(1));
-			groups.get(1).addMember(employees.get(2));
-			groups.get(1).addMember(employees.get(3));
-		} catch (InvalidNameException e) {
-			System.err.println("invalid name");
-		} catch (InvalidEmailException e) {
-			System.err.println("invalid email");
-		}
-	}
-	
 	public MainLogic(){
-		init(); 
+		currentUser = null;
 	}
 	
-	private void createEmployee(String name, String email){
-		try {
-			Employee e = new Employee(name, email);
-			employees.add(e);
-//			--- Mot databasen ---
-//			Legg til i CalendarUser: createUser(name, email, "Employee")
-//			Hent fra CalendarUser: getUser(email), skal returnere id
-//			e.setId(id);
-//			---------------------
-			
-		} catch (InvalidNameException e1) {
-//			Error: Invalid name
-		} catch (InvalidEmailException e1) {
-//			Error: Invalid email
-		}
+	private void logInEmployee(Employee e){
+		currentUser = e;
 	}
 	
-	private void createGroup(String name, String email, ArrayList<Employee> members){
-		try {
-			Group g = new Group(name, email);
-			groups.add(g);
-			
-//			--- Mot databasen ---
-//			Legg til i CalendarUser: createUser(name, email, "Group")
-//			Hent fra CalendarUser: getUserId(email), skal returnere id
-//			----------------------
-			
-//			g.setId(id);
-			for(Employee e : members){
-				addGroupmember(g,e);
-			}
-			
-		} catch (InvalidNameException e1) {
-//			Error: Invalid name
-		} catch (InvalidEmailException e1) {
-//			Error: Invalid email
-		}
-	}
-	
-	private void addGroupmember(Group g, Employee e){
-		g.addMember(e);
-		
-//		--- Mot databasen ---
-//		Legg til i Groupmember: addGroupmember(g.getId(), e.getId())
-//		----------------------
-	}
-	
-	private void removeGroupmember(Group g, Employee e){
-		g.removeMember(e);
-		
-//		--- Mot databasen ---
-//		Fjern fra Groupmember: removeGroupmember(g.getId(), e.getId())
-//		----------------------
-	}
 	
 	private void createAppointment(String description, Room room, ArrayList<User> participants, DateTime start, DateTime end){
 		try {
@@ -220,9 +150,6 @@ public class MainLogic {
 		}
 //		--- Mot databasen ---
 //		Slett Appointment: removeAppointment(a.getId())
-//		Slett alle AppInvitations tilh¿rende appointmenten: removeAppInvitation(a.getId())
-//		Slett rombookingen: removeBooking(a.getId())
-//		Slett alle alarmer tilh¿rende appointmenten: removeAlarm(a.getId())
 //		----------------------
 	}
 	
@@ -240,10 +167,5 @@ public class MainLogic {
 //		--- Mot databasen ---
 //		Fjern fra Alarm: removeAlarm(a.getId(), currentUser.getId(), alarm.getTime())
 //		----------------------
-	}
-	
-	public static void main(String[] args) {
-		MainLogic h = new MainLogic();
-		System.out.println(h.groups);
 	}
 }
