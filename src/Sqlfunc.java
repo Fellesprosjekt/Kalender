@@ -31,12 +31,7 @@ public class Sqlfunc {
 		//return e;
 	}
 	
-	public static void main(String args[]) throws ClassNotFoundException, SQLException, InvalidNameException, InvalidEmailException{
-		
-		Sqlfunc a= new Sqlfunc();
-		a.createEmployee("Steffen", "email@post.com");
-		
-	}
+	
 		
 	
 	
