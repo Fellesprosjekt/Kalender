@@ -27,7 +27,7 @@ public class LogInPanel extends JPanel {
                 		FormFactory.RELATED_GAP_COLSPEC,
                 		FormFactory.DEFAULT_COLSPEC,
                 		FormFactory.RELATED_GAP_COLSPEC,
-                		ColumnSpec.decode("default:grow"),},
+                		ColumnSpec.decode("max(160dlu;default):grow"),},
                 	new RowSpec[] {
                 		FormFactory.RELATED_GAP_ROWSPEC,
                 		RowSpec.decode("max(22dlu;default)"),
@@ -70,7 +70,5 @@ public class LogInPanel extends JPanel {
                 btnTilbake = new JButton("Tilbake");
                 btnTilbake.setFont(new Font("Tahoma", Font.PLAIN, 14));
                 add(btnTilbake, "4, 10");
- 
         }
- 
 }

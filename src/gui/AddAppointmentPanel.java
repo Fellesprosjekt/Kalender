@@ -9,8 +9,8 @@ import javax.swing.JLabel;
 import java.awt.Choice;
 import java.awt.Font;
 import javax.swing.JTextField;
-import java.awt.Button;
 import javax.swing.JButton;
+import javax.swing.JTextArea;
 
 public class AddAppointmentPanel extends JPanel {
 	public JTextField txtBeskrivelse;
@@ -26,6 +26,7 @@ public class AddAppointmentPanel extends JPanel {
 	public JButton btnOpprett;
 	public JButton btnAvbryt;
 	public JButton btnLeggTil;
+	private JTextArea txtrIngenDeltakere;
 
 	/**
 	 * Create the panel.
@@ -33,19 +34,19 @@ public class AddAppointmentPanel extends JPanel {
 	public AddAppointmentPanel() {
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(38dlu;default)"),
+				ColumnSpec.decode("max(37dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("22dlu:grow"),
+				ColumnSpec.decode("25dlu"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("22dlu"),
+				ColumnSpec.decode("25dlu"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("35dlu"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(35dlu;default)"),
+				ColumnSpec.decode("max(24dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("22dlu"),
+				ColumnSpec.decode("25dlu"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("22dlu"),},
+				ColumnSpec.decode("25dlu"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -54,7 +55,7 @@ public class AddAppointmentPanel extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -76,7 +77,7 @@ public class AddAppointmentPanel extends JPanel {
 		add(lblBeskrivelse, "2, 4, right, default");
 		
 		txtBeskrivelse = new JTextField();
-		add(txtBeskrivelse, "4, 4, 11, 1, fill, default");
+		add(txtBeskrivelse, "4, 4, 9, 1, fill, default");
 		txtBeskrivelse.setColumns(10);
 		
 		JLabel lblDeltaker = new JLabel("Deltaker");
@@ -88,9 +89,9 @@ public class AddAppointmentPanel extends JPanel {
 		btnLeggTil = new JButton("Legg til");
 		add(btnLeggTil, "12, 6, 3, 1");
 		
-		JLabel lblIngenDeltakere = new JLabel("Ingen deltakere");
-		lblIngenDeltakere.setFont(new Font("Lucida Grande", Font.ITALIC, 13));
-		add(lblIngenDeltakere, "4, 8, 11, 3, default, top");
+		txtrIngenDeltakere = new JTextArea();
+		txtrIngenDeltakere.setText("Ingen deltakere");
+		add(txtrIngenDeltakere, "4, 8, 9, 3, fill, fill");
 		
 		JLabel lblVelgRom = new JLabel("Velg rom");
 		add(lblVelgRom, "2, 12, right, default");

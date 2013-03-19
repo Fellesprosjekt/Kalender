@@ -8,11 +8,10 @@ import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class HomePanel extends JPanel {
 	public JButton btnRegistrerDeg;
+	public JButton btnLoggInn;
 	
 	public HomePanel() {
 		setLayout(new FormLayout(new ColumnSpec[] {
@@ -36,7 +35,7 @@ public class HomePanel extends JPanel {
 		lblHovedmeny.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		add(lblHovedmeny, "2, 4, 3, 1, center, default");
 		
-		JButton btnLoggInn = new JButton("Logg inn");
+		btnLoggInn = new JButton("Logg inn");
 		add(btnLoggInn, "2, 8, 1, 3");
 		
 		btnRegistrerDeg = new JButton("Registrer deg");

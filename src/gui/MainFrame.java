@@ -13,6 +13,10 @@ public class MainFrame extends JFrame {
 
 	private HomePanel home;
 	private RegisterPanel register;
+	private LogInPanel login;
+	private LoggedInPanel loggedin;
+	private ViewAppointmentPanel viewapp;
+	private AddAppointmentPanel addapp;
 
 	/**
 	 * Launch the application.
@@ -38,7 +42,15 @@ public class MainFrame extends JFrame {
 		setBounds(100, 100, 450, 300);
 		home = new HomePanel();
 		register = new RegisterPanel();
+		loggedin = new LoggedInPanel();
+		login = new LogInPanel();
+		addapp = new AddAppointmentPanel();
+		viewapp = new ViewAppointmentPanel();
 		
+		setContentPane(home);
+		home.revalidate();
+		
+		//Knapper til hjempanelet
 		home.btnRegistrerDeg.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -47,6 +59,15 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
+		home.btnLoggInn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setContentPane(login);
+				login.revalidate();
+			}
+		});
+		
+		//Knapper til registrering av bruker
 		register.btnRegistrer.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -66,8 +87,47 @@ public class MainFrame extends JFrame {
             }
 		});
 		
-		setContentPane(home);
-		home.revalidate();
+		//Knapper til innlogging
+		login.btnTilbake.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                    setContentPane(home);
+                    home.revalidate();
+            }
+		});
+		
+		login.btnLoggInn.addMouseListener(new MouseAdapter() {
+		    @Override
+            public void mouseClicked(MouseEvent e) {
+                    setContentPane(loggedin);
+                    loggedin.revalidate();
+            }
+		});
+		
+		//Knapper for innlogget bruker
+		loggedin.btnLoggUt.addMouseListener(new MouseAdapter() {
+		    @Override
+            public void mouseClicked(MouseEvent e) {
+                    setContentPane(home);
+                    home.revalidate();
+            }
+		});
+		
+		loggedin.btnNyAvtale.addMouseListener(new MouseAdapter() {
+		    @Override
+            public void mouseClicked(MouseEvent e) {
+                    setContentPane(addapp);
+                    addapp.revalidate();
+            }
+		});
+		
+		//Knapper for innlegging av avtale
+		addapp.btnAvbryt.addMouseListener(new MouseAdapter() {
+		    @Override
+            public void mouseClicked(MouseEvent e) {
+                    setContentPane(loggedin);
+                    loggedin.revalidate();
+            }
+		});
 	}
-
 }

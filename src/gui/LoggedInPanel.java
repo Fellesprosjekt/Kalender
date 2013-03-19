@@ -15,16 +15,15 @@ import javax.swing.JButton;
 public class LoggedInPanel extends JPanel {
         public JTextField loggedInAsField;
         public JButton btnNyAvtale;
-        JButton btnVisKalender;
-        JButton btnNyGruppe;
-        JButton btnVisInvitasjoner;
-        JButton btnLoggUt;
+        public JButton btnVisKalender;
+        public JButton btnNyGruppe;
+        public JButton btnVisInvitasjoner;
+        public JButton btnLoggUt;
  
         /**
          * Create the panel.
          */
         public LoggedInPanel() {
-                setBackground(Color.WHITE);
                 setLayout(new FormLayout(new ColumnSpec[] {
                 		FormFactory.RELATED_GAP_COLSPEC,
                 		ColumnSpec.decode("105dlu"),
@@ -38,13 +37,13 @@ public class LoggedInPanel extends JPanel {
                 		FormFactory.RELATED_GAP_ROWSPEC,
                 		FormFactory.DEFAULT_ROWSPEC,
                 		FormFactory.RELATED_GAP_ROWSPEC,
-                		FormFactory.DEFAULT_ROWSPEC,
+                		RowSpec.decode("max(12dlu;default)"),
                 		FormFactory.RELATED_GAP_ROWSPEC,
-                		FormFactory.DEFAULT_ROWSPEC,
+                		RowSpec.decode("max(13dlu;default)"),
                 		FormFactory.RELATED_GAP_ROWSPEC,
-                		FormFactory.DEFAULT_ROWSPEC,
+                		RowSpec.decode("max(12dlu;default)"),
                 		FormFactory.RELATED_GAP_ROWSPEC,
-                		FormFactory.DEFAULT_ROWSPEC,
+                		RowSpec.decode("max(12dlu;default)"),
                 		FormFactory.RELATED_GAP_ROWSPEC,
                 		FormFactory.DEFAULT_ROWSPEC,
                 		FormFactory.RELATED_GAP_ROWSPEC,
@@ -55,31 +54,31 @@ public class LoggedInPanel extends JPanel {
                 		FormFactory.DEFAULT_ROWSPEC,
                 		FormFactory.RELATED_GAP_ROWSPEC,
                 		FormFactory.DEFAULT_ROWSPEC,}));
-               
-                JLabel lblMeny = new JLabel("Meny");
-                lblMeny.setFont(new Font("Tahoma", Font.PLAIN, 20));
-                add(lblMeny, "2, 1, 3, 2, center, default");
-               
-                loggedInAsField = new JTextField();
-                loggedInAsField.setBackground(Color.WHITE);
-                loggedInAsField.setEditable(false);
-                add(loggedInAsField, "2, 4, 3, 1, fill, default");
-                loggedInAsField.setColumns(10);
-               
-                btnNyAvtale = new JButton("Ny avtale");
-                add(btnNyAvtale, "2, 6, 1, 5");
-               
-                btnVisKalender = new JButton("Vis kalender");
-                add(btnVisKalender, "4, 6, 1, 5");
-               
-                btnNyGruppe = new JButton("Ny gruppe");
-                add(btnNyGruppe, "2, 12, 1, 5");
-               
-                btnVisInvitasjoner = new JButton("Vis invitasjoner");
-                add(btnVisInvitasjoner, "4, 12, 1, 5");
-               
-                JButton btnLoggUt = new JButton("Logg ut");
-                add(btnLoggUt, "2, 20, 3, 1");
+                     
+                      JLabel lblMeny = new JLabel("Meny");
+                      lblMeny.setFont(new Font("Tahoma", Font.PLAIN, 20));
+                      add(lblMeny, "2, 2, 3, 1, center, default");
+                    
+                     loggedInAsField = new JTextField();
+                     loggedInAsField.setBackground(Color.WHITE);
+                     loggedInAsField.setEditable(false);
+                     add(loggedInAsField, "2, 4, 3, 1, fill, default");
+                     loggedInAsField.setColumns(10);
+                    
+                     btnNyAvtale = new JButton("Ny avtale");
+                     add(btnNyAvtale, "2, 6, 1, 3");
+                   
+                    btnVisKalender = new JButton("Vis kalender");
+                    add(btnVisKalender, "4, 6, 1, 3");
+                    
+                     btnNyGruppe = new JButton("Ny gruppe");
+                     add(btnNyGruppe, "2, 10, 1, 3");
+                   
+                    btnVisInvitasjoner = new JButton("Vis invitasjoner");
+                    add(btnVisInvitasjoner, "4, 10, 1, 3");
+                  
+                   btnLoggUt = new JButton("Logg ut");
+                   add(btnLoggUt, "2, 16, 3, 1");
  
         }
  
