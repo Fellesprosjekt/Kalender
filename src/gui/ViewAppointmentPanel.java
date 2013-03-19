@@ -1,6 +1,9 @@
 package gui;
 
 import javax.swing.JPanel;
+
+import appLogic.Appointment;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
@@ -24,6 +27,8 @@ public class ViewAppointmentPanel extends JPanel {
         public JButton btnAccept;
         public JButton btnDecline;
         public JLabel lblAvtale;
+        public JButton btnLeggTilAlarm;
+
        
  
         /**
@@ -70,8 +75,11 @@ public class ViewAppointmentPanel extends JPanel {
                 startField = new JTextField();
                 startField.setBackground(Color.WHITE);
                 startField.setEditable(false);
-                add(startField, "4, 4, 3, 1, fill, default");
+                add(startField, "4, 4, fill, default");
                 startField.setColumns(10);
+                
+                btnLeggTilAlarm = new JButton("Legg til alarm");
+                add(btnLeggTilAlarm, "6, 4, 1, 5");
                
                 JLabel lblSlutt = new JLabel("Slutt");
                 lblSlutt.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -80,7 +88,7 @@ public class ViewAppointmentPanel extends JPanel {
                 endField = new JTextField();
                 endField.setBackground(Color.WHITE);
                 endField.setEditable(false);
-                add(endField, "4, 6, 3, 1, fill, default");
+                add(endField, "4, 6, fill, default");
                 endField.setColumns(10);
                
                 JLabel lblRom = new JLabel("Rom");
@@ -90,7 +98,7 @@ public class ViewAppointmentPanel extends JPanel {
                 roomField = new JTextField();
                 roomField.setBackground(Color.WHITE);
                 roomField.setEditable(false);
-                add(roomField, "4, 8, 3, 1, fill, default");
+                add(roomField, "4, 8, fill, default");
                 roomField.setColumns(10);
                
                 JLabel lblBeskrivelse = new JLabel("Beskrivelse");
@@ -122,6 +130,10 @@ public class ViewAppointmentPanel extends JPanel {
                 btnTilbake = new JButton("Tilbake");
                 btnTilbake.setFont(new Font("Tahoma", Font.PLAIN, 14));
                 add(btnTilbake, "4, 16, 3, 1");
+                
+//                btnAddAlarm = new JButton("Legg til alarm");
+//                btnTilbake.setFont(new Font("Tahoma", Font.PLAIN, 14));
+//                add(btnTilbake, "4, 16, 3, 1"); // finn riktig plass
  
         }
  

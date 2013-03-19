@@ -17,6 +17,9 @@ public class MainFrame extends JFrame {
 	private LoggedInPanel loggedin;
 	private ViewAppointmentPanel viewapp;
 	private AddAppointmentPanel addapp;
+	private EditAppointmentPanel editapp;
+	private CalendarPanel viewcal; 
+	private AddAlarmPanel addalarm;
 
 	/**
 	 * Launch the application.
@@ -46,6 +49,10 @@ public class MainFrame extends JFrame {
 		login = new LogInPanel();
 		addapp = new AddAppointmentPanel();
 		viewapp = new ViewAppointmentPanel();
+		editapp = new EditAppointmentPanel();
+		viewcal = new CalendarPanel();
+		addalarm = new AddAlarmPanel();
+		
 		
 		setContentPane(home);
 		home.revalidate();
@@ -121,12 +128,98 @@ public class MainFrame extends JFrame {
             }
 		});
 		
+		loggedin.btnVisKalender.addMouseListener(new MouseAdapter() {
+		    @Override
+            public void mouseClicked(MouseEvent e) {
+                    setContentPane(viewcal);
+                    viewcal.revalidate();
+            }
+		});
+		
+		
 		//Knapper for innlegging av avtale
 		addapp.btnAvbryt.addMouseListener(new MouseAdapter() {
 		    @Override
             public void mouseClicked(MouseEvent e) {
                     setContentPane(loggedin);
                     loggedin.revalidate();
+            }
+		});
+		
+		//Knapper for visning av avtale
+		viewapp.btnTilbake.addMouseListener(new MouseAdapter() {
+		    @Override
+            public void mouseClicked(MouseEvent e) {
+                    setContentPane(loggedin);
+                    loggedin.revalidate();
+            }
+		});
+		
+		viewapp.btnAccept.addMouseListener(new MouseAdapter() {
+		    @Override
+            public void mouseClicked(MouseEvent e) {
+		    		viewapp.btnAccept.setEnabled(false);
+		    		viewapp.btnDecline.setEnabled(false);
+		    		viewapp.btnDecline.setVisible(false);
+                   /*
+                    * Set status
+                    */
+            }
+		});
+		
+		viewapp.btnDecline.addMouseListener(new MouseAdapter() {
+		    @Override
+            public void mouseClicked(MouseEvent e) {
+		    		viewapp.btnAccept.setEnabled(false);
+		    		viewapp.btnDecline.setEnabled(false);
+		    		viewapp.btnAccept.setVisible(false);
+                    /*
+                     * Set status
+                     */
+            }
+		});
+		
+		viewapp.btnLeggTilAlarm.addMouseListener(new MouseAdapter() {
+		    @Override
+            public void mouseClicked(MouseEvent e) {
+		    	setContentPane(addalarm);
+                addalarm.revalidate();
+            }
+		});
+		
+		
+		//Knapper for visning av kalender
+		viewcal.btnBack.addMouseListener(new MouseAdapter() {
+		    @Override
+            public void mouseClicked(MouseEvent e) {
+                    setContentPane(loggedin);
+                    loggedin.revalidate();
+            }
+		});
+		
+		viewcal.btnNextWeek.addMouseListener(new MouseAdapter() {
+		    @Override
+            public void mouseClicked(MouseEvent e) {
+		    		/*
+		    		 * foreløpig ikke støtte for neste år (hvis aktuelt)
+		    		 */
+		    		viewcal.currWeekView += 1;
+            }
+		});
+		
+		viewcal.btnChooseAppointment.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
+		
+		viewcal.btnPrevWeek.addMouseListener(new MouseAdapter() {
+		    @Override
+            public void mouseClicked(MouseEvent e) {
+		    		/*
+		    		 * foreløpig ikke støtte for forrige år (hvis aktuelt)
+		    		 */
+                    viewcal.currWeekView -=1;
             }
 		});
 	}
