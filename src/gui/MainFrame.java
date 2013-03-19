@@ -39,7 +39,7 @@ public class MainFrame extends JFrame {
 	 */
 	public MainFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 470, 320);
 		home = new HomePanel();
 		register = new RegisterPanel();
 		loggedin = new LoggedInPanel();
