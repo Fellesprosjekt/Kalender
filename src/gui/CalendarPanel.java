@@ -32,10 +32,10 @@ public class CalendarPanel extends JPanel {
 	 */
 	public CalendarPanel() {
 		setLayout(new FormLayout(new ColumnSpec[] {
-				//ColumnSpec.decode("2dlu"),
+				ColumnSpec.decode("2dlu"),
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				//ColumnSpec.decode("171dlu"),
+				ColumnSpec.decode("171dlu"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("27dlu:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -44,7 +44,7 @@ public class CalendarPanel extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				//RowSpec.decode("max(125dlu;default)"),
+				RowSpec.decode("max(125dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,

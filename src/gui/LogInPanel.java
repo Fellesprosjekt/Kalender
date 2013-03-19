@@ -50,6 +50,8 @@ public class LogInPanel extends JPanel {
                
                 choice = new Choice();
                 add(choice, "4, 4");
+                choice.add("Velg bruker...");
+                choice.add("HENT INN FRA MAINLOGIC");
                 choice.add("PEder");
                 choice.add("PEter");
                 /*

@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -106,8 +107,12 @@ public class MainFrame extends JFrame {
 		login.btnLoggInn.addMouseListener(new MouseAdapter() {
 		    @Override
             public void mouseClicked(MouseEvent e) {
-                    setContentPane(loggedin);
-                    loggedin.revalidate();
+                    if (login.choice.getSelectedItem() != "Velg bruker...") {
+			    		setContentPane(loggedin);
+	                    loggedin.revalidate();
+                    } else {
+                    	login.choice.setBackground(Color.ORANGE);
+                    }
             }
 		});
 		
@@ -187,6 +192,23 @@ public class MainFrame extends JFrame {
             }
 		});
 		
+		//Knapper for opprettelse av alarm
+		addalarm.btnAvbryt.addMouseListener(new MouseAdapter() {
+		    @Override
+            public void mouseClicked(MouseEvent e) {
+                    setContentPane(viewapp);
+                    viewapp.revalidate();
+            }
+		});
+		
+		addalarm.btnLeggTil.addMouseListener(new MouseAdapter() {
+		    @Override
+            public void mouseClicked(MouseEvent e) {
+                    /*
+                     * Opprett alarm for currentUser
+                     */
+            }
+		});
 		
 		//Knapper for visning av kalender
 		viewcal.btnBack.addMouseListener(new MouseAdapter() {
