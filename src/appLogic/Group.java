@@ -47,7 +47,7 @@ public class Group extends User {
 
 	@Override
 	public String toString() {
-		return "Group [name=" + name + ", members=" + members + "]";
+		return "** " + name + ":" + members + " **";
 	}
 	
 }
