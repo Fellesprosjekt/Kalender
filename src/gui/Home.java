@@ -122,9 +122,9 @@ public class Home {
 	private void createEmployee(){
 		System.out.println("-- Registrer ansatt -- ");
 		try {
-			System.out.println("Name: ");
+			System.out.print("Navn: ");
 			String name = sc.nextLine();
-			System.out.println("Email: ");
+			System.out.print("Epost: ");
 			String email = sc.nextLine();
 			System.out.println();
 			Employee e = new Employee(0, name, email);
@@ -134,15 +134,17 @@ public class Home {
 		} catch (InvalidEmailException e) {
 			System.err.println("Ugyldig email");
 		}
-		System.out.println(" -------------------- \n");
+		System.out.println("-------------------- \n");
 	}
 
 	private Employee chooseEmployee(){
-		System.out.println(" -- Velg ansatt -- ");
-		System.out.println("Ansatte: " + employees);
-		System.out.print("Indeks på ansatt: ");
-		int index = sc.nextInt();
-		System.out.println(" -------------------- \n");
+		System.out.println("-- Velg ansatt --");
+		for(int i = 0; i<employees.size(); i++){
+			System.out.println(String.format("%d. %s %s", i+1,employees.get(i).getFirstName(),employees.get(i).getLastname()));
+		}
+		System.out.print("Ansattnummer: ");
+		int index = sc.nextInt()-1;
+		System.out.println("--------------------\n");
 		return employees.get(index);
 	}
 	
@@ -265,5 +267,6 @@ public class Home {
 		Home h = new Home();
 		System.out.println(h.groups);
 		h.loadMenu();
+
 	}
 }
