@@ -33,6 +33,33 @@ public class Simpleconnect {
 
 
 	}
+	
+	
+	public ResultSetMetaData rsmd(String message){
+		ResultSetMetaData rsmd=null;
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection (dbUrl,brukernavn,passord);
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(message);
+			stmt.addBatch(message);
+			rsmd = rs.getMetaData();
+			
+			con.close();
+			return rsmd;
+			
+			}catch(ClassNotFoundException e) {
+				e.printStackTrace();
+				return rsmd;
+			}
+
+			catch(SQLException e) {
+				e.printStackTrace();
+				return rsmd;
+			}
+		
+		
+	}
 
 
 
@@ -102,9 +129,9 @@ public class Simpleconnect {
 
 		Simpleconnect a= new Simpleconnect("SklSkl91");
 		//a.get("Select * from calendaruser");
-		a.get("Select Email from calendaruser");
+		//a.get("Select Email from calendaruser");
 		a.send("INSERT INTO `calendar" +
 					"`.`calendaruser` (`Email`, `UName`, `UType`)" +
-				" VALUES ('jee@jee.com', 'ego', 'Employee')");
+				" VALUES ('steff11@jee.com', 'ego', 'Employee')");
 	}
 }

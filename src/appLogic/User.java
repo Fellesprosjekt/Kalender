@@ -13,7 +13,7 @@ import exceptions.RoomBookedException;
 public class User implements AppointmentListener {
 	private final int id;
 	private String email;
-	private Calendar calendar;
+	private Calendar calendar;  
 	//Disse brukes for Œ validere strenger
 	private Pattern pattern;
 	private Matcher matcher;
