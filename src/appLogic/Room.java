@@ -107,4 +107,9 @@ public class Room implements AppointmentListener{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void appointmentCancelled(Appointment appointment) {
+		room_calendar.removeCalendarRow(appointment);	
+	}
 }

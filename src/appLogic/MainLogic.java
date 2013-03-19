@@ -193,6 +193,14 @@ public class MainLogic {
 		}
 	}
 	
+	private void removeAppointment(Appointment a){
+		a.fireAppointmentCancelled();
+//		--- Mot databasen ---
+//		Slett Appointment: removeAppointment(a.getId())
+//		Slett alle AppInvitations tilh¿rende appointmenten: removeAppInvitation(a.getId())
+//		Slett rombookingen: removeBooking(a.getId())
+//		----------------------
+	}
 	
 	public static void main(String[] args) {
 		MainLogic h = new MainLogic();

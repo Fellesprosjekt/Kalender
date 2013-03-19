@@ -21,5 +21,7 @@ public interface ObservableAppointment {
 
 	public void fireEndChanged() throws DateTimeException, RoomBookedException;
 
-	void fireStartChanged() throws DateTimeException, RoomBookedException;	
+	void fireStartChanged() throws DateTimeException, RoomBookedException;
+
+	void fireAppointmentCancelled();	
 }

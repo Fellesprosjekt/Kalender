@@ -135,6 +135,14 @@ public class Appointment implements ObservableAppointment{
 		}
 		room.appointmentCreated(this, start, end);
 	}
+	
+	@Override
+	public void fireAppointmentCancelled(){
+		for(User u : participants.keySet()){
+			u.appointmentCancelled(this);
+		}
+	}
+	
 	@Override
 	public void fireDescriptionChanged() {
 		for(User u : participants.keySet()){
