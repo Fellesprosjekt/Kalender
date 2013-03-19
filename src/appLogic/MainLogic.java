@@ -97,18 +97,17 @@ public class MainLogic {
 	
 	private void createAppointment(String description, Room room, ArrayList<User> participants, DateTime start, DateTime end){
 		try {
-			if(!currentUser.equals(null)){
-				Appointment a = new Appointment(description, room, currentUser, participants, start, end);
-//				--- Mot databasen ---
-//				Legg til i Appointment: createAppointment(start, end, description, leaderId)
-//				Her vil leaderId = currentUser.getId()
-//				Hent fra Appointment: getAppointmentId(leaderId, start), skal returnere id
-//				----------------------
-//				a.setId(id);
-				
-				for(User u : participants){
-					addParticipant(a, u);
-				}
+			Appointment a = new Appointment(description, room, currentUser, participants, start, end);
+//			--- Mot databasen ---
+//			Legg til i Appointment: createAppointment(start, end, description, currentUser.getId())
+//			Her vil leaderId = currentUser.getId()
+//			Hent fra Appointment: getAppointmentId(leaderId, start), skal returnere id
+//			Legg til i Booking: createBooking(a.getId(), room.getId());
+//			----------------------
+//			a.setId(id);
+			
+			for(User u : participants){
+				addParticipant(a, u);
 			}
 		} catch (DateTimeException e) {
 //			Error: ugyldig tidsrom
@@ -126,15 +125,77 @@ public class MainLogic {
 //		----------------------
 	}
 	
-	private void updateParticipantStatus(){
-		
+	private void removeParticipant(Appointment a, User u){
+		a.removeParticipant(u);
+//		--- Mot databasen ---
+//		Fjern AppInvitation: removeAppInvitation(a.getId(),u.getId(),u.getStatus())
+//		----------------------
+	}
+	
+//	Kjøres når den nåværende brukeren aksepterer en invitasjon
+	private void updateUserSatus(boolean status, Appointment a){
+		if(status) currentUser.acceptAppointment(a);
+		else currentUser.declineAppointment(a);
+//		--- Mot databasen ---
+//		Oppdater AppInvitation: updateAppInvitation(a.getId(),currentUser.getId(),status);
+//		----------------------
+	}
+	
+	private void updateAppointmentRoom(Room r, Appointment a){
+		try {
+			a.bookRoom(r);
+//			--- Mot databasen ---
+//			Oppdater Booking: updateBooking(a.getId(), r.getId())			
+//			----------------------
+		} catch (DateTimeException e) {
+//			Error: ugyldig tidspunkt for avtalen
+		} catch (RoomBookedException e) {
+//			Error: rommet er allerede booket på dette tidspunktet
+		} catch (RoomSizeException e) {
+//			Error: rommet er for lite for denne avtalen
+		}
+	}
+	
+	private void updateAppointmentDescription(Appointment a, String description){
+		a.setDescription(description);
+//		--- Mot databasen ---
+//		Oppdater Appointment: updateAppointment(a.getId(), description)			
+//		----------------------
+	}
+	
+	private void updateAppointmentStart(Appointment a, DateTime start){
+		try {
+			a.setStart(start);
+//			--- Mot databasen ---
+//			Oppdater Appointment: updateAppointment(a.getId(), description)
+//			----------------------
+		} catch (DateTimeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RoomBookedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void updateAppointmentEnd(Appointment a, DateTime end){
+		try {
+			a.setEnd(end);
+//			--- Mot databasen ---
+//			Oppdater Appointment: updateAppointment(a.getId(), description)
+//			----------------------
+		} catch (DateTimeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RoomBookedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
 	public static void main(String[] args) {
 		MainLogic h = new MainLogic();
 		System.out.println(h.groups);
-		h.loadMenu();
-
 	}
 }

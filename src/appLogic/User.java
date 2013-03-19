@@ -48,10 +48,12 @@ public class User implements AppointmentListener {
 		return id;
 	}
 	
-	private void acceptAppointment(Appointment appointment) {
+	public void acceptAppointment(Appointment appointment) {
+		appointment.setParticipantStaus(this, true);
 	}
 	
-	private void declineAppointment(Appointment appointment) {
+	public void declineAppointment(Appointment appointment) {
+		appointment.setParticipantStaus(this, false);
 	}
 	
 	private boolean isValidEmail(String email){
