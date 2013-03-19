@@ -110,8 +110,17 @@ public class MainFrame extends JFrame {
                     if (login.choice.getSelectedItem() != "Velg bruker...") {
 			    		setContentPane(loggedin);
 	                    loggedin.revalidate();
+	                    /*
+	                     * SET CURRENT USER
+	                     */
                     } else {
                     	login.choice.setBackground(Color.ORANGE);
+                    	try {
+							Thread.sleep(300);
+						} catch (InterruptedException e1) {
+							e1.printStackTrace();
+						}
+                    	login.choice.setBackground(Color.WHITE);
                     }
             }
 		});
