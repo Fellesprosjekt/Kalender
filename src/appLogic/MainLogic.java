@@ -195,10 +195,32 @@ public class MainLogic {
 	
 	private void removeAppointment(Appointment a){
 		a.fireAppointmentCancelled();
+		for(Employee e : employees){
+			for(Alarm alarm : e.getAlarms()){
+				if(alarm.getAppointment().equals(a)) e.removeAlarm(alarm);
+			}
+		}
 //		--- Mot databasen ---
 //		Slett Appointment: removeAppointment(a.getId())
 //		Slett alle AppInvitations tilh¿rende appointmenten: removeAppInvitation(a.getId())
 //		Slett rombookingen: removeBooking(a.getId())
+//		Slett alle alarmer tilh¿rende appointmenten: removeAlarm(a.getId())
+//		----------------------
+	}
+	
+	private void createAlarm(String label, int offsetMins, Appointment a){
+		DateTime alarmtime = a.getStart().minusMinutes(offsetMins);
+		Alarm alarm = new Alarm(alarmtime, label, a);
+		currentUser.addAlarm(alarm);
+//		--- Mot databasen ---
+//		Legg til i Alarm: addAlarm(a.getId(), currentUser.getId(), alarmtime, label)
+//		----------------------
+	}
+	
+	private void removeAlarm(Alarm alarm){
+		currentUser.removeAlarm(alarm);
+//		--- Mot databasen ---
+//		Fjern fra Alarm: removeAlarm(a.getId(), currentUser.getId(), alarm.getTime())
 //		----------------------
 	}
 	

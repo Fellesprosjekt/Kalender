@@ -42,6 +42,10 @@ public class Employee extends User{
 		return lastname;
 	}
 	
+	public ArrayList<Alarm> getAlarms(){
+		return alarms;
+	}
+	
 	public void addAlarm(Alarm alarm){
 		if(isValidAlarm(alarm)) alarms.add(alarm);
 	}
@@ -81,8 +85,6 @@ public class Employee extends User{
 	public String toString() {
 		return firstname + " " + lastname;
 	}
-	
-	
 }
 
 

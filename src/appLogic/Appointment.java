@@ -28,7 +28,7 @@ public class Appointment implements ObservableAppointment{
 		setEnd(end);
 		bookRoom(room);
 		setDescription(description);
-		fireAppointmentCreated(start, end);
+		fireAppointmentCreated();
 	}
 	/* Sjekker om reommet er ledig
 	 * Setter rommet og "booker" det ved Œ legge det i romkalenderen til rommet dersom det er ledig
@@ -124,16 +124,16 @@ public class Appointment implements ObservableAppointment{
 	}
 	
 	@Override
-	public void fireAppointmentCreated(DateTime start, DateTime end) throws DateTimeException {
+	public void fireAppointmentCreated() throws DateTimeException{
 		for(User u : participants.keySet()){
 			try{
-				u.appointmentCreated(this, start, end);
+				u.appointmentCreated(this);
 			}catch(BusyUserException e){
 				participants.put(u, false);
 				fireParticipantDeclined(u);
 			}
 		}
-		room.appointmentCreated(this, start, end);
+		room.appointmentCreated(this);
 	}
 	
 	@Override

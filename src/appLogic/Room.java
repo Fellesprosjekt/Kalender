@@ -62,8 +62,8 @@ public class Room implements AppointmentListener{
 	}
 
 	@Override
-	public void appointmentCreated(Appointment appointment, DateTime start, DateTime end) throws DateTimeException {
-		room_calendar.addAppointment(start, end, appointment);
+	public void appointmentCreated(Appointment appointment) throws DateTimeException {
+		room_calendar.addAppointment(appointment.getStart(), appointment.getEnd(), appointment);
 	}
 
 
