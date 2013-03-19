@@ -12,7 +12,7 @@ import exceptions.InvalidEmailException;
 import exceptions.RoomBookedException;
 
 public class User implements AppointmentListener {
-	private int id;
+	private final int id;
 	private String email;
 	private Calendar calendar;  
 	private ArrayList<Appointment> invitations;
@@ -22,9 +22,9 @@ public class User implements AppointmentListener {
 	private static final String EMAIL_PATTERN = 
 			"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-	public User(String email) throws InvalidEmailException{
+	public User(int id, String email) throws InvalidEmailException{
 		setEmail(email);
-		this.id = -1; //Default verdi f¿r brukeren har blitt lagt i databasen
+		this.id = id;
 		calendar = new Calendar();
 		invitations = new ArrayList<Appointment>();
 	}
@@ -41,10 +41,6 @@ public class User implements AppointmentListener {
 	
 	public Calendar getCalendar() {
 		return this.calendar;
-	}
-	
-	public void setId(int id){
-		if(this.id==-1) this.id=id;
 	}
 	
 	public int getId(){
