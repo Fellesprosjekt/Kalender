@@ -10,13 +10,14 @@ import exceptions.RoomSizeException;
 
 
 public class Appointment implements ObservableAppointment{
-
+	private int id;
 	private String description;
 	private Room room;
 	private final Employee leader;
 	private HashMap<User, Boolean> participants;
 	
 	public Appointment(String description, Room room, Employee leader, ArrayList<User> participants, DateTime start, DateTime end) throws DateTimeException, RoomBookedException, RoomSizeException{
+		this.id=-1;
 		this.leader=leader;
 		for(User p : participants){
 			this.participants.put(p, null);
@@ -68,12 +69,28 @@ public class Appointment implements ObservableAppointment{
 		}
 	}
 	
+	public Boolean getParticipantStatus(User user){
+		if(participants.containsKey(user)) return participants.get(user);
+		else return null;
+	}
+	
+	public boolean containsParticipant(User user){
+		return participants.containsKey(user);
+	}
+	
 	public void setStart(DateTime start) throws DateTimeException, RoomBookedException{
 		fireStartChanged(start);
 	}
 	
 	public void setEnd(DateTime end) throws DateTimeException, RoomBookedException{
 		fireEndChanged(end);
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		if(this.id==-1) this.id=id;
 	}
 	
 	@Override

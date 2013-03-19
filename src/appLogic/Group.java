@@ -10,8 +10,8 @@ public class Group extends User {
 	private String name;
 	private ArrayList<Employee> members;
 	
-	public Group(int id, String name, String email) throws InvalidEmailException, InvalidNameException{
-		super(id, email);
+	public Group(String name, String email) throws InvalidEmailException, InvalidNameException{
+		super(email);
 		setGroupName(name);
 		members = new ArrayList<Employee>();
 	}
