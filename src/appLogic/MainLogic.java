@@ -18,11 +18,21 @@ import appLogic.Room;
 import appLogic.User;
 
 public class MainLogic {
+	/* I tillegg til alle funksjonene som nevnes underveis
+	 * trenger vi funskjoner for Œ:
+	 * - Laste inn alle grupper
+	 * - Laste inn alle ansatte
+	 * - Laste inn alle appointments og sette statusen til hver bruker i appointmenten lik det som er i AppInvitation
+	 * - Laste inn alle rom
+	 * - Last inn kalenderene til hver bruker (der hvor brukeren har godtatt avtalen)
+	 * - Laste inn kalenderen for hvert rom
+	 * - Laste inn alle alarmer for hver ansatt
+	 */
+	
 	Scanner sc;
 	ArrayList<Group> groups = new ArrayList<Group>();
 	ArrayList<Employee> employees = new ArrayList<Employee>();
 	Employee currentUser;
-	
 	
 	
 	private void init(){
@@ -46,7 +56,7 @@ public class MainLogic {
 	
 	public MainLogic(){
 		init(); 
-	}	
+	}
 	
 	private void createEmployee(String name, String email){
 		try {
@@ -92,6 +102,14 @@ public class MainLogic {
 		
 //		--- Mot databasen ---
 //		Legg til i Groupmember: addGroupmember(g.getId(), e.getId())
+//		----------------------
+	}
+	
+	private void removeGroupmember(Group g, Employee e){
+		g.removeMember(e);
+		
+//		--- Mot databasen ---
+//		Fjern fra Groupmember: removeGroupmember(g.getId(), e.getId())
 //		----------------------
 	}
 	
