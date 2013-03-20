@@ -46,4 +46,17 @@ public class DBGroups {
 	private void deleteGroup(int id){
 		db.send(String.format("DELETE FROM Calendar.CalendarUser WHERE UserID = %s", id));
 	}
+	
+//	public static void main(String[] args) {
+//		DBGroups dbg = new DBGroups();
+//		DBEmployees dbe = new DBEmployees();
+//		
+//		dbe.loadEmployees();
+//		dbg.loadGroups();
+//		
+//		Group g = Group.groups.get(0);
+//		for(Employee e : g.getMembers()){
+//			System.out.println(e.toString());
+//		}
+//	}
 }
