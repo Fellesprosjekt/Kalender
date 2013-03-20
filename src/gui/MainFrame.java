@@ -10,9 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.joda.time.DateTime;
+
 import appLogic.Appointment;
 import appLogic.Employee;
 import appLogic.MainLogic;
+import appLogic.Room;
 
 public class MainFrame extends JFrame {
 
@@ -188,11 +191,28 @@ public class MainFrame extends JFrame {
 		
 		addapp.btnOpprett.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-//				if(addapp.chcRom.getSelectedItem().equals(" ") || addapp.chcStartaar.getSelectedItem().equals(" ")
-//						|| addapp.chcStartmnd.equals(" ") || addapp.chcStartdag.getSelectedItem().equals(" ")
-//						|| addapp.chcStarttime.equals(" ") || addapp.chcStartmin.equals(" ")
-//						|| addapp.chcSluttime.equals(" ") || addapp.chcSluttmin.equals(" ")
-//						|| addapp.txtBeskrivelse.equals(" ") //og ikke tom liste over deltakere)
+				if(!addapp.chcRom.getSelectedItem().equals(" ") || !addapp.chcStartaar.getSelectedItem().equals(" ")
+						|| !addapp.chcStartmnd.equals(" ") || !addapp.chcStartdag.getSelectedItem().equals(" ")
+						|| !addapp.chcStarttime.equals(" ") || !addapp.chcStartmin.equals(" ")
+						|| !addapp.chcSluttime.equals(" ") || !addapp.chcSluttmin.equals(" ")
+						|| !addapp.txtBeskrivelse.equals(" ") || !addapp.deltakere.isEmpty()) 
+				{
+					//Ikke opprett avtale
+				} else {
+					String desc = addapp.txtBeskrivelse.getText();
+					//Room room = 
+					Employee leader = main.currentUser; 
+					int year = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
+					int month = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
+					int day = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
+					int hourStart = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
+					int minStart = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
+					int hourEnd = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
+					int minEnd = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
+					DateTime start = new DateTime(year, month, day, hourStart, minStart);
+					DateTime end = new DateTime(year, month, day, hourEnd, minEnd); 
+					new Appointment(desc, room, leader, addapp.deltakere, start, end);
+				}
 			}
 		});
 		
