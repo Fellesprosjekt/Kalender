@@ -9,8 +9,8 @@ public class Alarm implements Comparable<Alarm>{
 	private final Appointment appointment;
 	private final int offset;
 	
-	public Alarm(DateTime time, String label, Appointment appointment,int offset) {
-		this.time = time;
+	public Alarm(String label, Appointment appointment,int offset) {
+		this.time = appointment.getStart().minusMinutes(offset);
 		this.appointment=appointment;
 		this.offset=offset;
 		setLabel(label);
