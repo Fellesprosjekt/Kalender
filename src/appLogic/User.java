@@ -36,6 +36,13 @@ public class User implements AppointmentListener {
 		return null;
 	}
 	
+	public Appointment getAppointment(int id) {
+		for(CalendarRow cr : calendar){
+			if(cr.getAppointment().getId()==id) return cr.getAppointment();
+		}
+		return null;
+	}
+	
 	private void setEmail(String email) throws InvalidEmailException{
 		if(!isValidEmail(email)) throw new InvalidEmailException();
 		else this.email = email;
@@ -58,14 +65,19 @@ public class User implements AppointmentListener {
 	}
 	
 	public void acceptAppointment(Appointment appointment) {
-		appointment.setParticipantStaus(this, true);
-		if(invitations.contains(appointment)) invitations.remove(appointment);
-		try {
-			calendar.addAppointment(appointment.getStart(), appointment.getEnd(), appointment);
-		} catch (DateTimeException e) {}
+		if(appointment.getParticipantStatus(this)!=true){
+			appointment.setParticipantStaus(this, true);
+			if(invitations.contains(appointment)) invitations.remove(appointment);
+			try {
+				calendar.addAppointment(appointment.getStart(), appointment.getEnd(), appointment);
+			} catch (DateTimeException e) {}
+		}
 	}
 	
 	public void declineAppointment(Appointment appointment) {
+		if(appointment.getParticipantStatus(this)){
+			calendar.removeCalendarRow(appointment);
+		}
 		appointment.setParticipantStaus(this, false);
 		if(invitations.contains(appointment)) invitations.remove(appointment);
 	}

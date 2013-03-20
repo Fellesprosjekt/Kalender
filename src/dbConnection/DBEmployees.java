@@ -12,7 +12,7 @@ public class DBEmployees {
 	Simpleconnect db;
 	
 	public DBEmployees(){
-		db = new Simpleconnect("Calendar", "");
+		db = new Simpleconnect("Calendar", "SklSkl91");
 	}
 	
 	public void loadEmployees(){
@@ -32,6 +32,7 @@ public class DBEmployees {
 	}
 	
 	private void deleteEmployee(int id){
+		
 		db.send(String.format("DELETE FROM Calendar.CalendarUser WHERE UserID = %s", id));
 	}
 }
