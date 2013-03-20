@@ -10,8 +10,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import appLogic.Appointment;
+import appLogic.Employee;
+import appLogic.MainLogic;
+
 public class MainFrame extends JFrame {
 
+	private MainLogic main; 
+	
 	private HomePanel home;
 	private RegisterPanel register;
 	private LogInPanel login;
@@ -37,11 +43,29 @@ public class MainFrame extends JFrame {
 			}
 		});
 	}
+	
+	private void init() {
+		//legger inn brukere til innlogging
+		//legger inn brukere i opprett avtale
+		//legger inn brukere i endre avtale
+		for (Employee e : main.employees) {
+			login.choice.add(e.toString()); 
+			addapp.chcDeltaker.add(e.toString());
+			editapp.chcLeggTilDeltaker.add(e.toString());
+			editapp.chcFjernDeltaker.add(e.toString());
+			
+		}
+		
+		
+		
+		
+	}
 
 	/**
 	 * Create the frame.
 	 */
 	public MainFrame() {
+		main = new MainLogic();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 470, 320);
 		home = new HomePanel();
@@ -52,7 +76,8 @@ public class MainFrame extends JFrame {
 		viewapp = new ViewAppointmentPanel();
 		editapp = new EditAppointmentPanel();
 		viewcal = new CalendarPanel();
-		addalarm = new AddAlarmPanel();
+		addalarm = new AddAlarmPanel(); 
+		init(); 
 		
 		
 		setContentPane(home);
@@ -94,8 +119,9 @@ public class MainFrame extends JFrame {
                     home.revalidate();
             }
 		});
+	
 		
-		//Knapper til innlogging
+		//Knapper for innlogging
 		login.btnTilbake.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -106,21 +132,12 @@ public class MainFrame extends JFrame {
 		
 		login.btnLoggInn.addMouseListener(new MouseAdapter() {
 		    @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(MouseEvent event) {
                     if (login.choice.getSelectedItem() != "Velg bruker...") {
-			    		setContentPane(loggedin);
+                    	setContentPane(loggedin);
 	                    loggedin.revalidate();
-	                    /*
-	                     * SET CURRENT USER
-	                     */
-                    } else {
-                    	login.choice.setBackground(Color.ORANGE);
-                    	try {
-							Thread.sleep(300);
-						} catch (InterruptedException e1) {
-							e1.printStackTrace();
-						}
-                    	login.choice.setBackground(Color.WHITE);
+	                    main.logInEmployee(main.getEmployee(login.choice.getSelectedItem()));
+	                    loggedin.loggedInAsField.setText("Logget inn som: " + main.currentUser.toString()); 
                     }
             }
 		});
@@ -131,6 +148,7 @@ public class MainFrame extends JFrame {
             public void mouseClicked(MouseEvent e) {
                     setContentPane(home);
                     home.revalidate();
+                    main.logInEmployee(null); 
             }
 		});
 		
@@ -159,6 +177,26 @@ public class MainFrame extends JFrame {
                     loggedin.revalidate();
             }
 		});
+		
+		addapp.btnLeggTil.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				/*
+				 * Legg til main.getEmployee(addapp.chcDeltaker.getSelectedItem());  i midlertidig liste;
+				 */
+			}
+		});
+		
+		addapp.btnOpprett.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+//				if(addapp.chcRom.getSelectedItem().equals(" ") || addapp.chcStartaar.getSelectedItem().equals(" ")
+//						|| addapp.chcStartmnd.equals(" ") || addapp.chcStartdag.getSelectedItem().equals(" ")
+//						|| addapp.chcStarttime.equals(" ") || addapp.chcStartmin.equals(" ")
+//						|| addapp.chcSluttime.equals(" ") || addapp.chcSluttmin.equals(" ")
+//						|| addapp.txtBeskrivelse.equals(" ") //og ikke tom liste over deltakere)
+			}
+		});
+		
+		
 		
 		//Knapper for visning av avtale
 		viewapp.btnTilbake.addMouseListener(new MouseAdapter() {

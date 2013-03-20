@@ -46,7 +46,7 @@ public class Sqlfunc {
 	private void saveParticipant(Appointment a, User u){
 		int aId = getAppointmentId(a);
 		int uId = getUserId(u);
-		db.send(String.format("INSERT INTO Calendar.AppInvitation (UserID, AppID) VALUES (%i, %i)",aId,uId));
+		db.send(String.format("INSERT INTO AppInvitation VALUES ('%s', '%s', null)",aId,uId));
 	}
 	
 	

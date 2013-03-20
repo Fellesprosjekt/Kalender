@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 public class Simpleconnect {
 
-	String dbUrl = "jdbc:mysql://localhost:3306/Calendar";
+	String dbUrl = "jdbc:mysql://localhost:3306/test";
 	String dbClass = "com.mysql.jdbc.Driver";
 	String operation;
 	String brukernavn="root";

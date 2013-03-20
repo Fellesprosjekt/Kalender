@@ -29,16 +29,43 @@ public class MainLogic {
 	 * - Laste inn alle alarmer for hver ansatt
 	 * - Dersom noe ugyldig lastes inn fra databasen (exceptions ved opprettelse av objektet), slett det fra databasen.
 	 */
-	ArrayList<Group> groups = new ArrayList<Group>();
-	ArrayList<Employee> employees = new ArrayList<Employee>();
-	Employee currentUser;
+	public ArrayList<Group> groups = new ArrayList<Group>();
+	public ArrayList<Employee> employees = new ArrayList<Employee>();
+	public Employee currentUser;
+	
+	//Sett opp brukere og grupper
+	private void init() {
+		try {
+			employees.add(new Employee(0, "Kong Harald", "harald@konge.no"));
+			employees.add(new Employee(1, "Dronning Sonja", "sonja@dronning.no"));
+			employees.add(new Employee(2, "Kronprins Haakon", "haakon@nestenkonge.no"));
+		} catch (InvalidNameException e) {
+			e.printStackTrace();
+		} catch (InvalidEmailException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	//Hjelpemetode for å hente ut employee fra gitt streng
+	public Employee getEmployee(String name) {
+		for (Employee e : employees) {
+			if (name.equals(e.toString())) {
+				return e; 
+			}
+		}
+		return null; 
+	}
+	
+	
 	
 	
 	public MainLogic(){
 		currentUser = null;
+		init(); 
 	}
 	
-	private void logInEmployee(Employee e){
+	public void logInEmployee(Employee e){
 		currentUser = e;
 	}
 	
