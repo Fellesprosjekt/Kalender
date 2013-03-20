@@ -9,26 +9,19 @@ import exceptions.RoomBookedException;
 
 public class Room implements AppointmentListener{
 	public static ArrayList<Room> rooms = new ArrayList<Room>();
-	private String id;
+	private final String id;
 	private final int size;
 	private Calendar room_calendar;
 	
-	public Room(int size) {
+	public Room(String id, int size) {
 		this.size = size;
-		this.id = null;
+		this.id = id;
 		this.room_calendar = new Calendar();
 		rooms.add(this); 
 	}
 	
 	public String getId() {
 		return id;
-	}
-
-	public void setId(String id) {
-		if(this.id.equals(null)){
-			if(id.length()>4) this.id=id.substring(0,4);
-			else this.id=id;
-		}
 	}
 
 	public int getSize() {
