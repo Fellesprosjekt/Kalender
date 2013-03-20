@@ -41,12 +41,6 @@ public class DBRooms {
 //		System.out.println(r.getId()+" "+r.getSize());
 //		
 //		
-//	}
-	
-	
-		
-	
-	
-	
+//	}	
 
 }
