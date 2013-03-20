@@ -10,28 +10,32 @@ import exceptions.RoomSizeException;
 
 
 public class Appointment implements ObservableAppointment{
-
+	private int id;
 	private String description;
+	private DateTime start, end;
 	private Room room;
 	private final Employee leader;
 	private HashMap<User, Boolean> participants;
 	
 	public Appointment(String description, Room room, Employee leader, ArrayList<User> participants, DateTime start, DateTime end) throws DateTimeException, RoomBookedException, RoomSizeException{
+		this.id=-1; //Default id f¿r den settes
 		this.leader=leader;
 		for(User p : participants){
 			this.participants.put(p, null);
 		}
 		this.participants.put(leader, true);
-		bookRoom(start,end,room, participants.size());
+		setStart(start);
+		setEnd(end);
+		bookRoom(room);
 		setDescription(description);
-		fireAppointmentCreated(start, end);
+		fireAppointmentCreated();
 	}
 	/* Sjekker om reommet er ledig
 	 * Setter rommet og "booker" det ved Œ legge det i romkalenderen til rommet dersom det er ledig
 	 */
-	public void bookRoom(DateTime start, DateTime end, Room room,int numOfParticipants) throws DateTimeException, RoomBookedException, RoomSizeException{
+	public void bookRoom(Room room) throws DateTimeException, RoomBookedException, RoomSizeException{
 		if(room.isBooked(new CalendarRow(start, end, null))) throw new RoomBookedException();
-		else if(numOfParticipants>room.getSize()) throw new RoomSizeException();
+		else if(getNumOfParticipants()>room.getSize()) throw new RoomSizeException();
 		else{
 			if(!this.room.equals(null)){
 				this.room.getCalendar().removeCalendarRow(this);
@@ -68,12 +72,46 @@ public class Appointment implements ObservableAppointment{
 		}
 	}
 	
-	public void setStart(DateTime start) throws DateTimeException, RoomBookedException{
-		fireStartChanged(start);
+	public Boolean getParticipantStatus(User user){
+		if(participants.containsKey(user)) return participants.get(user);
+		else return null;
 	}
 	
-	public void setEnd(DateTime end) throws DateTimeException, RoomBookedException{
-		fireEndChanged(end);
+	public boolean containsParticipant(User user){
+		return participants.containsKey(user);
+	}
+	
+	public int getNumOfParticipants(){
+		return participants.size();
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		if(this.id==-1) this.id=id;
+	}
+		
+	/* start ma vaere for end */
+	public void setStart(DateTime start) throws DateTimeException, RoomBookedException {
+		if(!this.start.equals(null)) fireStartChanged();
+		if (!start.isBefore(this.end)) throw new DateTimeException("start was set after end");
+		this.start = start;
+	}
+	
+	public DateTime getStart() {
+		return start;
+	}
+	
+	/* end ma vaere etter start */
+	public void setEnd(DateTime end) throws DateTimeException, RoomBookedException {
+		if(!this.end.equals(null)) fireEndChanged();
+		if (!end.isAfter(this.start)) throw new DateTimeException("end was set before start");
+		this.end = end;
+	}
+	
+	public DateTime getEnd() {
+		return end;
 	}
 	
 	@Override
@@ -86,17 +124,25 @@ public class Appointment implements ObservableAppointment{
 	}
 	
 	@Override
-	public void fireAppointmentCreated(DateTime start, DateTime end) throws DateTimeException {
+	public void fireAppointmentCreated() throws DateTimeException{
 		for(User u : participants.keySet()){
 			try{
-				u.appointmentCreated(this, start, end);
+				u.appointmentCreated(this);
 			}catch(BusyUserException e){
 				participants.put(u, false);
 				fireParticipantDeclined(u);
 			}
 		}
-		room.appointmentCreated(this, start, end);
+		room.appointmentCreated(this);
 	}
+	
+	@Override
+	public void fireAppointmentCancelled(){
+		for(User u : participants.keySet()){
+			u.appointmentCancelled(this);
+		}
+	}
+	
 	@Override
 	public void fireDescriptionChanged() {
 		for(User u : participants.keySet()){
@@ -116,7 +162,7 @@ public class Appointment implements ObservableAppointment{
 		}
 	}
 	@Override
-	public void fireStartChanged(DateTime start) throws DateTimeException, RoomBookedException {
+	public void fireStartChanged() throws DateTimeException, RoomBookedException {
 		for(User u : participants.keySet()){
 			try{
 				u.startChanged(this, start);
@@ -128,7 +174,7 @@ public class Appointment implements ObservableAppointment{
 		room.startChanged(this, start);
 	}
 	@Override
-	public void fireEndChanged(DateTime end) throws DateTimeException, RoomBookedException {
+	public void fireEndChanged() throws DateTimeException, RoomBookedException {
 		for(User u : participants.keySet()){
 			try{
 				u.endChanged(this, end);

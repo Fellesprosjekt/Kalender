@@ -1,5 +1,6 @@
 package appLogic;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,18 +12,21 @@ import exceptions.InvalidEmailException;
 import exceptions.RoomBookedException;
 
 public class User implements AppointmentListener {
+	private final int id;
 	private String email;
-	private Calendar calendar;
+	private Calendar calendar;  
+	private ArrayList<Appointment> invitations;
 	//Disse brukes for Œ validere strenger
 	private Pattern pattern;
 	private Matcher matcher;
 	private static final String EMAIL_PATTERN = 
 			"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-	
-	public User(String email) throws InvalidEmailException{
+	public User(int id, String email) throws InvalidEmailException{
 		setEmail(email);
+		this.id = id;
 		calendar = new Calendar();
+		invitations = new ArrayList<Appointment>();
 	}
 	
 	
@@ -39,10 +43,21 @@ public class User implements AppointmentListener {
 		return this.calendar;
 	}
 	
-	private void acceptAppointment(Appointment appointment) {
+	public int getId(){
+		return id;
 	}
 	
-	private void declineAppointment(Appointment appointment) {
+	public void acceptAppointment(Appointment appointment) {
+		appointment.setParticipantStaus(this, true);
+		if(invitations.contains(appointment)) invitations.remove(appointment);
+		try {
+			calendar.addAppointment(appointment.getStart(), appointment.getEnd(), appointment);
+		} catch (DateTimeException e) {}
+	}
+	
+	public void declineAppointment(Appointment appointment) {
+		appointment.setParticipantStaus(this, false);
+		if(invitations.contains(appointment)) invitations.remove(appointment);
 	}
 	
 	private boolean isValidEmail(String email){
@@ -59,9 +74,9 @@ public class User implements AppointmentListener {
 	}
 
 	@Override
-	public void appointmentCreated(Appointment appointment, DateTime start, DateTime end) throws DateTimeException, BusyUserException {
-		if(isBusy(new CalendarRow(start,end,null))) throw new BusyUserException();
-		calendar.addAppointment(start, end, appointment);
+	public void appointmentCreated(Appointment appointment) throws DateTimeException, BusyUserException {
+		if(isBusy(new CalendarRow(appointment.getStart(),appointment.getEnd(),null))) throw new BusyUserException();
+		invitations.add(appointment);
 	}
 
 	@Override
@@ -100,5 +115,11 @@ public class User implements AppointmentListener {
 	public void participantDeclined(Appointment appointment, User user) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public void appointmentCancelled(Appointment appointment) {
+		calendar.removeCalendarRow(appointment);
 	}
 }

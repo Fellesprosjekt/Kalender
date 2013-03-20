@@ -17,10 +17,11 @@ public interface ObservableAppointment {
 
 	public void fireParticipantDeclined(User user);
 
-	public void fireAppointmentCreated(DateTime start, DateTime end) throws DateTimeException;
-	
-	public void fireStartChanged(DateTime start) throws DateTimeException, RoomBookedException;
-	
-	public void fireEndChanged(DateTime end) throws DateTimeException, RoomBookedException;
-	
+	public void fireEndChanged() throws DateTimeException, RoomBookedException;
+
+	void fireStartChanged() throws DateTimeException, RoomBookedException;
+
+	void fireAppointmentCancelled();
+
+	void fireAppointmentCreated() throws DateTimeException;	
 }

@@ -14,8 +14,8 @@ public class Employee extends User{
 	private ArrayList<Alarm> alarms;
 	
 	
-	public Employee(String name, String email) throws InvalidNameException, InvalidEmailException{
-		super(email);
+	public Employee(int id, String name, String email) throws InvalidNameException, InvalidEmailException{
+		super(id, email);
 		setEmployeeName(name);
 		alarms = new ArrayList<Alarm>();
 	}
@@ -40,6 +40,10 @@ public class Employee extends User{
 	
 	public String getLastname(){
 		return lastname;
+	}
+	
+	public ArrayList<Alarm> getAlarms(){
+		return alarms;
 	}
 	
 	public void addAlarm(Alarm alarm){
@@ -79,10 +83,8 @@ public class Employee extends User{
 
 	@Override
 	public String toString() {
-		return lastname;
+		return firstname + " " + lastname;
 	}
-	
-	
 }
 
 

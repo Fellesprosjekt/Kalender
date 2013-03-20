@@ -8,17 +8,22 @@ import exceptions.RoomBookedException;
 
 
 public class Room implements AppointmentListener{
-	public static ArrayList<Room> rooms = new ArrayList<Room>(); 
+	public static ArrayList<Room> rooms = new ArrayList<Room>();
+	private final String id;
 	private final int size;
 	private Calendar room_calendar;
 	
-	public Room(int size) {
+	public Room(String id, int size) {
 		this.size = size;
+		this.id = id;
 		this.room_calendar = new Calendar();
 		rooms.add(this); 
 	}
 	
-	
+	public String getId() {
+		return id;
+	}
+
 	public int getSize() {
 		return this.size;
 	}
@@ -50,8 +55,8 @@ public class Room implements AppointmentListener{
 	}
 
 	@Override
-	public void appointmentCreated(Appointment appointment, DateTime start, DateTime end) throws DateTimeException {
-		room_calendar.addAppointment(start, end, appointment);
+	public void appointmentCreated(Appointment appointment) throws DateTimeException {
+		room_calendar.addAppointment(appointment.getStart(), appointment.getEnd(), appointment);
 	}
 
 
@@ -94,5 +99,10 @@ public class Room implements AppointmentListener{
 	public void participantDeclined(Appointment appointment, User user) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void appointmentCancelled(Appointment appointment) {
+		room_calendar.removeCalendarRow(appointment);	
 	}
 }

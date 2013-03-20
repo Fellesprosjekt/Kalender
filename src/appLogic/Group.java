@@ -10,9 +10,10 @@ public class Group extends User {
 	private String name;
 	private ArrayList<Employee> members;
 	
-	public Group(String name, String email) throws InvalidEmailException, InvalidNameException{
-		super(email);
+	public Group(int id, String name, String email) throws InvalidEmailException, InvalidNameException{
+		super(id, email);
 		setGroupName(name);
+		members = new ArrayList<Employee>();
 	}
 	
 	private void setGroupName(String name) throws InvalidNameException{
@@ -46,7 +47,7 @@ public class Group extends User {
 
 	@Override
 	public String toString() {
-		return "Group [name=" + name + ", members=" + members + "]";
+		return "** " + name + ":" + members + " **";
 	}
 	
 }
