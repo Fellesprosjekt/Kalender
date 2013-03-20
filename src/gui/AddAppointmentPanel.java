@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
+import java.awt.TextArea;
 
 public class AddAppointmentPanel extends JPanel {
 	public JTextField txtBeskrivelse;
@@ -32,8 +33,8 @@ public class AddAppointmentPanel extends JPanel {
 	public JButton btnOpprett;
 	public JButton btnAvbryt;
 	public JButton btnLeggTil;
-	private JTextArea txtrIngenDeltakere;
 	public ArrayList<User> deltakere = new ArrayList<User>();
+	public TextArea txtrIngenDeltakere;
 
 	
 	
@@ -66,7 +67,9 @@ public class AddAppointmentPanel extends JPanel {
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("25dlu"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("25dlu"),},
+				ColumnSpec.decode("25dlu"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -75,9 +78,9 @@ public class AddAppointmentPanel extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),
+				RowSpec.decode("24dlu"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("0dlu"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -109,9 +112,9 @@ public class AddAppointmentPanel extends JPanel {
 		btnLeggTil = new JButton("Legg til");
 		add(btnLeggTil, "12, 6, 3, 1");
 		
-		txtrIngenDeltakere = new JTextArea();
-		txtrIngenDeltakere.setText("Ingen deltakere");
-		add(txtrIngenDeltakere, "4, 8, 9, 3, fill, fill");
+		txtrIngenDeltakere = new TextArea();
+		add(txtrIngenDeltakere, "4, 8, 11, 3");
+		txtrIngenDeltakere.setEditable(false);
 		
 		JLabel lblVelgRom = new JLabel("Velg rom");
 		add(lblVelgRom, "2, 12, right, default");
@@ -151,10 +154,10 @@ public class AddAppointmentPanel extends JPanel {
 		add(chcSluttmin, "14, 16");
 		
 		btnOpprett = new JButton("Opprett avtale");
-		add(btnOpprett, "4, 18, 7, 1");
+		add(btnOpprett, "4, 18, 5, 1");
 		
 		btnAvbryt = new JButton("Avbryt");
-		add(btnAvbryt, "4, 20, 7, 1");
+		add(btnAvbryt, "10, 18");
 
 		for(int i=1;i<32;i++){
 			chcStartdag.add(String.valueOf(i));
