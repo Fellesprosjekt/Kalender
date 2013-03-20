@@ -33,6 +33,23 @@ public class Appointment implements ObservableAppointment{
 		fireAppointmentCreated();
 		leader.acceptAppointment(this);
 	}
+	
+	public Appointment(int id, String description, Room room, Employee leader, ArrayList<User> participants, DateTime start, DateTime end) throws DateTimeException, RoomBookedException, RoomSizeException{
+		this.id=id; //Default id f¿r den settes
+		this.leader=leader;
+		this.participants = new HashMap<User, Boolean>(); 
+		for(User p : participants){
+			this.participants.put(p, null);
+		}
+		this.participants.put(leader, true);
+		setStart(start);
+		setEnd(end);
+		this.room = room;
+		setDescription(description);
+		fireAppointmentCreated();
+		leader.acceptAppointment(this);
+	}
+	
 	/* Sjekker om reommet er ledig
 	 * Setter rommet og "booker" det ved Œ legge det i romkalenderen til rommet dersom det er ledig
 	 */

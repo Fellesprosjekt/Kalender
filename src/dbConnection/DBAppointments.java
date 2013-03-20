@@ -8,8 +8,12 @@ import org.joda.time.DateTime;
 import appLogic.Appointment;
 import appLogic.Employee;
 import appLogic.Group;
+import appLogic.Room;
 import appLogic.User;
 import dbConnection.*;
+import exceptions.DateTimeException;
+import exceptions.RoomBookedException;
+import exceptions.RoomSizeException;
 
 
 public class DBAppointments {
@@ -90,7 +94,12 @@ public class DBAppointments {
 		return participants;
 	}
 	
-	private Room loadAppRoom
+	private Room loadAppRoom(int appId){
+		String sql = String.format("SELECT RoomID FROM Booking WHERE AppID=%s",appId);
+		ArrayList<HashMap<String,String>> posts = db.get(sql);
+		String roomId = posts.get(0).get("RoomID");
+		return Room.getRoom(roomId);
+	}
 	
 	
 	public void loadAppointments(){
@@ -101,12 +110,26 @@ public class DBAppointments {
 			DateTime start = toDateTime(post.get("StartTime").substring(0,16));
 			DateTime end = toDateTime(post.get("EndTime").substring(0,16));
 			String description = post.get("Description");
+			
 			int leaderId = Integer.parseInt(post.get("LeaderID"));
 			Employee leader = Employee.getEmployee(leaderId);
+			Room room = loadAppRoom(appId);
 			ArrayList<User> participants = loadAppParticipants(appId);
 			
-//			new Appointment(description, room, leader, participants, start, end)
+			try {
+				new Appointment(appId, description, room, leader, participants, start, end);
+			} catch (DateTimeException e) {
+				deleteAppointment(appId);
+			} catch (RoomBookedException e) {
+				deleteAppointment(appId);
+			} catch (RoomSizeException e) {
+				deleteAppointment(appId);
+			}
 		}
+	}
+	
+	private void deleteAppointment(int id){
+		db.send(String.format("DELETE FROM Calendar.Appointment WHERE AppID = %s", id));
 	}
 	
 	public static void main(String[] args) {
