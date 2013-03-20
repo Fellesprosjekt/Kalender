@@ -28,10 +28,10 @@ public class EditAppointmentPanel extends JPanel {
 	public JButton btnOpprett;
 	public JButton btnAvbryt;
 	public JButton btnLeggTil;
-	private JTextArea txtrDeltakere;
+	public JTextArea txtrDeltakere;
 	private JLabel lblDeltaker_1;
-	private Choice chcFjernDeltaker;
-	private JButton btnFjern;
+	public Choice chcFjernDeltaker;
+	public JButton btnFjern;
 	
 	
 	/**

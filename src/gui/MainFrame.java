@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import appLogic.Appointment;
 import appLogic.Employee;
 import appLogic.MainLogic;
 
@@ -42,14 +43,29 @@ public class MainFrame extends JFrame {
 			}
 		});
 	}
+	
+	private void init() {
+		//legger inn brukere til innlogging
+		//legger inn brukere i opprett avtale
+		//legger inn brukere i endre avtale
+		for (Employee e : main.employees) {
+			login.choice.add(e.toString()); 
+			addapp.chcDeltaker.add(e.toString());
+			editapp.chcLeggTilDeltaker.add(e.toString());
+			editapp.chcFjernDeltaker.add(e.toString());
+			
+		}
+		
+		
+		
+		
+	}
 
 	/**
 	 * Create the frame.
 	 */
 	public MainFrame() {
-		
 		main = new MainLogic();
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 470, 320);
 		home = new HomePanel();
@@ -61,6 +77,7 @@ public class MainFrame extends JFrame {
 		editapp = new EditAppointmentPanel();
 		viewcal = new CalendarPanel();
 		addalarm = new AddAlarmPanel(); 
+		init(); 
 		
 		
 		setContentPane(home);
@@ -102,13 +119,9 @@ public class MainFrame extends JFrame {
                     home.revalidate();
             }
 		});
+	
 		
-		//Knapper til innlogging
-		//legger inn brukere//
-		for (Employee e : main.employees) {
-			login.choice.add(e.toString()); 
-		}
-		
+		//Knapper for innlogging
 		login.btnTilbake.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -135,7 +148,7 @@ public class MainFrame extends JFrame {
             public void mouseClicked(MouseEvent e) {
                     setContentPane(home);
                     home.revalidate();
-                    main.currentUser = null; 
+                    main.logInEmployee(null); 
             }
 		});
 		

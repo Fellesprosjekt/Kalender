@@ -33,7 +33,7 @@ public class MainLogic {
 	public ArrayList<Employee> employees = new ArrayList<Employee>();
 	public Employee currentUser;
 	
-	
+	//Sett opp brukere og grupper
 	private void init() {
 		try {
 			employees.add(new Employee(0, "Kong Harald", "harald@konge.no"));
@@ -47,7 +47,7 @@ public class MainLogic {
 		
 	}
 	
-	//hjelpemetode
+	//Hjelpemetode for å hente ut employee fra gitt streng
 	public Employee getEmployee(String name) {
 		for (Employee e : employees) {
 			if (name.equals(e.toString())) {
