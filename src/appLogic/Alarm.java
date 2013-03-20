@@ -2,15 +2,15 @@ package appLogic;
 
 import org.joda.time.DateTime;
 
-public class Alarm {
+public class Alarm implements Comparable<Alarm>{
 
 	private final DateTime time;
 	private String label;
 	private final Appointment appointment;
 	private final int offset;
 	
-	public Alarm(DateTime time, String label, Appointment appointment,int offset) {
-		this.time = time;
+	public Alarm(String label, Appointment appointment,int offset) {
+		this.time = appointment.getStart().minusMinutes(offset);
 		this.appointment=appointment;
 		this.offset=offset;
 		setLabel(label);
@@ -40,5 +40,12 @@ public class Alarm {
 	public void fireAlarm() {
 		//TODO: "Noe"
 	}
+
+	@Override
+	public int compareTo(Alarm other) {
+		if (this.appointment.equals(other.appointment) && )
+		return 0;
+	}
+	
 	
 }

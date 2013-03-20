@@ -3,6 +3,8 @@ package gui;
 import javax.swing.JPanel;
 
 import appLogic.Appointment;
+import appLogic.MainLogic;
+import appLogic.User;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -15,6 +17,7 @@ import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JToggleButton;
+import java.awt.TextArea;
  
  
 public class ViewAppointmentPanel extends JPanel {
@@ -22,14 +25,13 @@ public class ViewAppointmentPanel extends JPanel {
         public JTextField endField;
         public JTextField startField;
         public JTextArea descriptionField;
-        public JTextArea participantsField;
         public JButton btnTilbake;
         public JButton btnAccept;
         public JButton btnDecline;
         public JLabel lblAvtale;
         public JButton btnLeggTilAlarm;
+        public TextArea participantsField;
 
-       
  
         /**
          * Create the panel.
@@ -54,9 +56,9 @@ public class ViewAppointmentPanel extends JPanel {
                 		FormFactory.RELATED_GAP_ROWSPEC,
                 		FormFactory.DEFAULT_ROWSPEC,
                 		FormFactory.RELATED_GAP_ROWSPEC,
-                		RowSpec.decode("max(32dlu;default)"),
+                		RowSpec.decode("max(15dlu;default)"),
                 		FormFactory.RELATED_GAP_ROWSPEC,
-                		RowSpec.decode("max(31dlu;default)"),
+                		RowSpec.decode("61dlu"),
                 		FormFactory.RELATED_GAP_ROWSPEC,
                 		RowSpec.decode("max(7dlu;default)"),
                 		FormFactory.RELATED_GAP_ROWSPEC,
@@ -107,15 +109,15 @@ public class ViewAppointmentPanel extends JPanel {
                
                 descriptionField = new JTextArea();
                 descriptionField.setEditable(false);
-                add(descriptionField, "4, 10, 3, 1, fill, fill");
+                add(descriptionField, "4, 10, fill, fill");
                
                 JLabel lblDeltakere = new JLabel("Deltakere");
                 lblDeltakere.setFont(new Font("Tahoma", Font.PLAIN, 14));
                 add(lblDeltakere, "2, 12, right, default");
-               
-                participantsField = new JTextArea();
+                
+                participantsField = new TextArea();
+                add(participantsField, "4, 12");
                 participantsField.setEditable(false);
-                add(participantsField, "4, 12, 3, 1, fill, fill");
                
                 btnAccept = new JButton("Godta");
                 btnAccept.setBackground(Color.GREEN);
@@ -130,11 +132,32 @@ public class ViewAppointmentPanel extends JPanel {
                 btnTilbake = new JButton("Tilbake");
                 btnTilbake.setFont(new Font("Tahoma", Font.PLAIN, 14));
                 add(btnTilbake, "4, 16, 3, 1");
-                
-//                btnAddAlarm = new JButton("Legg til alarm");
-//                btnTilbake.setFont(new Font("Tahoma", Font.PLAIN, 14));
-//                add(btnTilbake, "4, 16, 3, 1"); // finn riktig plass
- 
         }
- 
+        
+        public void showAppointment(String description) {
+        	Appointment appointment = MainLogic.currentUser.getAppointment(description); 
+        	roomField.setText(appointment.getRoom().toString());
+        	descriptionField.setText(appointment.getDescription());
+        	String start = appointment.getStart().toString();
+        	startField.setText(start.substring(0,10) + "\t\t" + start.substring(11, 16));
+        	String end = appointment.getEnd().toString();
+        	endField.setText(end.substring(0,10) + "\t\t" + end.substring(11,16));
+        	participantsField.setText("");
+        	for (User u : appointment.getParticipants().keySet()) {
+        		Boolean bool = appointment.getParticipants().get(u);
+        		String status = "invitert";
+        		if (bool != null)
+        			status = (bool ? "godtatt" : "avslått");
+        		participantsField.append(u.toString() + " [" + status + "]\n");
+        	}
+        }
+
+        //fjerner knapp som tilsvarer nåværende status
+        public void viewStatusCurrentUser(String description) {
+        	Boolean bool = MainLogic.currentUser.getAppointment(description).getParticipants().get(MainLogic.currentUser);
+        	if (bool != null) {
+        		if (bool) {btnAccept.setEnabled(false); btnDecline.setEnabled(true);}
+        		else {btnAccept.setEnabled(true); btnDecline.setEnabled(false);};
+        	}
+        }
 }
