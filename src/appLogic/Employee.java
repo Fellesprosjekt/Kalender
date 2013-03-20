@@ -98,6 +98,13 @@ public class Employee extends User{
 		}
 		return false;
 	}
+	
+	public boolean containsAlarm(Alarm other) {
+		for (Alarm a : alarms) {
+			if (a.isEqual(other)) {return true;}
+		}
+		return false; 
+	}
 
 	@Override
 	public String toString() {

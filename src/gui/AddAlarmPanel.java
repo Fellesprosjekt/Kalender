@@ -1,6 +1,9 @@
 package gui;
 
 import javax.swing.JPanel;
+
+import appLogic.Appointment;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
@@ -17,7 +20,8 @@ public class AddAlarmPanel extends JPanel {
 	public JButton btnAvbryt;
 	public Choice chcHours;
 	public Choice chcMinutes;
-	public JTextField textField;
+	public JTextField txtLabel;
+	public Appointment currentAppointment; 
 
 	/**
 	 * Create the panel.
@@ -42,6 +46,7 @@ public class AddAlarmPanel extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
+		
 		JLabel lblOpprettAlarm = new JLabel("Opprett alarm");
 		lblOpprettAlarm.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		add(lblOpprettAlarm, "2, 2, 5, 1");
@@ -61,19 +66,19 @@ public class AddAlarmPanel extends JPanel {
 		chcMinutes = new Choice();
 		add(chcMinutes, "6, 6");
 			
-			JLabel lblMerkelapp = new JLabel("Merkelapp");
-			add(lblMerkelapp, "2, 8, right, default");
-				
-				textField = new JTextField();
-				add(textField, "4, 8, 3, 1, fill, default");
-				textField.setColumns(10);
+		JLabel lblMerkelapp = new JLabel("Merkelapp");
+		add(lblMerkelapp, "2, 8, right, default");
 			
-				
-				btnLeggTil = new JButton("Legg til");
-				add(btnLeggTil, "4, 10");
-			
-			btnAvbryt = new JButton("Avbryt");
-			add(btnAvbryt, "6, 10");
+		txtLabel = new JTextField();
+		add(txtLabel, "4, 8, 3, 1, fill, default");
+		txtLabel.setColumns(10);
+	
+		
+		btnLeggTil = new JButton("Legg til");
+		add(btnLeggTil, "4, 10");
+		
+		btnAvbryt = new JButton("Avbryt");
+		add(btnAvbryt, "6, 10");
 
 		
 		for(int i=0;i<24;i++){

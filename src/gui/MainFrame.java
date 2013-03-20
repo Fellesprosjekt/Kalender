@@ -4,6 +4,7 @@ package gui;
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
@@ -11,9 +12,11 @@ import org.joda.time.DateTime;
 import org.joda.time.IllegalFieldValueException;
 
 import exceptions.DateTimeException;
+import exceptions.InvalidAlarmException;
 import exceptions.RoomBookedException;
 import exceptions.RoomSizeException;
 
+import appLogic.Alarm;
 import appLogic.Appointment;
 import appLogic.Employee;
 import appLogic.MainLogic;
@@ -52,6 +55,9 @@ public class MainFrame extends JFrame {
 		//legger inn brukere til innlogging
 		//legger inn brukere i opprett avtale
 		//legger inn brukere i endre avtale
+		/*
+		 * FLYTT TIL PANELS
+		 */
 		for (Employee e : Employee.employees) {
 			login.choice.add(e.toString()); 
 			addapp.chcDeltaker.add(e.toString());
@@ -281,6 +287,7 @@ public class MainFrame extends JFrame {
 		viewapp.btnLeggTilAlarm.addMouseListener(new MouseAdapter() {
 		    @Override
             public void mouseClicked(MouseEvent e) {
+		    	addalarm.currentAppointment = MainLogic.currentUser.getAppointment(viewapp.descriptionField.getText());
 		    	setContentPane(addalarm);
                 addalarm.revalidate();
             }
@@ -298,10 +305,27 @@ public class MainFrame extends JFrame {
 		addalarm.btnLeggTil.addMouseListener(new MouseAdapter() {
 		    @Override
             public void mouseClicked(MouseEvent e) {
-                   
-		    		/*
-                     * Opprett alarm for currentUser
-                     */
+		    		if (addalarm.txtLabel.getText().equals("") || 
+		    				(addalarm.chcHours.getSelectedItem().equals("0") && addalarm.chcMinutes.getSelectedItem().equals("0")))
+		    		{
+		    			System.out.println("Mangler info for å opprette alarm!");	
+		    		} else {
+			    		String label = addalarm.txtLabel.getText();
+			    		int hoursToMin = 60 * Integer.parseInt(addalarm.chcHours.getSelectedItem());
+			    		int minutes = Integer.parseInt(addalarm.chcMinutes.getSelectedItem());
+			    		int offset = hoursToMin + minutes;
+			    		Alarm newAlarm = new Alarm(label, addalarm.currentAppointment, offset);
+			    		if (!MainLogic.currentUser.containsAlarm(newAlarm))  { 
+				    		try {
+								MainLogic.currentUser.addAlarm(newAlarm) ;
+								System.out.println("Alarm lagt til!");
+								setContentPane(viewapp);
+			                    viewapp.revalidate();
+							} catch (InvalidAlarmException e1) {
+								System.out.println("InvalidAlarmException");
+							}
+			    		} else {System.out.println("Alarm finnes allerede for denne avtalen på gitt tidspunkt!");}
+		    		}
             }
 		});
 		
@@ -317,31 +341,30 @@ public class MainFrame extends JFrame {
 		viewcal.btnNextWeek.addMouseListener(new MouseAdapter() {
 		    @Override
             public void mouseClicked(MouseEvent e) {
-		    		viewcal.currWeekView += 1;
+		    		viewcal.incrementWeek();
 		    		viewcal.lblWeek.setText("" + viewcal.currWeekView); 
 		    		viewcal.showWeek(viewcal.currWeekView);
             }
 		});
 		
+		viewcal.btnPrevWeek.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				viewcal.decrementWeek();
+				viewcal.lblWeek.setText("" + viewcal.currWeekView);
+				viewcal.showWeek(viewcal.currWeekView);
+			}
+		});
+		
 		viewcal.btnChooseAppointment.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (!viewcal.choice.getSelectedItem().equals("Velg avtale...")) {
-					
 					viewapp.showAppointment(viewcal.choice.getSelectedItem());
 					viewapp.viewStatusCurrentUser(viewapp.descriptionField.getText());
 					setContentPane(viewapp);
                     viewapp.revalidate();
 				}
 			}
-		});
-		
-		viewcal.btnPrevWeek.addMouseListener(new MouseAdapter() {
-		    @Override
-            public void mouseClicked(MouseEvent e) {
-                    viewcal.currWeekView -=1;
-                    viewcal.lblWeek.setText("" + viewcal.currWeekView);
-                    viewcal.showWeek(viewcal.currWeekView);
-            }
 		});
 	}
 }

@@ -10,8 +10,8 @@ public class Alarm {
 	private final int offset;
 	
 	public Alarm(String label, Appointment appointment,int offset) {
-		this.time = appointment.getStart().minusMinutes(offset);
 		this.appointment=appointment;
+		this.time = this.appointment.getStart().minusMinutes(offset);
 		this.offset=offset;
 		setLabel(label);
 	}
