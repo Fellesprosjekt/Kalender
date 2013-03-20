@@ -186,5 +186,6 @@ public class MainLogic {
 //		--- Mot databasen ---
 //		Fjern fra Alarm: removeAlarm(a.getId(), currentUser.getId(), alarm.getTime())
 //		----------------------
+		
 	}
 }
