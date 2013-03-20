@@ -3,6 +3,7 @@ package dbConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import appLogic.Employee;
 import appLogic.Group;
 import exceptions.InvalidEmailException;
 import exceptions.InvalidNameException;
@@ -34,10 +35,15 @@ public class DBGroups {
 		return groups;
 	}
 	
-	public void loadGroupMembers(Group g){
-		int id = g.getId();
-		String query = String.format("SELECT (UserID) FROM Calendar.CalendarUser, Calendar.Groupmember WHERE UserID=EmpID AND GroupID=%s",id);
+	private void loadGroupMembers(Group g){
+		int groupId = g.getId();
+		String query = String.format("SELECT (UserID) FROM Calendar.CalendarUser, Calendar.Groupmember WHERE UserID=EmpID AND GroupID=%s",groupId);
 		ArrayList<HashMap<String,String>> posts = db.get(query);
+		for(HashMap<String,String> post : posts){
+			int empId = Integer.parseInt(post.get("UserID"));
+			Employee e = Employee.getEmployee(empId);
+			if(e != null) g.addMember(e);
+		}
 	}
 	
 	public void deleteGroup(int id){
