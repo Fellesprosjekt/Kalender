@@ -33,6 +33,19 @@ public class CalendarPanel extends JPanel {
 	final public int currWeek = DateTime.now().getWeekOfWeekyear();
 	public int currWeekView = currWeek;
 	
+	public void incrementWeek() {
+		if (currWeekView < 52) {
+			currWeekView += 1; 			
+		}
+	}
+	
+	public void decrementWeek() {
+		if (currWeekView > 1) {
+			currWeekView -= 1; 			
+		}
+	}
+	
+	
 	/**
 	 * Create the panel.
 	 */
@@ -55,6 +68,8 @@ public class CalendarPanel extends JPanel {
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		
 		
 		btnPrevWeek = new JButton("<");
 		add(btnPrevWeek, "2, 2, default, bottom");

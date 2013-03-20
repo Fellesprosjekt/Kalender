@@ -41,7 +41,7 @@ public class Appointment implements ObservableAppointment{
 		for(User p : participants){
 			this.participants.put(p, null);
 		}
-		this.participants.put(leader, true);
+		this.participants.put(leader, null);
 		setStart(start);
 		setEnd(end);
 		bookRoom(room);
