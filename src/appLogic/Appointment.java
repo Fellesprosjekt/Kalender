@@ -44,7 +44,7 @@ public class Appointment implements ObservableAppointment{
 		this.participants.put(leader, true);
 		setStart(start);
 		setEnd(end);
-		this.room = room;
+		bookRoom(room);
 		setDescription(description);
 		fireAppointmentCreated();
 		leader.acceptAppointment(this);

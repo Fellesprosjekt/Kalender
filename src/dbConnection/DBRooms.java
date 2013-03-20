@@ -9,34 +9,23 @@ import exceptions.InvalidEmailException;
 import exceptions.InvalidNameException;
 
 public class DBRooms {
-	
-	
-	
-	public Simpleconnect db= new Simpleconnect("calendar","SklSkl91");
+	public Simpleconnect db;
 	
 	
 	public DBRooms(){
-		
+		db = new Simpleconnect("Calendar","");
 	}
 	
-	public void updateAppointmentRoom(int appID,String roomID){
-		
-		db.send("update booking set roomid="+roomID+" where appid="+appID);
-		
-		
-		
+	public void updateAppointmentRoom(int appID,String roomID){	
+		db.send("update booking set roomid="+roomID+" where appid="+appID);	
 	}
 	
 	public void loadRooms(){
-
 		ArrayList<HashMap<String,String>> posts = db.get("SELECT * FROM Calendar.room ");
 		for(HashMap<String,String> post : posts){
 			String romid = (post.get("RoomID"));
 			int size = Integer.parseInt(post.get("Size"));
-			
-		
-				Room r = new Room(romid, size);
-
+			new Room(romid, size);
 		}
 	}
 	
