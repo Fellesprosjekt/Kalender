@@ -1,16 +1,17 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
+
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import org.joda.time.DateTime;
+
+import exceptions.DateTimeException;
+import exceptions.RoomBookedException;
+import exceptions.RoomSizeException;
 
 import appLogic.Appointment;
 import appLogic.Employee;
@@ -56,13 +57,15 @@ public class MainFrame extends JFrame {
 			addapp.chcDeltaker.add(e.toString());
 			editapp.chcLeggTilDeltaker.add(e.toString());
 			editapp.chcFjernDeltaker.add(e.toString());
-			
+		}
+		for (Room r : Room.rooms) {
+			addapp.chcRom.add(r.toString());
+			editapp.chcRom.add(r.toString());
 		}
 		
 		
-		
-		
 	}
+	//END INIT
 
 	/**
 	 * Create the frame.
@@ -183,8 +186,10 @@ public class MainFrame extends JFrame {
 		
 		addapp.btnLeggTil.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				addapp.addUser(main.getEmployee(addapp.chcDeltaker.getSelectedItem()));
 				/*
-				 * Legg til main.getEmployee(addapp.chcDeltaker.getSelectedItem());  i midlertidig liste;
+				 * Hente ut gruppe også
+				 * Sjekk addUser i panelet
 				 */
 			}
 		});
@@ -200,7 +205,7 @@ public class MainFrame extends JFrame {
 					//Ikke opprett avtale
 				} else {
 					String desc = addapp.txtBeskrivelse.getText();
-					//Room room = 
+					Room room = main.getRoom(addapp.chcRom.getSelectedItem()); 
 					Employee leader = main.currentUser; 
 					int year = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
 					int month = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
@@ -211,7 +216,16 @@ public class MainFrame extends JFrame {
 					int minEnd = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
 					DateTime start = new DateTime(year, month, day, hourStart, minStart);
 					DateTime end = new DateTime(year, month, day, hourEnd, minEnd); 
-//					new Appointment(desc, room, leader, addapp.deltakere, start, end);
+
+					try {
+						new Appointment(desc, room, leader, addapp.deltakere, start, end);
+					} catch (DateTimeException e1) {
+						//TODO
+					} catch (RoomBookedException e1) {
+						//TODO
+					} catch (RoomSizeException e1) {
+						//TODO
+					}
 				}
 			}
 		});
