@@ -178,6 +178,26 @@ public class MainFrame extends JFrame {
             }
 		});
 		
+		addapp.btnLeggTil.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				/*
+				 * Legg til main.getEmployee(addapp.chcDeltaker.getSelectedItem());  i midlertidig liste;
+				 */
+			}
+		});
+		
+		addapp.btnOpprett.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+//				if(addapp.chcRom.getSelectedItem().equals(" ") || addapp.chcStartaar.getSelectedItem().equals(" ")
+//						|| addapp.chcStartmnd.equals(" ") || addapp.chcStartdag.getSelectedItem().equals(" ")
+//						|| addapp.chcStarttime.equals(" ") || addapp.chcStartmin.equals(" ")
+//						|| addapp.chcSluttime.equals(" ") || addapp.chcSluttmin.equals(" ")
+//						|| addapp.txtBeskrivelse.equals(" ") //og ikke tom liste over deltakere)
+			}
+		});
+		
+		
+		
 		//Knapper for visning av avtale
 		viewapp.btnTilbake.addMouseListener(new MouseAdapter() {
 		    @Override
