@@ -193,6 +193,7 @@ public class MainLogic {
 		DateTime alarmtime = a.getStart().minusMinutes(offsetMins);
 		Alarm alarm = new Alarm(alarmtime, label, a);
 		currentUser.addAlarm(alarm);
+		
 //		--- Mot databasen ---
 //		Legg til i Alarm: addAlarm(a.getId(), currentUser.getId(), alarmtime, label)
 //		----------------------
