@@ -1,18 +1,25 @@
 package appLogic;
 
-public interface AppointmentListener {
+import org.joda.time.DateTime;
 
-	/* sjekk: public el. private */
-	public void appointmentCreated(Appointment appointment, DateTime start, DateTime end);
+import exceptions.BusyUserException;
+import exceptions.DateTimeException;
+import exceptions.RoomBookedException;
+
+public interface AppointmentListener {
 	
 	/* kobles disse til noen objekter */
-	public void startChanged(DateTime start);
+	public void startChanged(Appointment appointment, DateTime start) throws DateTimeException, RoomBookedException, BusyUserException;
 	
-	public void descriptionChanged(String description);
+	public void endChanged(Appointment appointment, DateTime end) throws DateTimeException, RoomBookedException, BusyUserException;
 	
-	public void roomChanged(Room room);
+	public void descriptionChanged(Appointment appointment);
 	
-	public void durationChanged(int minutes);
+	public void roomChanged(Appointment appointment);
 	
-	public void participantDeclined(User user);
+	public void participantDeclined(Appointment appointment, User user);
+	
+	public void appointmentCancelled(Appointment appointment);
+
+	void appointmentCreated(Appointment appointment) throws DateTimeException, BusyUserException;
 }

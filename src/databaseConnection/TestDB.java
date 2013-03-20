@@ -21,9 +21,9 @@ public class TestDB {
 	{
 		DBConnection db=new DBConnection(p);
 		
-		String insert="insert into calendaruser (email, name, UType)" +
+		String insert="insert into calendaruser (email,uname, UType)" +
 				" values('mail@eksempel.org','Peter','Employee')";
-		db.initialize(); //Heihei
+		db.initialize();
 		db.makeSingleUpdate(insert);
 		db.close();
 		
@@ -34,20 +34,23 @@ public class TestDB {
 	{
 		DBConnection db=new DBConnection(p);
 		db.initialize();
-		String insert="insert into employee (name,birthYear) values (?,?)";
+		String insert="insert into calendaruser (email,uname, utype) values (?,?,'Employee')";
 		PreparedStatement ps=db.preparedStatement(insert);
 		
+		String email=null;
 		String name=null;
-		int birthYear;
+		String type=null;
 		Scanner sc=new Scanner(System.in);
 		String line=sc.nextLine();
-		while(line.trim().length()>2)
+		while(line.trim().length()>3)
 		{
 			StringTokenizer t=new StringTokenizer(line);
+			email=t.nextToken();
 			name=t.nextToken();
-			birthYear=Integer.parseInt(t.nextToken().trim());
-			ps.setString(1, name);
-			ps.setInt(2,birthYear);
+			type=t.nextToken();
+			ps.setString(1, email);
+			ps.setString(2,name);
+			ps.setString(3,type);
 			ps.addBatch();
 			line=sc.nextLine();
 		}
@@ -63,23 +66,20 @@ public class TestDB {
 	{
 		DBConnection db=new DBConnection(p);
 		
-		String sql="select name,birthYear from employee";
+		String sql="select name from employee";
 		
 		db.initialize();
 		ResultSet rs=db.makeSingleQuery(sql);
 		ResultSetMetaData meta=rs.getMetaData();
 		rs.beforeFirst();
 		System.out.print("Col1:"+meta.getSchemaName(1));
-		System.out.print(" Col2:"+meta.getSchemaName(2));
 		while(rs.next())
 		{
 			String name=rs.getString(1);
-			String birthYear=rs.getString(2);
-			System.out.println(String.format("%s %s\n",name,birthYear));
+			System.out.println(String.format("%s\n",name));
 		}
 		rs.close();
-		db.close();
-		
+		db.close();	
 	}
 	
 	
@@ -88,7 +88,7 @@ public class TestDB {
 		TestDB t=new TestDB();
 		Properties p=new Properties();
 		try {
-			p.load(new FileInputStream(new File("Properties.properties")));
+			p.load(t.getClass().getResourceAsStream("/jdbc.properties"));
 			//t.readTest(p);
 			t.batchTest(p);
 			

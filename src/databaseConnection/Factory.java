@@ -3,6 +3,9 @@ package databaseConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
+
+import exceptions.InvalidEmailException;
+import exceptions.InvalidNameException;
 import appLogic.Employee;
 
 public class Factory {
@@ -15,11 +18,11 @@ public class Factory {
 		 db=new DBConnection(properties);
 	}
 	
-	public  Employee  createEmployee(String name) throws ClassNotFoundException, SQLException
+	public  Employee  createEmployee(String name, String email) throws ClassNotFoundException, SQLException, InvalidNameException, InvalidEmailException
 	{
-		Employee e= new Employee(name);
+		Employee e= new Employee(name, email);
 		String query=String.format("insert into employee " +
-				"(name) values ('%s')",name); 
+				"(name, email, 'Employee') values ('%s','%s',)",name,email); 
 		db.initialize();
 		db.makeSingleUpdate(query);
 		db.close();
@@ -27,12 +30,12 @@ public class Factory {
 		return e;
 	}
 	
-	public Employee getEmployee(String email) throws ClassNotFoundException, SQLException
+	public Employee getEmployee(String email) throws ClassNotFoundException, SQLException, InvalidNameException, InvalidEmailException
 	{
 		
-		String emailYearString="peterts@stud.ntnu.no";//done for demonstration reasons
+		String emailString="peterts@stud.ntnu.no";//done for demonstration reasons
 		
-		String query=String.format("Select name,%s from employee where id=%d",emailYearString,email);
+		String query=String.format("Select name,%s from employee where id=%d",emailString,email);
 		db.initialize();
 		ResultSet rs=db.makeSingleQuery(query);
 		String name=null;
@@ -41,7 +44,7 @@ public class Factory {
 			name=rs.getString(1);
 		}
 		
-		Employee e=new Employee(name);
+		Employee e= new Employee(name,email);
 		rs.close();
 		db.close();
 		
