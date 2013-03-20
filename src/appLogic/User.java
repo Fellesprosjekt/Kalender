@@ -65,7 +65,7 @@ public class User implements AppointmentListener {
 	}
 	
 	public void acceptAppointment(Appointment appointment) {
-		if(appointment.getParticipantStatus(this)!=true){
+		if(appointment.getParticipantStatus(this)!=(Boolean)true){
 			appointment.setParticipantStaus(this, true);
 			if(invitations.contains(appointment)) invitations.remove(appointment);
 			try {
@@ -75,7 +75,7 @@ public class User implements AppointmentListener {
 	}
 	
 	public void declineAppointment(Appointment appointment) {
-		if(appointment.getParticipantStatus(this)){
+		if(appointment.getParticipantStatus(this)==(Boolean)true){
 			calendar.removeCalendarRow(appointment);
 		}
 		appointment.setParticipantStaus(this, false);

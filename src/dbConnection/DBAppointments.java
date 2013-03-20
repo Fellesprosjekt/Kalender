@@ -152,20 +152,21 @@ public class DBAppointments {
 		db.send(String.format("DELETE FROM Calendar.Appointment WHERE AppID = %s", id));
 	}
 	
-	public static void main(String[] args) {
-		DBAppointments dba = new DBAppointments();
-		DBEmployees dbe = new DBEmployees();
-		DBGroups dbg = new DBGroups();
-		DBRooms dbr = new DBRooms();
-		
-		dbe.loadEmployees();
-		dbg.loadGroups();
-		dbr.loadRooms();
-		
-		dba.loadAppointments();
-		Employee leader = Employee.getEmployee(9);
-		for(CalendarRow cr : leader.getCalendar()){
-			System.out.println(cr.getAppointment());
-		}
-	}
+//	public static void main(String[] args) {
+//		DBAppointments dba = new DBAppointments();
+//		DBEmployees dbe = new DBEmployees();
+//		DBGroups dbg = new DBGroups();
+//		DBRooms dbr = new DBRooms();
+//		
+//		dbe.loadEmployees();
+//		dbg.loadGroups();
+//		dbr.loadRooms();
+//		
+//		dba.loadAppointments();
+//		Employee leader = Employee.getEmployee(8);
+//		System.out.println(leader.getInvitations());
+//		for(CalendarRow cr : leader.getCalendar()){
+//			System.out.println(cr.getAppointment());
+//		}
+//	}
 }
