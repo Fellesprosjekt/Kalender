@@ -196,11 +196,11 @@ public class MainFrame extends JFrame {
 		
 		addapp.btnOpprett.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if(!addapp.chcRom.getSelectedItem().equals(" ") || !addapp.chcStartaar.getSelectedItem().equals(" ")
-						|| !addapp.chcStartmnd.equals(" ") || !addapp.chcStartdag.getSelectedItem().equals(" ")
-						|| !addapp.chcStarttime.equals(" ") || !addapp.chcStartmin.equals(" ")
-						|| !addapp.chcSluttime.equals(" ") || !addapp.chcSluttmin.equals(" ")
-						|| !addapp.txtBeskrivelse.equals(" ") || !addapp.deltakere.isEmpty()) 
+				if(addapp.chcRom.getSelectedItem().equals(" ") || addapp.chcStartaar.getSelectedItem().equals(" ")
+						|| addapp.chcStartmnd.equals(" ") || addapp.chcStartdag.getSelectedItem().equals(" ")
+						|| addapp.chcStarttime.equals(" ") || addapp.chcStartmin.equals(" ")
+						|| addapp.chcSluttime.equals(" ") || addapp.chcSluttmin.equals(" ")
+						|| addapp.txtBeskrivelse.equals(" ") || addapp.deltakere.isEmpty()) 
 				{
 					//Ikke opprett avtale
 				} else {
@@ -208,23 +208,26 @@ public class MainFrame extends JFrame {
 					Room room = main.getRoom(addapp.chcRom.getSelectedItem()); 
 					Employee leader = main.currentUser; 
 					int year = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
-					int month = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
-					int day = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
-					int hourStart = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
-					int minStart = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
-					int hourEnd = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
-					int minEnd = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
-					DateTime start = new DateTime(year, month, day, hourStart, minStart);
-					DateTime end = new DateTime(year, month, day, hourEnd, minEnd); 
+					int month = Integer.parseInt(addapp.chcStartmnd.getSelectedItem());
+					int day = Integer.parseInt(addapp.chcStartdag.getSelectedItem());
+					int hourStart = Integer.parseInt(addapp.chcStarttime.getSelectedItem());
+					int minStart = Integer.parseInt(addapp.chcStartmin.getSelectedItem());
+					int hourEnd = Integer.parseInt(addapp.chcSluttime.getSelectedItem());
+					int minEnd = Integer.parseInt(addapp.chcSluttmin.getSelectedItem());
+					DateTime start = new DateTime(year, month, day, hourStart, minStart, 0);
+					DateTime end = new DateTime(year, month, day, hourEnd, minEnd, 0); 
 
 					try {
 						new Appointment(desc, room, leader, addapp.deltakere, start, end);
+						System.out.println("Avtale opprettet!");
+						setContentPane(loggedin);
+	                    loggedin.revalidate();
 					} catch (DateTimeException e1) {
-						//TODO
+						System.out.println("DateTimeException");
 					} catch (RoomBookedException e1) {
-						//TODO
+						System.out.println("RoomBookedException");
 					} catch (RoomSizeException e1) {
-						//TODO
+						System.out.println("RoomSizeException");
 					}
 				}
 			}

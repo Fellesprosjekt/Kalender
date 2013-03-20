@@ -12,7 +12,8 @@ import exceptions.RoomSizeException;
 public class Appointment implements ObservableAppointment{
 	private int id;
 	private String description;
-	private DateTime start, end;
+	private DateTime start = null; 
+	private DateTime end = null;
 	private Room room;
 	private final Employee leader;
 	private HashMap<User, Boolean> participants;
@@ -20,6 +21,7 @@ public class Appointment implements ObservableAppointment{
 	public Appointment(String description, Room room, Employee leader, ArrayList<User> participants, DateTime start, DateTime end) throws DateTimeException, RoomBookedException, RoomSizeException{
 		this.id=-1; //Default id f¿r den settes
 		this.leader=leader;
+		this.participants = new HashMap<User, Boolean>(); 
 		for(User p : participants){
 			this.participants.put(p, null);
 		}
@@ -37,7 +39,7 @@ public class Appointment implements ObservableAppointment{
 		if(room.isBooked(new CalendarRow(start, end, null))) throw new RoomBookedException();
 		else if(getNumOfParticipants()>room.getSize()) throw new RoomSizeException();
 		else{
-			if(!this.room.equals(null)){
+			if(this.room != null){
 				this.room.getCalendar().removeCalendarRow(this);
 				this.room=room;
 				fireRoomChanged();
@@ -51,7 +53,7 @@ public class Appointment implements ObservableAppointment{
 	
 	// Dersom beskrivelsen er lengre enn det databsen st¿tter trimmer vi den til maxlengde
 	public void setDescription(String description) {
-		if(!this.description.equals(null)){
+		if(this.description != null){
 			this.description = (description.length() > 100 ? description.substring(0,99) : description);
 			fireDescriptionChanged();
 		}else this.description = (description.length() > 100 ? description.substring(0,99) : description);
@@ -94,9 +96,13 @@ public class Appointment implements ObservableAppointment{
 		
 	/* start ma vaere for end */
 	public void setStart(DateTime start) throws DateTimeException, RoomBookedException {
-		if(!this.start.equals(null)) fireStartChanged();
-		if (!start.isBefore(this.end)) throw new DateTimeException("start was set after end");
-		this.start = start;
+		if(this.start != null) {
+			if (!start.isBefore(this.end)) throw new DateTimeException("start was set after end");
+			this.start = start;
+			fireStartChanged();
+		} else {
+			this.start = start; 
+		}
 	}
 	
 	public DateTime getStart() {
@@ -105,9 +111,13 @@ public class Appointment implements ObservableAppointment{
 	
 	/* end ma vaere etter start */
 	public void setEnd(DateTime end) throws DateTimeException, RoomBookedException {
-		if(!this.end.equals(null)) fireEndChanged();
-		if (!end.isAfter(this.start)) throw new DateTimeException("end was set before start");
-		this.end = end;
+		if(this.end != null) {
+			if (!end.isAfter(this.start)) throw new DateTimeException("end was set before start");
+			this.end = end;
+			fireEndChanged();
+		} else {
+			this.end = end; 
+		}
 	}
 	
 	public DateTime getEnd() {
