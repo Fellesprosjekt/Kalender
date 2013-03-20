@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 
 import org.joda.time.DateTime;
+import org.joda.time.IllegalFieldValueException;
 
 import exceptions.DateTimeException;
 import exceptions.RoomBookedException;
@@ -214,10 +215,9 @@ public class MainFrame extends JFrame {
 					int minStart = Integer.parseInt(addapp.chcStartmin.getSelectedItem());
 					int hourEnd = Integer.parseInt(addapp.chcSluttime.getSelectedItem());
 					int minEnd = Integer.parseInt(addapp.chcSluttmin.getSelectedItem());
-					DateTime start = new DateTime(year, month, day, hourStart, minStart, 0);
-					DateTime end = new DateTime(year, month, day, hourEnd, minEnd, 0); 
-
 					try {
+						DateTime start = new DateTime(year, month, day, hourStart, minStart, 0);
+						DateTime end = new DateTime(year, month, day, hourEnd, minEnd, 0);
 						new Appointment(desc, room, leader, addapp.deltakere, start, end);
 						System.out.println("Avtale opprettet!");
 						setContentPane(loggedin);
@@ -228,6 +228,8 @@ public class MainFrame extends JFrame {
 						System.out.println("RoomBookedException");
 					} catch (RoomSizeException e1) {
 						System.out.println("RoomSizeException");
+					} catch (IllegalFieldValueException e1) {
+						System.out.println("Ugyldig dato!");
 					}
 				}
 			}
