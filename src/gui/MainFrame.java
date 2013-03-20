@@ -172,6 +172,7 @@ public class MainFrame extends JFrame {
                     setContentPane(viewcal);
                     viewcal.revalidate();
                     viewcal.showWeek(viewcal.currWeek);
+                    viewcal.addChoices(); 
             }
 		});
 		
@@ -246,17 +247,18 @@ public class MainFrame extends JFrame {
 		viewapp.btnTilbake.addMouseListener(new MouseAdapter() {
 		    @Override
             public void mouseClicked(MouseEvent e) {
-                    setContentPane(loggedin);
-                    loggedin.revalidate();
+                    setContentPane(viewcal);
+                    viewcal.revalidate();
             }
 		});
 		
 		viewapp.btnAccept.addMouseListener(new MouseAdapter() {
 		    @Override
             public void mouseClicked(MouseEvent e) {
-		    		viewapp.btnAccept.setEnabled(false);
-		    		viewapp.btnDecline.setEnabled(false);
-		    		viewapp.btnDecline.setVisible(false);
+		    		viewapp.viewStatusCurrentUser(viewapp.descriptionField.getText());
+		    		/*
+		    		 * Må resettes
+		    		 */
                    /*
                     * Set status
                     */
@@ -266,9 +268,10 @@ public class MainFrame extends JFrame {
 		viewapp.btnDecline.addMouseListener(new MouseAdapter() {
 		    @Override
             public void mouseClicked(MouseEvent e) {
-		    		viewapp.btnAccept.setEnabled(false);
-		    		viewapp.btnDecline.setEnabled(false);
-		    		viewapp.btnAccept.setVisible(false);
+		    		viewapp.viewStatusCurrentUser(viewapp.descriptionField.getText());
+		    		/*
+		    		 * Må resettes
+		    		 */
                     /*
                      * Set status
                      */
@@ -295,7 +298,8 @@ public class MainFrame extends JFrame {
 		addalarm.btnLeggTil.addMouseListener(new MouseAdapter() {
 		    @Override
             public void mouseClicked(MouseEvent e) {
-                    /*
+                   
+		    		/*
                      * Opprett alarm for currentUser
                      */
             }
@@ -313,26 +317,30 @@ public class MainFrame extends JFrame {
 		viewcal.btnNextWeek.addMouseListener(new MouseAdapter() {
 		    @Override
             public void mouseClicked(MouseEvent e) {
-		    		/*
-		    		 * foreløpig ikke støtte for neste år (hvis aktuelt)
-		    		 */
 		    		viewcal.currWeekView += 1;
+		    		viewcal.lblWeek.setText("" + viewcal.currWeekView); 
+		    		viewcal.showWeek(viewcal.currWeekView);
             }
 		});
 		
 		viewcal.btnChooseAppointment.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				
+				if (!viewcal.choice.getSelectedItem().equals("Velg avtale...")) {
+					
+					viewapp.showAppointment(viewcal.choice.getSelectedItem());
+					viewapp.viewStatusCurrentUser(viewapp.descriptionField.getText());
+					setContentPane(viewapp);
+                    viewapp.revalidate();
+				}
 			}
 		});
 		
 		viewcal.btnPrevWeek.addMouseListener(new MouseAdapter() {
 		    @Override
             public void mouseClicked(MouseEvent e) {
-		    		/*
-		    		 * foreløpig ikke støtte for forrige år (hvis aktuelt)
-		    		 */
                     viewcal.currWeekView -=1;
+                    viewcal.lblWeek.setText("" + viewcal.currWeekView);
+                    viewcal.showWeek(viewcal.currWeekView);
             }
 		});
 	}

@@ -29,6 +29,12 @@ public class User implements AppointmentListener {
 		invitations = new ArrayList<Appointment>();
 	}
 	
+	public Appointment getAppointment(String description) {
+		for(CalendarRow cr : calendar){
+			if(cr.getAppointment().getDescription().equals(description)) return cr.getAppointment();
+		}
+		return null;
+	}
 	
 	private void setEmail(String email) throws InvalidEmailException{
 		if(!isValidEmail(email)) throw new InvalidEmailException();
@@ -41,6 +47,10 @@ public class User implements AppointmentListener {
 	
 	public Calendar getCalendar() {
 		return this.calendar;
+	}
+	
+	public ArrayList<Appointment> getInvitations () {
+		return this.invitations;
 	}
 	
 	public int getId(){

@@ -52,6 +52,10 @@ public class Appointment implements ObservableAppointment{
 		return this.room;
 	}
 	
+	public HashMap<User, Boolean> getParticipants() {
+		return this.participants;
+	}
+	
 	// Dersom beskrivelsen er lengre enn det databsen st¿tter trimmer vi den til maxlengde
 	public void setDescription(String description) {
 		if(this.description != null){

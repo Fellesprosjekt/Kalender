@@ -73,8 +73,8 @@ public class CalendarRow implements Comparable<CalendarRow>{
 	/* sorterer calendarRow pa starttid*/
 	@Override
 	public int compareTo(CalendarRow other) {
-		if (this.start.isBefore(other.start)) {return 1;}
-		if (this.start.isAfter(other.start)) {return -1;}
+		if (this.start.isBefore(other.start)) {return -1;}
+		if (this.start.isAfter(other.start)) {return 1;}
 		return 0; 
 	}
 	

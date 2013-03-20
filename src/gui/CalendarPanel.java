@@ -1,6 +1,7 @@
 package gui;
 import javax.swing.JPanel;
 
+import appLogic.Appointment;
 import appLogic.CalendarRow;
 import appLogic.MainLogic;
 
@@ -75,6 +76,7 @@ public class CalendarPanel extends JPanel {
 		
 		choice = new Choice();
 		add(choice, "4, 6");
+		choice.add("Velg avtale..."); 
 		
 		btnChooseAppointment = new JButton("Velg avtale");
 		add(btnChooseAppointment, "6, 6");
@@ -89,10 +91,29 @@ public class CalendarPanel extends JPanel {
 		textArea.setText("");
 		//litt rotete; getCalendar henter kalender objekt som man igjen må hente kalender fra
 		Collections.sort(MainLogic.currentUser.getCalendar().getCalendar());
+	
 		for (CalendarRow row : MainLogic.currentUser.getCalendar()) {
-			textArea.append(row.getAppointment().getDescription() + " @ " + row.getAppointment().getRoom() + " : "
-					+ row.getStart().toString() + " - " + row.getEnd().toString());
+			String desc = row.getAppointment().getDescription();
+			String room = row.getAppointment().getRoom().toString();
+			String start = row.getStart().toString();
+			String end = row.getEnd().toString();
+			
+			if (row.getStart().getWeekOfWeekyear() == i) {
+				textArea.append(">>> " + desc + " <<<\n"
+								+ "Sted: " + room + "\n"
+								+ "Dato: " + start.substring(0, 10) + "\n"
+								+ "Tid: " + start.subSequence(11, 16) + " - " + end.subSequence(11, 16)
+								+ "\n\n");
+			}
 		}
-		
+	}
+	
+	public void addChoices() {
+		choice.removeAll();
+		choice.add("Velg avtale...");
+		for (CalendarRow row : MainLogic.currentUser.getCalendar()) {
+			String desc = row.getAppointment().getDescription();
+			choice.add(desc); 
+		}
 	}
 }
