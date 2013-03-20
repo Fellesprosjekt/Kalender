@@ -1,7 +1,17 @@
 package dbConnection;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+
+import appLogic.Appointment;
+import appLogic.Alarm;
+import appLogic.Employee;
+import appLogic.Room;
 import exceptions.DateTimeException;
 import org.joda.time.DateTime;
+
+import appLogic.Room;
 public class DBAlarms {
 
 
@@ -9,6 +19,37 @@ public class DBAlarms {
 
 	public DBAlarms(){
 
+	}
+
+	public void loadAlarms(){
+		
+		DBAppointments ale = new DBAppointments();
+		ale.loadAppointments();
+		
+		System.out.println("kjører loadAlarm");
+
+		ArrayList<HashMap<String,String>> alarms = db.get("SELECT * FROM Calendar.alarm");
+		for(Employee e : Employee.employees){
+			System.out.println("emp");
+
+			for(HashMap<String,String> alarm : alarms){
+				String UID = (alarm.get("EmpID"));
+				System.out.println("alarm");
+
+				if(Integer.parseInt(UID)==e.getId()){
+					String label=(alarm.get("Label"));
+					int offset=Integer.parseInt(alarm.get("AlarmTime"));
+					String appoint = alarm.get("AppID");
+					Appointment a=e.getAppointment(appoint);
+					new Alarm(label, a, offset);
+					
+					System.out.println("lagt til appointment "+appoint+" for bruker" +
+							" "+UID);
+				}
+
+			}
+			//ArrayList<HashMap<String,String>> users = db.get("SELECT * FROM Calendar.calendaruser");
+		}
 	}
 
 
@@ -27,24 +68,27 @@ public class DBAlarms {
 	}
 
 	public void removeAlarm(int Appid, int userid, int offset){
-		
+
 		db.send("DELETE FROM `calendar`.`alarm` WHERE `AppID`='"+Appid+"' and`EmpID`='"+userid+"' and`AlarmTime`='"+offset+"'");
-		
-		
+
+
 	}
 
-//public static void main(String args[]){
-//	
-//	DBAlarms a= new DBAlarms();
-//	a.removeAlarm(2, 2, 12);
-//	
-//	
-//
-//	
-//	
-//	
-//		
-//	}
+	public static void main(String args[]){
+		
+		DBAlarms a= new DBAlarms();
+		DBEmployees e= new DBEmployees();
+		e.loadEmployees();
+		System.out.println("go!");
+		a.loadAlarms();
+		
+		
+	
+		
+		
+		
+			
+		}
 
 
 
