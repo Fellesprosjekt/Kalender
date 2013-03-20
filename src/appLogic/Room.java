@@ -23,7 +23,7 @@ public class Room implements AppointmentListener{
 	
 	@Override
 	public String toString() {
-		return "id";
+		return id;
 	}
 
 
