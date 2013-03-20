@@ -117,7 +117,6 @@ public class User implements AppointmentListener {
 		
 	}
 
-
 	@Override
 	public void appointmentCancelled(Appointment appointment) {
 		calendar.removeCalendarRow(appointment);
