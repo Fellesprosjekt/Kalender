@@ -3,6 +3,7 @@ package gui;
 import javax.swing.JPanel;
 
 import appLogic.Employee;
+import appLogic.User;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -32,8 +33,21 @@ public class AddAppointmentPanel extends JPanel {
 	public JButton btnAvbryt;
 	public JButton btnLeggTil;
 	private JTextArea txtrIngenDeltakere;
-	public ArrayList<Employee> deltakere = new ArrayList<Employee>();
+	public ArrayList<User> deltakere = new ArrayList<User>();
 
+	
+	
+	
+	public void addUser(User u) {
+		if (!deltakere.contains(u)) {
+			if(deltakere.isEmpty()) {
+				txtrIngenDeltakere.setText(""); 
+			}
+			deltakere.add(u);
+			txtrIngenDeltakere.append(u.toString()+ "\n"); 
+		}
+	}
+	
 	/**
 	 * Create the panel.
 	 */
