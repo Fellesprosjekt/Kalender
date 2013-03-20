@@ -31,6 +31,7 @@ public class Appointment implements ObservableAppointment{
 		bookRoom(room);
 		setDescription(description);
 		fireAppointmentCreated();
+		leader.acceptAppointment(this);
 	}
 	/* Sjekker om reommet er ledig
 	 * Setter rommet og "booker" det ved Œ legge det i romkalenderen til rommet dersom det er ledig
