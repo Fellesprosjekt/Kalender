@@ -5,6 +5,9 @@ import java.util.Scanner;
 
 import org.joda.time.DateTime;
 
+import dbConnection.DBAlarms;
+import dbConnection.DBRooms;
+
 import exceptions.DateTimeException;
 import exceptions.InvalidAlarmException;
 import exceptions.InvalidEmailException;
@@ -110,9 +113,15 @@ public class MainLogic {
 	private void updateAppointmentRoom(Room r, Appointment a){
 		try {
 			a.bookRoom(r);
+		
 //			--- Mot databasen ---
-//			Oppdater Booking: updateBooking(a.getId(), r.getId())			
+//			Oppdater Booking: updateBooking(a.getId(), r.getId())		
 //			----------------------
+			
+			DBRooms dbs= new DBRooms();
+			dbs.updateAppointmentRoom(a.getId(), r.getId());
+			
+			
 		} catch (DateTimeException e) {
 //			Error: ugyldig tidspunkt for avtalen
 		} catch (RoomBookedException e) {
@@ -173,18 +182,28 @@ public class MainLogic {
 	
 	private void createAlarm(String label, int offsetMins, Appointment a) throws InvalidAlarmException{
 		DateTime alarmtime = a.getStart().minusMinutes(offsetMins);
-		Alarm alarm = new Alarm(alarmtime, label, a);
+		Alarm alarm = new Alarm(alarmtime, label, a, offsetMins);
 		currentUser.addAlarm(alarm);
 		
 //		--- Mot databasen ---
 //		Legg til i Alarm: addAlarm(a.getId(), currentUser.getId(), alarmtime, label)
+		
+		DBAlarms dba= new DBAlarms();
+		dba.addAlarm(a.getId(), currentUser.getId(), offsetMins, label);
+		
 //		----------------------
 	}
 	
 	private void removeAlarm(Alarm alarm){
+		DBAlarms dba= new DBAlarms();
+		
+		dba.removeAlarm(alarm.getAppointment().getId(), currentUser.getId(), alarm.getOffset());
+		
 		currentUser.removeAlarm(alarm);
 //		--- Mot databasen ---
 //		Fjern fra Alarm: removeAlarm(a.getId(), currentUser.getId(), alarm.getTime())
+		
+		
 //		----------------------
 		
 	}
