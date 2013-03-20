@@ -6,6 +6,7 @@ import java.util.Scanner;
 import org.joda.time.DateTime;
 
 import dbConnection.DBAlarms;
+import dbConnection.DBRooms;
 
 import exceptions.DateTimeException;
 import exceptions.InvalidAlarmException;
@@ -112,9 +113,15 @@ public class MainLogic {
 	private void updateAppointmentRoom(Room r, Appointment a){
 		try {
 			a.bookRoom(r);
+		
 //			--- Mot databasen ---
-//			Oppdater Booking: updateBooking(a.getId(), r.getId())			
+//			Oppdater Booking: updateBooking(a.getId(), r.getId())		
 //			----------------------
+			
+			DBRooms dbs= new DBRooms();
+			dbs.updateAppointmentRoom(a.getId(), r.getId());
+			
+			
 		} catch (DateTimeException e) {
 //			Error: ugyldig tidspunkt for avtalen
 		} catch (RoomBookedException e) {
