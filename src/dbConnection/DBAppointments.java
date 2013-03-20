@@ -13,7 +13,7 @@ import dbConnection.*;
 
 public class DBAppointments {
 	
-	Simpleconnect db = new Simpleconnect("test", null);
+	Simpleconnect db = new Simpleconnect("Calendar", "");
 	
 	
 	public void saveParticipant(Appointment a, User u){
@@ -39,34 +39,31 @@ public class DBAppointments {
 	public void updateUserStatus (boolean status, Appointment a, User u) {
 		int aId = a.getId();
 		int uId = u.getId();
-		db.send(String.format("UPDATE AppInvitation SET Confirmed = %s WHERE (AppID = '%s' AND UserID = '%s')", status, aId, uId));
+		db.send(String.format("UPDATE Calendar.AppInvitation SET Confirmed = %s WHERE (AppID = '%s' AND UserID = '%s')", status, aId, uId));
 	}
 	
 	public void updateAppDesc(Appointment a, String desc) {
 		int aId = a.getId();
-		db.send(String.format("Update AppInvitation SET Description = %s WHERE AppID = '%s'", desc, aId));
+		db.send(String.format("UPDATE Calendar.AppInvitation SET Description = %s WHERE AppID = '%s'", desc, aId));
 	}
 	
 	public void updateAppointmentStart(Appointment a, DateTime start) {
 		int aId = a.getId();
-		db.send(String.format("Update AppInvitation SET startTime = %s WHERE AppID = '%s'", start, aId));
+		db.send(String.format("UPDATE Calendar.AppInvitation SET startTime = %s WHERE AppID = '%s'", start, aId));
 	}
 	
 	public void updateAppointmentEnd(Appointment a, DateTime end) {
 		int aId = a.getId();
-		db.send(String.format("Update AppInvitation SET endTime = %s WHERE AppID = '%s'", end, aId));
+		db.send(String.format("UPDATE Calendar.AppInvitation SET endTime = %s WHERE AppID = '%s'", end, aId));
 	}
 	
 	public void deleteAppointment(Appointment a) {
 		int aId = a.getId();
-		db.send(String.format("DELETE FROM Appointment WHERE AppID = '%s'", aId));
+		db.send(String.format("DELETE FROM Calendar.Appointment WHERE AppID = '%s'", aId));
 	}
 	
-	public Appointment getAppointment(int id) {
-		ArrayList<HashMap<String,String>>app=db.get(String.format("SELECT * FROM Appointment WHERE AppID = '%s'", id));
-		
-	}
-	
-	
-	
+//	public Appointment getAppointment(int id) {
+//		ArrayList<HashMap<String,String>>app=db.get(String.format("SELECT * FROM Appointment WHERE AppID = '%s'", id));
+//		
+//	}
 }
