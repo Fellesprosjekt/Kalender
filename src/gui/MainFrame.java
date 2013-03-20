@@ -22,7 +22,6 @@ import appLogic.Room;
 public class MainFrame extends JFrame {
 
 	private MainLogic main; 
-	
 	private HomePanel home;
 	private RegisterPanel register;
 	private LogInPanel login;
@@ -53,7 +52,7 @@ public class MainFrame extends JFrame {
 		//legger inn brukere til innlogging
 		//legger inn brukere i opprett avtale
 		//legger inn brukere i endre avtale
-		for (Employee e : main.employees) {
+		for (Employee e : Employee.employees) {
 			login.choice.add(e.toString()); 
 			addapp.chcDeltaker.add(e.toString());
 			editapp.chcLeggTilDeltaker.add(e.toString());
@@ -143,7 +142,7 @@ public class MainFrame extends JFrame {
                     if (login.choice.getSelectedItem() != "Velg bruker...") {
                     	setContentPane(loggedin);
 	                    loggedin.revalidate();
-	                    main.logInEmployee(main.getEmployee(login.choice.getSelectedItem()));
+	                    main.logInEmployee(Employee.getEmployee(login.choice.getSelectedItem()));
 	                    loggedin.loggedInAsField.setText("Logget inn som: " + main.currentUser.toString()); 
                     }
             }
@@ -187,7 +186,7 @@ public class MainFrame extends JFrame {
 		
 		addapp.btnLeggTil.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				addapp.addUser(main.getEmployee(addapp.chcDeltaker.getSelectedItem()));
+				addapp.addUser(Employee.getEmployee(addapp.chcDeltaker.getSelectedItem()));
 				/*
 				 * Hente ut gruppe også
 				 * Sjekk addUser i panelet
@@ -206,7 +205,7 @@ public class MainFrame extends JFrame {
 					//Ikke opprett avtale
 				} else {
 					String desc = addapp.txtBeskrivelse.getText();
-					Room room = main.getRoom(addapp.chcRom.getSelectedItem()); 
+					Room room = Room.getRoom(addapp.chcRom.getSelectedItem()); 
 					Employee leader = main.currentUser; 
 					int year = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
 					int month = Integer.parseInt(addapp.chcStartmnd.getSelectedItem());

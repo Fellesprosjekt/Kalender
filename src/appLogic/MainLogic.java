@@ -30,7 +30,7 @@ public class MainLogic {
 	 * - Laste inn alle alarmer for hver ansatt
 	 * - Dersom noe ugyldig lastes inn fra databasen (exceptions ved opprettelse av objektet), slett det fra databasen.
 	 */
-	public Employee currentUser;
+	public static Employee currentUser;
 	
 	//Sett opp brukere og grupper
 	private void init() {

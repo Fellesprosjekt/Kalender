@@ -3,6 +3,7 @@ package gui;
 import javax.swing.JPanel;
 
 import appLogic.Employee;
+import appLogic.MainLogic;
 import appLogic.User;
 
 import com.jgoodies.forms.layout.FormLayout;
@@ -44,8 +45,10 @@ public class AddAppointmentPanel extends JPanel {
 			if(deltakere.isEmpty()) {
 				txtrIngenDeltakere.setText(""); 
 			}
+			if (!u.equals(MainLogic.currentUser)) {
 			deltakere.add(u);
 			txtrIngenDeltakere.append(u.toString()+ "\n"); 
+			}
 		}
 	}
 	

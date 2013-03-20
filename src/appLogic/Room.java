@@ -61,7 +61,7 @@ public class Room implements AppointmentListener{
 		return freeRooms;
 	}
 	
-	public Room getRoom(String id){
+	public static Room getRoom(String id){
 		for(Room r : rooms){
 			if(r.getId().equals(id)) return r;
 		}
