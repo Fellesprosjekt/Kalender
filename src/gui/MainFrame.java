@@ -211,7 +211,7 @@ public class MainFrame extends JFrame {
 					int minEnd = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
 					DateTime start = new DateTime(year, month, day, hourStart, minStart);
 					DateTime end = new DateTime(year, month, day, hourEnd, minEnd); 
-					new Appointment(desc, room, leader, addapp.deltakere, start, end);
+//					new Appointment(desc, room, leader, addapp.deltakere, start, end);
 				}
 			}
 		});
