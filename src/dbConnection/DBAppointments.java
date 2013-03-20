@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.joda.time.DateTime;
 
 import appLogic.Appointment;
+import appLogic.CalendarRow;
 import appLogic.Employee;
 import appLogic.Group;
 import appLogic.Room;
@@ -82,14 +83,15 @@ public class DBAppointments {
 	}
 	
 	private ArrayList<User> loadAppParticipants(int appId){
-		String sql = String.format("SELECT user.UserID, user.UType FROM AppInvitation AS inv, CalendarUser AS user WHERE inv.UserID=user.UserID AND inv.AppID = %s",appId);
+		String sql = String.format("SELECT * FROM AppInvitation WHERE AppID=%s",appId);
 		ArrayList<HashMap<String,String>> posts = db.get(sql);
 		ArrayList<User> participants = new ArrayList<User>();
 		for(HashMap<String,String> post : posts){
 			int userId = Integer.parseInt(post.get("UserID"));
-			if(post.get("UType").equals("Employee")) 
-				participants.add(Employee.getEmployee(userId));
-			else participants.add(Group.getGroup(userId));
+			sql = String.format("SELECT UType FROM CalendarUser WHERE UserID=%s",userId);
+			String type = db.get(sql).get(0).get("UType");
+			
+			participants.add((type.equals("Employee") ? Employee.getEmployee(userId) : Group.getGroup(userId)));
 		}
 		return participants;
 	}
@@ -106,18 +108,19 @@ public class DBAppointments {
 		String sql = "SELECT * FROM Calendar.Appointment";
 		ArrayList<HashMap<String,String>> posts =db.get(sql);
 		for(HashMap<String,String> post : posts){
-			int appId = Integer.parseInt(post.get("AppId"));;
+			int appId = Integer.parseInt(post.get("AppID"));
 			DateTime start = toDateTime(post.get("StartTime").substring(0,16));
 			DateTime end = toDateTime(post.get("EndTime").substring(0,16));
 			String description = post.get("Description");
-			
 			int leaderId = Integer.parseInt(post.get("LeaderID"));
+			
 			Employee leader = Employee.getEmployee(leaderId);
 			Room room = loadAppRoom(appId);
 			ArrayList<User> participants = loadAppParticipants(appId);
 			
 			try {
-				new Appointment(appId, description, room, leader, participants, start, end);
+				Appointment a = new Appointment(appId, description, room, leader, participants, start, end);
+				loadParticipantsStatus(a);
 			} catch (DateTimeException e) {
 				deleteAppointment(appId);
 			} catch (RoomBookedException e) {
@@ -126,14 +129,44 @@ public class DBAppointments {
 				deleteAppointment(appId);
 			}
 		}
+		System.out.println("Appointments loaded.");
+	}
+	
+	private void loadParticipantsStatus(Appointment a){
+		int appId = a.getId();
+		String sql = String.format("SELECT * FROM AppInvitation WHERE AppID=%s",appId);
+		ArrayList<HashMap<String,String>> posts =db.get(sql);
+		for(HashMap<String,String> post : posts){
+			int userId = Integer.parseInt(post.get("UserID"));
+			sql =String.format("SELECT UType FROM CalendarUser WHERE UserID=%s",userId);
+			String type = db.get(sql).get(0).get("UType");
+			
+			User u = (type.equals("Employee") ? Employee.getEmployee(userId) : Group.getGroup(userId));
+			
+			if(post.get("Confirmed").equals("0")) u.declineAppointment(a);
+			else if(post.get("Confirmed").equals("1")) u.acceptAppointment(a);
+		}
 	}
 	
 	private void deleteAppointment(int id){
 		db.send(String.format("DELETE FROM Calendar.Appointment WHERE AppID = %s", id));
 	}
 	
-	public static void main(String[] args) {
-		DBAppointments dba = new DBAppointments();
-		dba.loadAppointments();
-	}
+//	public static void main(String[] args) {
+//		DBAppointments dba = new DBAppointments();
+//		DBEmployees dbe = new DBEmployees();
+//		DBGroups dbg = new DBGroups();
+//		DBRooms dbr = new DBRooms();
+//		
+//		dbe.loadEmployees();
+//		dbg.loadGroups();
+//		dbr.loadRooms();
+//		
+//		dba.loadAppointments();
+//		Employee leader = Employee.getEmployee(8);
+//		System.out.println(leader.getInvitations());
+//		for(CalendarRow cr : leader.getCalendar()){
+//			System.out.println(cr.getAppointment());
+//		}
+//	}
 }
