@@ -20,6 +20,13 @@ public class Room implements AppointmentListener{
 		rooms.add(this); 
 	}
 	
+	
+	@Override
+	public String toString() {
+		return id;
+	}
+
+
 	public String getId() {
 		return id;
 	}

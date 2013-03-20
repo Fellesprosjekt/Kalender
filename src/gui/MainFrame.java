@@ -57,13 +57,15 @@ public class MainFrame extends JFrame {
 			addapp.chcDeltaker.add(e.toString());
 			editapp.chcLeggTilDeltaker.add(e.toString());
 			editapp.chcFjernDeltaker.add(e.toString());
-			
+		}
+		for (Room r : Room.rooms) {
+			addapp.chcRom.add(r.toString());
+			editapp.chcRom.add(r.toString());
 		}
 		
 		
-		
-		
 	}
+	//END INIT
 
 	/**
 	 * Create the frame.
