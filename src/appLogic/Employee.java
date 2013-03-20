@@ -21,7 +21,7 @@ public class Employee extends User{
 		alarms = new ArrayList<Alarm>();
 	}
 
-	private void setEmployeeName(String name) throws InvalidNameException {
+	private void setEmployeeName(String name) throws InvalidNameException{
 		if(!isValidName(name)) throw new InvalidNameException();
 		else{
 			String[] fullname = name.split(" ");
