@@ -7,7 +7,6 @@ import exceptions.InvalidEmailException;
 import exceptions.InvalidNameException;
 
 import appLogic.Employee;
-import appLogic.Group;
 
 public class DBEmployees {
 	Simpleconnect db;
