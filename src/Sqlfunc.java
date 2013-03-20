@@ -1,4 +1,5 @@
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import appLogic.Appointment;
 import appLogic.Employee;
@@ -9,7 +10,7 @@ import exceptions.InvalidNameException;
 
 public class Sqlfunc {
 	
-	public Simpleconnect db= new Simpleconnect("SklSkl91");
+	public Simpleconnect db= new Simpleconnect("");
 	
 	
 	
@@ -49,8 +50,9 @@ public class Sqlfunc {
 		db.send(String.format("INSERT INTO AppInvitation VALUES ('%s', '%s', null)",aId,uId));
 	}
 	
-	
-	
-	
-
+	private ArrayList<Employee> loadEmployees(){
+		ArrayList<Employee> employees = new ArrayList<Employee>();
+		db.get("SELECT * FROM Calendar.CalendarUser WHERE UType = 'Employee'");
+		return null;
+	}
 }
