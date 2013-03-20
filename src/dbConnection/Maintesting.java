@@ -1,3 +1,5 @@
+package dbConnection;
+
 import java.sql.SQLException;
 
 import appLogic.Appointment;

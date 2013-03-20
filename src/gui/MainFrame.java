@@ -1,14 +1,11 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
+
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import org.joda.time.DateTime;
 
@@ -217,6 +214,7 @@ public class MainFrame extends JFrame {
 					int minEnd = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
 					DateTime start = new DateTime(year, month, day, hourStart, minStart);
 					DateTime end = new DateTime(year, month, day, hourEnd, minEnd); 
+
 					try {
 						new Appointment(desc, room, leader, addapp.deltakere, start, end);
 					} catch (DateTimeException e1) {
