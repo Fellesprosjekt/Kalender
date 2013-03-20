@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.joda.time.DateTime;
 
+import exceptions.InvalidAlarmException;
 import exceptions.InvalidEmailException;
 import exceptions.InvalidNameException;
 
@@ -20,7 +21,7 @@ public class Employee extends User{
 		alarms = new ArrayList<Alarm>();
 	}
 
-	private void setEmployeeName(String name) throws InvalidNameException {
+	private void setEmployeeName(String name) throws InvalidNameException{
 		if(!isValidName(name)) throw new InvalidNameException();
 		else{
 			String[] fullname = name.split(" ");
@@ -46,8 +47,9 @@ public class Employee extends User{
 		return alarms;
 	}
 	
-	public void addAlarm(Alarm alarm){
-		if(isValidAlarm(alarm)) alarms.add(alarm);
+	public void addAlarm(Alarm alarm) throws InvalidAlarmException{
+		if(!isValidAlarm(alarm)) throw new InvalidAlarmException();
+		else alarms.add(alarm);
 	}
 	
 	public void removeAlarm(Alarm alarm){

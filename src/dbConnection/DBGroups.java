@@ -23,6 +23,7 @@ public class DBGroups {
 			String name = post.get("UName");
 			try {
 				Group g = new Group(id, name, email);
+				loadGroupMembers(g);
 				groups.add(g);
 			} catch (InvalidNameException e) {
 				deleteGroup(id);
@@ -31,6 +32,12 @@ public class DBGroups {
 			}
 		}
 		return groups;
+	}
+	
+	public void loadGroupMembers(Group g){
+		int id = g.getId();
+		String query = String.format("SELECT (UserID) FROM Calendar.CalendarUser, Calendar.Groupmember WHERE UserID=EmpID AND GroupID=%s",id);
+		ArrayList<HashMap<String,String>> posts = db.get(query);
 	}
 	
 	public void deleteGroup(int id){

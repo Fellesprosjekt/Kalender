@@ -6,6 +6,7 @@ import java.util.Scanner;
 import org.joda.time.DateTime;
 
 import exceptions.DateTimeException;
+import exceptions.InvalidAlarmException;
 import exceptions.InvalidEmailException;
 import exceptions.InvalidNameException;
 import exceptions.RoomBookedException;
@@ -189,7 +190,7 @@ public class MainLogic {
 //		----------------------
 	}
 	
-	private void createAlarm(String label, int offsetMins, Appointment a){
+	private void createAlarm(String label, int offsetMins, Appointment a) throws InvalidAlarmException{
 		DateTime alarmtime = a.getStart().minusMinutes(offsetMins);
 		Alarm alarm = new Alarm(alarmtime, label, a);
 		currentUser.addAlarm(alarm);
