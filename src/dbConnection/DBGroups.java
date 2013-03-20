@@ -15,8 +15,7 @@ public class DBGroups {
 		db = new Simpleconnect("Calendar", "");
 	}
 	
-	public ArrayList<Group> loadGroups(){
-		ArrayList<Group> groups = new ArrayList<Group>();
+	public void loadGroups(){
 		ArrayList<HashMap<String,String>> posts = db.get("SELECT * FROM Calendar.CalendarUser WHERE UType='Group'");
 		for(HashMap<String,String> post : posts){
 			int id = Integer.parseInt(post.get("UserID"));
@@ -25,14 +24,12 @@ public class DBGroups {
 			try {
 				Group g = new Group(id, name, email);
 				loadGroupMembers(g);
-				groups.add(g);
 			} catch (InvalidNameException e) {
 				deleteGroup(id);
 			} catch (InvalidEmailException e) {
 				deleteGroup(id);
 			}
 		}
-		return groups;
 	}
 	
 	private void loadGroupMembers(Group g){
@@ -46,7 +43,7 @@ public class DBGroups {
 		}
 	}
 	
-	public void deleteGroup(int id){
+	private void deleteGroup(int id){
 		db.send(String.format("DELETE FROM Calendar.CalendarUser WHERE UserID = %s", id));
 	}
 }
