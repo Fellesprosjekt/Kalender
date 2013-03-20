@@ -10,6 +10,7 @@ import exceptions.InvalidEmailException;
 import exceptions.InvalidNameException;
 
 public class Employee extends User{
+	public static ArrayList<Employee> employees = new ArrayList<Employee>();
 	private String firstname;
 	private String lastname;
 	private ArrayList<Alarm> alarms;
@@ -19,6 +20,21 @@ public class Employee extends User{
 		super(id, email);
 		setEmployeeName(name);
 		alarms = new ArrayList<Alarm>();
+		employees.add(this);
+	}
+	
+	public static Employee getEmployee(int id){
+		for(Employee e : employees){
+			if(e.getId()==id) return e;
+		}
+		return null;
+	}
+	
+	public static Employee getEmployee(String name){
+		for(Employee e : employees){
+			if(e.toString().equals(name)) return e;
+		}
+		return null;
 	}
 
 	private void setEmployeeName(String name) throws InvalidNameException{

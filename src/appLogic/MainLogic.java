@@ -30,16 +30,14 @@ public class MainLogic {
 	 * - Laste inn alle alarmer for hver ansatt
 	 * - Dersom noe ugyldig lastes inn fra databasen (exceptions ved opprettelse av objektet), slett det fra databasen.
 	 */
-	public ArrayList<Group> groups = new ArrayList<Group>();
-	public ArrayList<Employee> employees = new ArrayList<Employee>();
 	public Employee currentUser;
 	
 	//Sett opp brukere og grupper
 	private void init() {
 		try {
-			employees.add(new Employee(0, "Kong Harald", "harald@konge.no"));
-			employees.add(new Employee(1, "Dronning Sonja", "sonja@dronning.no"));
-			employees.add(new Employee(2, "Kronprins Haakon", "haakon@nestenkonge.no"));
+			new Employee(0, "Kong Harald", "harald@konge.no");
+			new Employee(1, "Dronning Sonja", "sonja@dronning.no");
+			new Employee(2, "Kronprins Haakon", "haakon@nestenkonge.no");
 			new Room("r1",500);
 			new Room("s656",25);
 			new Room("min1",1);
@@ -52,24 +50,7 @@ public class MainLogic {
 		
 	}
 	
-	//Hjelpemetode for å hente ut employee fra gitt streng
-	public Employee getEmployee(String name) {
-		for (Employee e : employees) {
-			if (name.equals(e.toString())) {
-				return e; 
-			}
-		}
-		return null; 
-	}
-	
-	public Room getRoom(String id){
-		for(Room r : Room.rooms){
-			if(r.getId().equals(id)) return r;
-		}
-		return null;
-	}
-	
-	
+	//Hjelpemetode for å hente ut employee fra gitt streng	
 	public MainLogic(){
 		currentUser = null;
 		init(); 
@@ -180,7 +161,7 @@ public class MainLogic {
 	
 	private void removeAppointment(Appointment a){
 		a.fireAppointmentCancelled();
-		for(Employee e : employees){
+		for(Employee e : Employee.employees){
 			for(Alarm alarm : e.getAlarms()){
 				if(alarm.getAppointment().equals(a)) e.removeAlarm(alarm);
 			}

@@ -6,7 +6,7 @@ import exceptions.InvalidNameException;
 
 
 public class Group extends User {
-
+	public static ArrayList<Group> groups = new ArrayList<Group>();
 	private String name;
 	private ArrayList<Employee> members;
 	
@@ -14,6 +14,21 @@ public class Group extends User {
 		super(id, email);
 		setGroupName(name);
 		members = new ArrayList<Employee>();
+		groups.add(this);
+	}
+	
+	public static Group getGroup(int id){
+		for(Group g : groups){
+			if(g.getId()==id) return g;
+		}
+		return null;
+	}
+	
+	public static Group getGroup(String name){
+		for(Group g : groups){
+			if(g.getName().equals(name)) return g;
+		}
+		return null;
 	}
 	
 	private void setGroupName(String name) throws InvalidNameException{
