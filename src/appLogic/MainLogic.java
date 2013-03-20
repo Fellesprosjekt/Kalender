@@ -41,7 +41,8 @@ public class MainLogic {
 			employees.add(new Employee(2, "Kronprins Haakon", "haakon@nestenkonge.no"));
 			new Room("r1",500);
 			new Room("s656",25);
-			new Room("min1",2);
+			new Room("min1",1);
+			new Room("min2",2);
 		} catch (InvalidNameException e) {
 			e.printStackTrace();
 		} catch (InvalidEmailException e) {
