@@ -143,7 +143,7 @@ public class MainFrame extends JFrame {
                     	setContentPane(loggedin);
 	                    loggedin.revalidate();
 	                    main.logInEmployee(Employee.getEmployee(login.choice.getSelectedItem()));
-	                    loggedin.loggedInAsField.setText("Logget inn som: " + main.currentUser.toString()); 
+	                    loggedin.loggedInAsField.setText("Logget inn som: " + MainLogic.currentUser.toString()); 
                     }
             }
 		});
@@ -171,11 +171,14 @@ public class MainFrame extends JFrame {
             public void mouseClicked(MouseEvent e) {
                     setContentPane(viewcal);
                     viewcal.revalidate();
+                    viewcal.showWeek(viewcal.currWeek);
             }
 		});
 		
 		
-		//Knapper for innlegging av avtale
+		/*
+		 * START LEGG INN AVTALE
+		 */
 		addapp.btnAvbryt.addMouseListener(new MouseAdapter() {
 		    @Override
             public void mouseClicked(MouseEvent e) {
@@ -206,7 +209,7 @@ public class MainFrame extends JFrame {
 				} else {
 					String desc = addapp.txtBeskrivelse.getText();
 					Room room = Room.getRoom(addapp.chcRom.getSelectedItem()); 
-					Employee leader = main.currentUser; 
+					Employee leader = MainLogic.currentUser; 
 					int year = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
 					int month = Integer.parseInt(addapp.chcStartmnd.getSelectedItem());
 					int day = Integer.parseInt(addapp.chcStartdag.getSelectedItem());
@@ -233,7 +236,10 @@ public class MainFrame extends JFrame {
 				}
 			}
 		});
-		
+		/*
+		 * END LEGG INN AVTALE
+		 */
+
 		
 		
 		//Knapper for visning av avtale

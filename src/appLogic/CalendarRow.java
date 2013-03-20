@@ -21,14 +21,14 @@ public class CalendarRow implements Comparable<CalendarRow>{
 	private DateTime start;
 	private DateTime end;
 	private final Appointment appointment;
-	private ArrayList<Alarm> alarms;
+//	private ArrayList<Alarm> alarms;
 	
 	public CalendarRow(DateTime start, DateTime end, Appointment appointment) throws DateTimeException {
 		if(!start.isBefore(end)) {throw new DateTimeException("start has to be before end"); }
 		this.start = start;
 		this.end = end;
 		this.appointment = appointment;
-		this.alarms = new ArrayList<Alarm>();
+//		this.alarms = new ArrayList<Alarm>();
 	}
 
 	public DateTime getStart() {
@@ -55,9 +55,9 @@ public class CalendarRow implements Comparable<CalendarRow>{
 		return appointment;
 	}
 	
-	public ArrayList<Alarm> getAlarms() {
-		return alarms;
-	}
+//	public ArrayList<Alarm> getAlarms() {
+//		return alarms;
+//	}
 
 	/* sjekker om to calendarRow overlapper i tid */
 	public boolean isOverlapping(CalendarRow other) {
