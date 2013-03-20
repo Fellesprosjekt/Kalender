@@ -22,10 +22,16 @@ public class DBAppointments {
 	Simpleconnect db = new Simpleconnect("Calendar", "");
 	
 	
-	public void saveParticipant(Appointment a, User u){
+	public void createParticipant(Appointment a, User u){
 		int aId = a.getId();
 		int uId = u.getId();
-		db.send(String.format("INSERT INTO AppInvitation VALUES ('%s', '%s', null)",aId,uId));
+		db.send(String.format("INSERT INTO AppInvitation VALUES ('%s', '%s', '2')",aId,uId));
+	}
+	
+	public void deleteParticipant(Appointment a, User u) {
+		int aId = a.getId();
+		int uId = u.getId();
+		db.send(String.format("DELETE FROM AppInvitation WHERE (AppID = '%s' AND UserID = '%s')", aId, uId));
 	}
 	
 	public void createAppiontment(Appointment a) {
@@ -33,39 +39,36 @@ public class DBAppointments {
 		DateTime end = a.getEnd();
 		String desc = a.getDescription();
 		int lId = a.getLeader().getId();
-		db.send(String.format("INSERT INTO Appointment VALUES ('?', '%s', '%s','%s', '%s')",start, end, desc, lId));
+		db.send(String.format("INSERT INTO Appointment (StartTime,EndTime,Description,LeaderID) VALUES ('%s', '%s','%s', '%s')",start, end, desc, lId));
 	}
-	
-	public void deleteParticipant(Appointment a, User u) {
-		int aId = a.getId();
-		int uId = u.getId();
-		db.send(String.format("DELETE FROM AppInvitation WHERE (AppID = '%s' AND UserID = '%s')", aId, uId));
-		}
 	
 	public void updateUserStatus (boolean status, Appointment a, User u) {
 		int aId = a.getId();
 		int uId = u.getId();
-		db.send(String.format("UPDATE Calendar.AppInvitation SET Confirmed = %s WHERE (AppID = '%s' AND UserID = '%s')", status, aId, uId));
+		String s = "2";
+		if(status==(Boolean)true) s = "1";
+		if(status==(Boolean)false) s = "0";
+		db.send(String.format("UPDATE AppInvitation SET Confirmed = %s WHERE (AppID = '%s' AND UserID = '%s')", s, aId, uId));
 	}
 	
 	public void updateAppDesc(Appointment a, String desc) {
 		int aId = a.getId();
-		db.send(String.format("UPDATE Calendar.AppInvitation SET Description = %s WHERE AppID = '%s'", desc, aId));
+		db.send(String.format("UPDATE Appointment SET Description = %s WHERE AppID = '%s'", desc, aId));
 	}
 	
 	public void updateAppointmentStart(Appointment a, DateTime start) {
 		int aId = a.getId();
-		db.send(String.format("UPDATE Calendar.AppInvitation SET startTime = %s WHERE AppID = '%s'", start, aId));
+		db.send(String.format("UPDATE Appointment SET StartTime = %s WHERE AppID = '%s'", start, aId));
 	}
 	
 	public void updateAppointmentEnd(Appointment a, DateTime end) {
 		int aId = a.getId();
-		db.send(String.format("UPDATE Calendar.AppInvitation SET endTime = %s WHERE AppID = '%s'", end, aId));
+		db.send(String.format("UPDATE Appointment SET EndTime = %s WHERE AppID = '%s'", end, aId));
 	}
 	
 	public void deleteAppointment(Appointment a) {
 		int aId = a.getId();
-		db.send(String.format("DELETE FROM Calendar.Appointment WHERE AppID = '%s'", aId));
+		db.send(String.format("DELETE FROM Appointment WHERE AppID = '%s'", aId));
 	}
 	
 	private DateTime toDateTime(String datetime){
@@ -105,7 +108,7 @@ public class DBAppointments {
 	
 	
 	public void loadAppointments(){
-		String sql = "SELECT * FROM Calendar.Appointment";
+		String sql = "SELECT * FROM Appointment";
 		ArrayList<HashMap<String,String>> posts =db.get(sql);
 		for(HashMap<String,String> post : posts){
 			int appId = Integer.parseInt(post.get("AppID"));
@@ -120,6 +123,7 @@ public class DBAppointments {
 			
 			try {
 				Appointment a = new Appointment(appId, description, room, leader, participants, start, end);
+				room.getCalendar().addAppointment(start, end, a);
 				loadParticipantsStatus(a);
 			} catch (DateTimeException e) {
 				deleteAppointment(appId);
@@ -149,24 +153,24 @@ public class DBAppointments {
 	}
 	
 	private void deleteAppointment(int id){
-		db.send(String.format("DELETE FROM Calendar.Appointment WHERE AppID = %s", id));
+		db.send(String.format("DELETE FROM Appointment WHERE AppID = %s", id));
 	}
 	
-//	public static void main(String[] args) {
-//		DBAppointments dba = new DBAppointments();
-//		DBEmployees dbe = new DBEmployees();
-//		DBGroups dbg = new DBGroups();
-//		DBRooms dbr = new DBRooms();
-//		
-//		dbe.loadEmployees();
-//		dbg.loadGroups();
-//		dbr.loadRooms();
-//		
-//		dba.loadAppointments();
-//		Employee leader = Employee.getEmployee(8);
-//		System.out.println(leader.getInvitations());
-//		for(CalendarRow cr : leader.getCalendar()){
-//			System.out.println(cr.getAppointment());
-//		}
-//	}
+	public static void main(String[] args) {
+		DBAppointments dba = new DBAppointments();
+		DBEmployees dbe = new DBEmployees();
+		DBGroups dbg = new DBGroups();
+		DBRooms dbr = new DBRooms();
+		
+		dbe.loadEmployees();
+		dbg.loadGroups();
+		dbr.loadRooms();
+		
+		dba.loadAppointments();
+		Employee leader = Employee.getEmployee(9);
+		System.out.println(leader.getInvitations());
+		for(CalendarRow cr : leader.getCalendar()){
+			System.out.println(cr.getAppointment());
+		}
+	}
 }

@@ -47,7 +47,7 @@ public class Calendar implements Iterable<CalendarRow>{
 	/* oppretter ny CalendarRow og legger inn i calendar */
 	public void addAppointment(DateTime start, DateTime end, Appointment appointment) throws DateTimeException {
 		if (end.isBefore(start)) {throw new DateTimeException("end is before start"); }
-		calendar.add(new CalendarRow(start, end, appointment)); 
+		if(findCalendarRow(appointment)==null) calendar.add(new CalendarRow(start, end, appointment)); 
 	}
 	
 	/* fjerner CalendarRow som er assosiert med gitt appointment */
