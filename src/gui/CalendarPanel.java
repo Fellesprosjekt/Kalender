@@ -1,5 +1,9 @@
 package gui;
 import javax.swing.JPanel;
+
+import appLogic.CalendarRow;
+import appLogic.MainLogic;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
@@ -12,6 +16,7 @@ import javax.swing.JLabel;
 import org.joda.time.DateTime;
 
 import java.awt.Font;
+import java.util.Collections;
 
 
 
@@ -66,6 +71,7 @@ public class CalendarPanel extends JPanel {
 		
 		textArea = new TextArea();
 		add(textArea, "4, 4, 3, 1");
+		textArea.setEditable(false);
 		
 		choice = new Choice();
 		add(choice, "4, 6");
@@ -75,7 +81,18 @@ public class CalendarPanel extends JPanel {
 		
 		btnBack = new JButton("Tilbake");
 		add(btnBack, "4, 8, 3, 1");
+		
 
 	}
 
+	public void showWeek(int i) {
+		textArea.setText("");
+		//litt rotete; getCalendar henter kalender objekt som man igjen må hente kalender fra
+		Collections.sort(MainLogic.currentUser.getCalendar().getCalendar());
+		for (CalendarRow row : MainLogic.currentUser.getCalendar()) {
+			textArea.append(row.getAppointment().getDescription() + " @ " + row.getAppointment().getRoom() + " : "
+					+ row.getStart().toString() + " - " + row.getEnd().toString());
+		}
+		
+	}
 }
