@@ -22,6 +22,10 @@ public class DBAlarms {
 	}
 
 	public void loadAlarms(){
+		
+		DBAppointments ale = new DBAppointments();
+		ale.loadAppointments();
+		
 		System.out.println("kjører loadAlarm");
 
 		ArrayList<HashMap<String,String>> alarms = db.get("SELECT * FROM Calendar.alarm");

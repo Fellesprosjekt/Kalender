@@ -19,7 +19,7 @@ import exceptions.RoomSizeException;
 
 public class DBAppointments {
 	
-	Simpleconnect db = new Simpleconnect("Calendar", "");
+	Simpleconnect db = new Simpleconnect("Calendar", "SklSkl91");
 	
 	
 	public void saveParticipant(Appointment a, User u){
