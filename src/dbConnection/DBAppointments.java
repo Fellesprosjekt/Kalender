@@ -165,7 +165,13 @@ public class DBAppointments {
 			User u = (type.equals("Employee") ? Employee.getEmployee(userId) : Group.getGroup(userId));
 			
 			if(post.get("Confirmed").equals("0")) u.declineAppointment(a);
-			else if(post.get("Confirmed").equals("1")) u.acceptAppointment(a);
+			else if(post.get("Confirmed").equals("1")){
+				try {
+					u.acceptAppointment(a);
+				} catch (BusyUserException e) {
+					updateUserStatus(false, a, u);
+				}
+			}
 			else u.addInvitation(a);
 		}
 	}

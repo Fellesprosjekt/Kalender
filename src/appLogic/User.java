@@ -75,9 +75,13 @@ public class User implements AppointmentListener {
 		return id;
 	}
 	
-	public void acceptAppointment(Appointment appointment) {
+	public void acceptAppointment(Appointment appointment) throws BusyUserException {
 		if(appointment.getParticipantStatus(this)!=(Boolean)true){
-			appointment.setParticipantStaus(this, true);
+			try {
+				if(isBusy(new CalendarRow(appointment.getStart(),appointment.getEnd(),null)))
+					throw new BusyUserException();
+				appointment.setParticipantStaus(this, true);
+			} catch (DateTimeException e1) { }
 			if(invitations.contains(appointment)) invitations.remove(appointment);
 			try {
 				calendar.addAppointment(appointment.getStart(), appointment.getEnd(), appointment);

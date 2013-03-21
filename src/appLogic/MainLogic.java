@@ -100,8 +100,13 @@ public class MainLogic {
 	}
 	
 	public void acceptAppointment(Appointment a){
-		currentUser.acceptAppointment(a);
-		dbapps.updateUserStatus(true, a, currentUser);
+		try {
+			currentUser.acceptAppointment(a);
+			dbapps.updateUserStatus(true, a, currentUser);
+		} catch (BusyUserException e) {
+			System.out.println("Du kan ikke godta denne invitasjonen fordi du er opptatt på dette tidspunktet.");
+			declineAppointment(a);
+		}
 	}
 	
 	public void declineAppointment(Appointment a){
