@@ -11,13 +11,16 @@ import exceptions.InvalidNameException;
 public class DBRooms {
 	public Simpleconnect db;
 	
-	
 	public DBRooms(){
 		db = new Simpleconnect("Calendar","");
 	}
 	
-	public void updateAppointmentRoom(int appID,String roomID){	
-		db.send("update booking set roomid="+roomID+" where appid="+appID);	
+	public void updateAppointmentRoom(int appId,String roomId){	
+		db.send(String.format("UPDATE Booking SET RoomID=%s WHERE AppID=%s",roomId,appId));	
+	}
+	
+	public void createRoomBooking(int appId, String roomId){
+		db.send(String.format("INSERT INTO Booking VALUES (%s,%s)",appId,roomId));
 	}
 	
 	public void loadRooms(){
@@ -28,19 +31,4 @@ public class DBRooms {
 			new Room(romid, size);
 		}
 	}
-	
-//public static void main(String args[]){
-//	
-//	DBRooms a= new DBRooms();
-//	//ArrayList<HashMap<String,String>> b=a.db.get("SELECT * FROM room");
-//	a.loadRooms();
-//	//System.out.println(b.toString());
-//	
-//	for (Room r : Room.rooms) {
-//		
-//		System.out.println(r.getId()+" "+r.getSize());
-//		
-//		
-//	}	
-
 }

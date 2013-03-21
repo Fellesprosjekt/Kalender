@@ -16,7 +16,7 @@ public class DBEmployees {
 	}
 	
 	public void loadEmployees(){
-		ArrayList<HashMap<String,String>> posts = db.get("SELECT * FROM Calendar.CalendarUser WHERE UType='Employee'");
+		ArrayList<HashMap<String,String>> posts = db.get("SELECT * FROM CalendarUser WHERE UType='Employee'");
 		for(HashMap<String,String> post : posts){
 			int id = Integer.parseInt(post.get("UserID"));
 			String email = post.get("Email");
@@ -32,6 +32,6 @@ public class DBEmployees {
 	}
 	
 	private void deleteEmployee(int id){
-		db.send(String.format("DELETE FROM Calendar.CalendarUser WHERE UserID = %s", id));
+		db.send(String.format("DELETE FROM CalendarUser WHERE UserID = %s", id));
 	}
 }

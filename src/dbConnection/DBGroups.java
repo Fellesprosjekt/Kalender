@@ -16,7 +16,7 @@ public class DBGroups {
 	}
 	
 	public void loadGroups(){
-		ArrayList<HashMap<String,String>> posts = db.get("SELECT * FROM Calendar.CalendarUser WHERE UType='Group'");
+		ArrayList<HashMap<String,String>> posts = db.get("SELECT * FROM CalendarUser WHERE UType='Group'");
 		for(HashMap<String,String> post : posts){
 			int id = Integer.parseInt(post.get("UserID"));
 			String email = post.get("Email");
@@ -34,7 +34,7 @@ public class DBGroups {
 	
 	private void loadGroupMembers(Group g){
 		int groupId = g.getId();
-		String query = String.format("SELECT (UserID) FROM Calendar.CalendarUser, Calendar.Groupmember WHERE UserID=EmpID AND GroupID=%s",groupId);
+		String query = String.format("SELECT (UserID) FROM CalendarUser, Groupmember WHERE UserID=EmpID AND GroupID=%s",groupId);
 		ArrayList<HashMap<String,String>> posts = db.get(query);
 		for(HashMap<String,String> post : posts){
 			int empId = Integer.parseInt(post.get("UserID"));
@@ -44,19 +44,6 @@ public class DBGroups {
 	}
 	
 	private void deleteGroup(int id){
-		db.send(String.format("DELETE FROM Calendar.CalendarUser WHERE UserID = %s", id));
+		db.send(String.format("DELETE FROM CalendarUser WHERE UserID = %s", id));
 	}
-	
-//	public static void main(String[] args) {
-//		DBGroups dbg = new DBGroups();
-//		DBEmployees dbe = new DBEmployees();
-//		
-//		dbe.loadEmployees();
-//		dbg.loadGroups();
-//		
-//		Group g = Group.groups.get(0);
-//		for(Employee e : g.getMembers()){
-//			System.out.println(e.toString());
-//		}
-//	}
 }
