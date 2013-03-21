@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.TextArea;
 
 
 public class EditAppointmentPanel extends JPanel {
@@ -42,6 +43,7 @@ public class EditAppointmentPanel extends JPanel {
 	public JButton btnFjern;
 	public Appointment appointment;
 	public ArrayList<User> deltakere = new ArrayList<User>();
+	private TextArea textArea;
 	
 	public void addUser(User u) {
 		if (!deltakere.contains(u)) { 
@@ -80,9 +82,9 @@ public class EditAppointmentPanel extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),
+				RowSpec.decode("max(45dlu;default):grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("max(11dlu;default)"),
+				FormFactory.UNRELATED_GAP_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -115,6 +117,9 @@ public class EditAppointmentPanel extends JPanel {
 		
 		btnLeggTil = new JButton("Legg til");
 		add(btnLeggTil, "12, 6, 3, 1");
+		
+		textArea = new TextArea();
+		add(textArea, "4, 8, 7, 3");
 		
 		lblDeltaker_1 = new JLabel("Deltaker");
 		add(lblDeltaker_1, "2, 12, right, default");
