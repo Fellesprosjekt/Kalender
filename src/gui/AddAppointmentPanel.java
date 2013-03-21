@@ -22,7 +22,6 @@ import java.awt.TextArea;
 
 public class AddAppointmentPanel extends JPanel {
 	public JTextField txtBeskrivelse;
-	public Choice chcRom;
 	public Choice chcDeltaker;
 	public Choice chcStartdag;
 	public Choice chcStartmnd;
@@ -31,7 +30,7 @@ public class AddAppointmentPanel extends JPanel {
 	public Choice chcStartmin;
 	public Choice chcSluttime;
 	public Choice chcSluttmin;
-	public JButton btnOpprett;
+	public JButton btnVidere;
 	public JButton btnAvbryt;
 	public JButton btnLeggTil;
 	public ArrayList<User> deltakere = new ArrayList<User>();
@@ -116,15 +115,8 @@ public class AddAppointmentPanel extends JPanel {
 		add(btnLeggTil, "12, 6, 3, 1");
 		
 		txtrIngenDeltakere = new TextArea();
-		add(txtrIngenDeltakere, "4, 8, 11, 3");
+		add(txtrIngenDeltakere, "4, 8, 11, 5");
 		txtrIngenDeltakere.setEditable(false);
-		
-		JLabel lblVelgRom = new JLabel("Velg rom");
-		add(lblVelgRom, "2, 12, right, default");
-		
-		
-		chcRom = new Choice();
-		add(chcRom, "4, 12, 7, 1");
 		
 		JLabel lblDato = new JLabel("Dato");
 		add(lblDato, "2, 14, right, default");
@@ -156,8 +148,8 @@ public class AddAppointmentPanel extends JPanel {
 		chcSluttmin = new Choice();
 		add(chcSluttmin, "14, 16");
 		
-		btnOpprett = new JButton("Opprett avtale");
-		add(btnOpprett, "4, 18, 5, 1");
+		btnVidere = new JButton("Videre");
+		add(btnVidere, "4, 18, 5, 1");
 		
 		btnAvbryt = new JButton("Avbryt");
 		add(btnAvbryt, "10, 18");

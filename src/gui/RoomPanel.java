@@ -10,8 +10,11 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.joda.time.DateTime;
+
 import appLogic.Appointment;
 import appLogic.Room;
+import appLogic.User;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -26,11 +29,15 @@ public class RoomPanel extends JPanel {
 	public JButton btnChooseRoom;
 	public Choice choice;
 	public TextArea textArea;
+	public String description;
+	public DateTime inStart;
+	public DateTime inEnd; 
+	public ArrayList<User> participants; 
 	
 	/**
 	 * Create the panel.
 	 */
-	public RoomPanel() {
+	public RoomPanel(String description, DateTime start, DateTime end, ArrayList<User> participants) {
 		setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("2dlu"),
 				ColumnSpec.decode("max(19dlu;default)"),
@@ -49,6 +56,11 @@ public class RoomPanel extends JPanel {
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		this.description = description;
+		this.inStart = start;
+		this.inEnd = end; 
+		this.participants = participants; 
 		
 		JLabel lblKalenderUke = new JLabel("Velg rom");
 		lblKalenderUke.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -72,13 +84,13 @@ public class RoomPanel extends JPanel {
 
 	}
 
-	public void showAvailableRooms(Appointment a) {
+	public void showAvailableRooms() {
 		textArea.setText("");
 		choice.removeAll();
 		choice.add("Velg rom...");
 		ArrayList<Room> freeRooms = null; 
 		try {
-			freeRooms = Room.getFreeRooms(a.getStart(), a.getEnd());
+			freeRooms = Room.getFreeRooms(inStart, inEnd, participants.size());
 		} catch (DateTimeException e) {
 			System.out.println("Noe gikk galt");
 		}
