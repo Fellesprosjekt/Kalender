@@ -22,6 +22,7 @@ import appLogic.Appointment;
 import appLogic.Employee;
 import appLogic.MainLogic;
 import appLogic.Room;
+import appLogic.User;
 
 public class MainFrame extends JFrame {
 
@@ -38,6 +39,7 @@ public class MainFrame extends JFrame {
 	private InvitationsPanel viewinv;
 	private ViewInvitationPanel viewappinv;
 	private ViewAlarmsPanel viewalarms; 
+	private RoomPanel viewrooms; 
 
 	/**
 	 * Launch the application.
@@ -69,8 +71,9 @@ public class MainFrame extends JFrame {
 			editapp.chcFjernDeltaker.add(e.toString());
 		}
 		for (Room r : Room.rooms) {
-			addapp.chcRom.add(r.toString());
+			//
 			editapp.chcRom.add(r.toString());
+			// skal heller hente tilgjengelige/mulige rom
 		}
 	}
 	//END INIT
@@ -94,6 +97,7 @@ public class MainFrame extends JFrame {
 		viewinv = new InvitationsPanel();
 		viewappinv = new ViewInvitationPanel();
 		viewalarms = new ViewAlarmsPanel(); 
+		viewrooms = new RoomPanel(null, null, null, null);
 		init(); 
 		
 		
@@ -218,12 +222,12 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
-		addapp.btnOpprett.addMouseListener(new MouseAdapter() {
+		addapp.btnVidere.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				/*
 				 * SJEKK DENNE (IF) trenger nok ikke sjekk for tallene
 				 */
-				if(addapp.chcRom.getSelectedItem().equals(" ") || addapp.chcStartaar.getSelectedItem().equals(" ")
+				if(addapp.chcStartaar.getSelectedItem().equals(" ")
 						|| addapp.chcStartmnd.equals(" ") || addapp.chcStartdag.getSelectedItem().equals(" ")
 						|| addapp.chcStarttime.equals(" ") || addapp.chcStartmin.equals(" ")
 						|| addapp.chcSluttime.equals(" ") || addapp.chcSluttmin.equals(" ")
@@ -233,7 +237,7 @@ public class MainFrame extends JFrame {
 					//Ikke opprett avtale
 				} else {
 					String desc = addapp.txtBeskrivelse.getText();
-					Room room = Room.getRoom(addapp.chcRom.getSelectedItem());  
+					Room room = null; 
 					int year = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
 					int month = Integer.parseInt(addapp.chcStartmnd.getSelectedItem());
 					int day = Integer.parseInt(addapp.chcStartdag.getSelectedItem());
@@ -241,18 +245,36 @@ public class MainFrame extends JFrame {
 					int minStart = Integer.parseInt(addapp.chcStartmin.getSelectedItem());
 					int hourEnd = Integer.parseInt(addapp.chcSluttime.getSelectedItem());
 					int minEnd = Integer.parseInt(addapp.chcSluttmin.getSelectedItem());
-					
+					ArrayList<User> participants = addapp.deltakere;
 					DateTime start = new DateTime(year, month, day, hourStart, minStart, 0);
 					DateTime end = new DateTime(year, month, day, hourEnd, minEnd, 0);
 					main.createAppointment(desc, room, addapp.deltakere, start, end);
-					setContentPane(loggedin);
-	                loggedin.revalidate();
+					viewrooms = new RoomPanel(desc, start, end, participants);
+					setContentPane(viewrooms);
+	                viewrooms.revalidate();
 				}
 			}
 		});
 		/*
 		 * END LEGG INN AVTALE
 		 */
+		//Knapper for valg av rom
+		viewrooms.btnBack.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                    setContentPane(addapp);
+                    addapp.revalidate();
+            }
+		});
+		
+		viewrooms.btnChooseRoom.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                    Room room = Room.getRoom(viewrooms.choice.getSelectedItem());
+                    main.createAppointment(viewrooms.description, room, viewrooms.participants, viewrooms.inStart, viewrooms.inEnd); 
+            		System.out.println("Avtale opprettet!");
+                    setContentPane(loggedin);
+                    loggedin.revalidate();
+            }
+		});
 
 		
 		

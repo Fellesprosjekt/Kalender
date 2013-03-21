@@ -51,11 +51,11 @@ public class Room implements AppointmentListener{
 		return false;
 	}
 	
-	public static ArrayList<Room> getFreeRooms(DateTime start, DateTime end) throws DateTimeException {
+	public static ArrayList<Room> getFreeRooms(DateTime start, DateTime end, int minSize) throws DateTimeException {
 		ArrayList<Room> freeRooms = new ArrayList<Room>();
 		CalendarRow time_slot = new CalendarRow(start, end, null);
 		for (Room room : rooms) {
-			if (!room.isBooked(time_slot)) {
+			if (!room.isBooked(time_slot) && room.getSize() >= minSize) {
 				freeRooms.add(room);
 			}
 		}
