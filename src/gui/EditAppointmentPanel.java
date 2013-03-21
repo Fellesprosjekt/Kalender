@@ -40,17 +40,17 @@ public class EditAppointmentPanel extends JPanel {
 	public EditAppointmentPanel() {
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(37dlu;default)"),
+				ColumnSpec.decode("max(36dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("25dlu"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("25dlu"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("35dlu"),
+				ColumnSpec.decode("32dlu"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(24dlu;default)"),
+				ColumnSpec.decode("max(25dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("25dlu"),
+				ColumnSpec.decode("max(25dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("25dlu"),},
 			new RowSpec[] {
@@ -63,7 +63,7 @@ public class EditAppointmentPanel extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("max(11dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -147,10 +147,10 @@ public class EditAppointmentPanel extends JPanel {
 		add(chcSluttmin, "14, 18");
 		
 		btnOpprett = new JButton("Endre avtale");
-		add(btnOpprett, "4, 20, 7, 1");
+		add(btnOpprett, "4, 20, 3, 1");
 		
 		btnAvbryt = new JButton("Avbryt");
-		add(btnAvbryt, "4, 22, 7, 1");
+		add(btnAvbryt, "8, 20, 3, 1");
 
 		for(int i=1;i<32;i++){
 			chcStartdag.add(String.valueOf(i));
