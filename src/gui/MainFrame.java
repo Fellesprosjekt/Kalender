@@ -37,6 +37,7 @@ public class MainFrame extends JFrame {
 	private AddAlarmPanel addalarm;
 	private InvitationsPanel viewinv;
 	private ViewInvitationPanel viewappinv;
+	private ViewAlarmsPanel viewalarms; 
 
 	/**
 	 * Launch the application.
@@ -94,6 +95,7 @@ public class MainFrame extends JFrame {
 		addalarm = new AddAlarmPanel(); 
 		viewinv = new InvitationsPanel();
 		viewappinv = new ViewInvitationPanel();
+		viewalarms = new ViewAlarmsPanel(); 
 		init(); 
 		
 		
@@ -319,6 +321,24 @@ public class MainFrame extends JFrame {
             }
 		});
 		
+		//Knapper for visning av alarmer		
+		viewalarms.btnBack.addMouseListener(new MouseAdapter() {
+		    @Override
+            public void mouseClicked(MouseEvent e) {
+                    setContentPane(loggedin);
+                    loggedin.revalidate();
+            }
+		});
+		
+		viewalarms.btnDeleteAlarm.addMouseListener(new MouseAdapter() {
+		    @Override
+            public void mouseClicked(MouseEvent e) {
+		    	String description = viewalarms.choice.getSelectedItem();
+		    	MainLogic.currentUser.removeAlarm(description);
+		    	System.out.println("Alarm fjernet");
+                   
+            }
+		});
 		//Knapper for visning av kalender
 		viewcal.btnBack.addMouseListener(new MouseAdapter() {
 		    @Override

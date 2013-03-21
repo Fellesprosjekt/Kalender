@@ -101,6 +101,17 @@ public class Employee extends User{
 		}
 		return false; 
 	}
+	
+	public void removeAlarm(String description) {
+		int removeThis = -1;
+		for (int i = 0; i < alarms.size(); i++) {
+			if (alarms.get(i).getAppointment().getDescription().equals(description)) {
+				removeThis = i;
+			}
+		}
+		if (removeThis > -1 ) {alarms.remove(removeThis);}
+	}
+	
 
 	@Override
 	public String toString() {
