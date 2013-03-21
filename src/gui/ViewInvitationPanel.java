@@ -143,8 +143,8 @@ public class ViewInvitationPanel extends JPanel {
     	for (User u : appointment.getParticipants().keySet()) {
     		Boolean bool = appointment.getParticipants().get(u);
     		String status = "invitert";
-    		if (bool != null)
-    			status = (bool ? "godtatt" : "avslått");
+    		if (bool != null) status = (bool ? "godtatt" : "avslaatt");
+    		if(u.equals(appointment.getLeader())) status = "leder";
     		participantsField.append(u.toString() + " [" + status + "]\n");
     	}
     }

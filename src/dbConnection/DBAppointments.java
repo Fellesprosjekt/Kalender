@@ -169,6 +169,7 @@ public class DBAppointments {
 				try {
 					u.acceptAppointment(a);
 				} catch (BusyUserException e) {
+					u.declineAppointment(a);
 					updateUserStatus(false, a, u);
 				}
 			}
