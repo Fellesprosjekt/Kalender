@@ -242,22 +242,13 @@ public class MainFrame extends JFrame {
 					int minStart = Integer.parseInt(addapp.chcStartmin.getSelectedItem());
 					int hourEnd = Integer.parseInt(addapp.chcSluttime.getSelectedItem());
 					int minEnd = Integer.parseInt(addapp.chcSluttmin.getSelectedItem());
-					try {
-						DateTime start = new DateTime(year, month, day, hourStart, minStart, 0);
-						DateTime end = new DateTime(year, month, day, hourEnd, minEnd, 0);
-						new Appointment(desc, room, leader, addapp.deltakere, start, end);
-						System.out.println("Avtale opprettet!");
-						setContentPane(loggedin);
-	                    loggedin.revalidate();
-					} catch (DateTimeException e1) {
-						System.out.println("DateTimeException");
-					} catch (RoomBookedException e1) {
-						System.out.println("RoomBookedException");
-					} catch (RoomSizeException e1) {
-						System.out.println("RoomSizeException");
-					} catch (IllegalFieldValueException e1) {
-						System.out.println("Ugyldig dato!");
-					}
+					
+					DateTime start = new DateTime(year, month, day, hourStart, minStart, 0);
+					DateTime end = new DateTime(year, month, day, hourEnd, minEnd, 0);
+					main.createAppointment(desc, room, addapp.deltakere, start, end);
+					System.out.println("Avtale opprettet!");
+					setContentPane(loggedin);
+	                loggedin.revalidate();
 				}
 			}
 		});
@@ -280,8 +271,11 @@ public class MainFrame extends JFrame {
 		    @Override
             public void mouseClicked(MouseEvent e) {
 		    	String description = viewapp.descriptionField.getText();
-		    	Appointment app = MainLogic.currentUser.getAppointment(description);	
-		    	MainLogic.currentUser.declineAppointment(app);
+		    	Appointment app = MainLogic.currentUser.getAppointment(description);
+		    	if(main.currentUser.equals(app.getLeader())){
+		    		main.cancelAppointment(app);
+		    	}
+		    	else main.declineAppointment(app);
 		    	System.out.println("Invitasjon avslått");
 		    	setContentPane(loggedin);
                 loggedin.revalidate();
@@ -318,17 +312,9 @@ public class MainFrame extends JFrame {
 			    		int hoursToMin = 60 * Integer.parseInt(addalarm.chcHours.getSelectedItem());
 			    		int minutes = Integer.parseInt(addalarm.chcMinutes.getSelectedItem());
 			    		int offset = hoursToMin + minutes;
-			    		Alarm newAlarm = new Alarm(label, addalarm.currentAppointment, offset);
-			    		if (!MainLogic.currentUser.containsAlarm(newAlarm))  { 
-				    		try {
-								MainLogic.currentUser.addAlarm(newAlarm) ;
-								System.out.println("Alarm lagt til!");
-								setContentPane(viewapp);
-			                    viewapp.revalidate();
-							} catch (InvalidAlarmException e1) {
-								System.out.println("InvalidAlarmException");
-							}
-			    		} else {System.out.println("Alarm finnes allerede for denne avtalen på gitt tidspunkt!");}
+			    		main.addAlarm(addalarm.currentAppointment,offset,label);
+						setContentPane(viewapp);
+			            viewapp.revalidate();
 		    		}
             }
 		});
@@ -403,7 +389,7 @@ public class MainFrame extends JFrame {
             public void mouseClicked(MouseEvent e) {
 		    	String description = viewappinv.descriptionField.getText();
 		    	Appointment invitation = MainLogic.currentUser.getInvitation(description);	
-		    	MainLogic.currentUser.acceptAppointment(invitation);
+		    	main.acceptAppointment(invitation);
 		    	System.out.println("Invitasjon godtatt");
 		    	setContentPane(loggedin);
                 loggedin.revalidate();
@@ -415,7 +401,7 @@ public class MainFrame extends JFrame {
             public void mouseClicked(MouseEvent e) {
 		    	String description = viewappinv.descriptionField.getText();
 		    	Appointment invitation = MainLogic.currentUser.getInvitation(description);	
-		    	MainLogic.currentUser.declineAppointment(invitation);
+		    	main.declineAppointment(invitation);
 		    	System.out.println("Invitasjon avslått");
 		    	setContentPane(loggedin);
                 loggedin.revalidate();

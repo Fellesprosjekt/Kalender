@@ -50,7 +50,7 @@ public class DBAlarms {
 	}
 
 	public void addAlarm(int appId, int empId, int offset, String label) {
-		db.send(String.format("INSERT INTO Alarm VALUES ('%s','%s','%s','%s)",appId,empId,offset,label));
+		db.send(String.format("INSERT INTO Alarm VALUES ('%s','%s','%s','%s')",appId,empId,offset,label));
 	}
 
 //	public static void main(String args[]){

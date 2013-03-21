@@ -122,7 +122,7 @@ public class ViewAppointmentPanel extends JPanel {
                 btnTilbake.setFont(new Font("Tahoma", Font.PLAIN, 14));
                 add(btnTilbake, "4, 16");
                 
-                 btnDecline = new JButton("Avsl\u00E5");
+                 btnDecline = new JButton("Meld av");
                  btnDecline.setBackground(Color.RED);
                  btnDecline.setFont(new Font("Tahoma", Font.PLAIN, 14));
                  add(btnDecline, "6, 16");

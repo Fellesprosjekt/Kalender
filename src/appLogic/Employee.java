@@ -73,13 +73,9 @@ public class Employee extends User{
 	}
 	
 	public boolean isValidAlarm(Alarm alarm){
-		HashMap<Appointment,DateTime> test = new HashMap<Appointment, DateTime>();
+		if(alarms.contains(alarm)) return false;
 		for(Alarm a : alarms){
-			Appointment app = a.getAppointment();
-			DateTime dt = a.getTime();
-			if(test.containsKey(app)){
-				if(test.get(app).equals(dt)) return false;
-			}else test.put(app, dt);
+			if(a.isEqual(alarm)) return false;
 		}
 		return true;
 	}

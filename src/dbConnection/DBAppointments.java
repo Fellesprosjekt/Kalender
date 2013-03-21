@@ -37,7 +37,7 @@ public class DBAppointments {
 	public void createParticipant(Appointment a, User u){
 		int aId = a.getId();
 		int uId = u.getId();
-		db.send(String.format("INSERT INTO AppInvitation VALUES ('%s', '%s', '2')",aId,uId));
+		db.send(String.format("INSERT INTO AppInvitation VALUES ('%s', '%s', '2')",uId,aId));
 	}
 	
 	public void deleteParticipant(Appointment a, User u) {
@@ -49,9 +49,11 @@ public class DBAppointments {
 	public void createAppiontment(Appointment a) {
 		DateTime start = a.getStart();
 		DateTime end = a.getEnd();
+		String startTime = dateTimeToString(start);
+		String endTime = dateTimeToString(end);
 		String desc = a.getDescription();
 		int lId = a.getLeader().getId();
-		db.send(String.format("INSERT INTO Appointment (StartTime,EndTime,Description,LeaderID) VALUES ('%s', '%s','%s', '%s')",start, end, desc, lId));
+		db.send(String.format("INSERT INTO Appointment (StartTime,EndTime,Description,LeaderID) VALUES ('%s', '%s','%s', '%s')",startTime, endTime, desc, lId));
 	}
 	
 	public void updateUserStatus (boolean status, Appointment a, User u) {
@@ -161,6 +163,7 @@ public class DBAppointments {
 			
 			if(post.get("Confirmed").equals("0")) u.declineAppointment(a);
 			else if(post.get("Confirmed").equals("1")) u.acceptAppointment(a);
+			else u.addInvitation(a);
 		}
 	}
 	

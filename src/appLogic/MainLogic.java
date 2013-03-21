@@ -67,7 +67,7 @@ public class MainLogic {
 	}
 	
 	
-	private void createAppointment(String description, Room room, ArrayList<User> participants, DateTime start, DateTime end){
+	public void createAppointment(String description, Room room, ArrayList<User> participants, DateTime start, DateTime end){
 		try {
 			Appointment a = new Appointment(description, room, currentUser, participants, start, end);
 			dbapps.createAppiontment(a);
@@ -88,123 +88,147 @@ public class MainLogic {
 	}
 	
 	private void addParticipant(Appointment a, User u){
-		if(!a.containsParticipant(u)){
-			a.addParticipant(u);
-			dbapps.createParticipant(a, u);
-		}
+		a.addParticipant(u);
+		dbapps.createParticipant(a, u);
 	}
 	
-	private void removeParticipant(Appointment a, User u){
-		a.removeParticipant(u);
-//		--- Mot databasen ---
-//		Fjern AppInvitation: removeAppInvitation(a.getId(),u.getId(),u.getStatus())
-//		----------------------
+	public void acceptAppointment(Appointment a){
+		currentUser.acceptAppointment(a);
+		dbapps.updateUserStatus(true, a, currentUser);
 	}
 	
-//	Kjøres når den nåværende brukeren aksepterer en invitasjon
-	private void updateUserSatus(boolean status, Appointment a){
-		if(status) currentUser.acceptAppointment(a);
-		else currentUser.declineAppointment(a);
-//		--- Mot databasen ---
-//		Oppdater AppInvitation: updateAppInvitation(a.getId(),currentUser.getId(),status);
-//		----------------------
+	public void declineAppointment(Appointment a){
+		currentUser.declineAppointment(a);
+		dbapps.updateUserStatus(false, a, currentUser);
 	}
 	
-	private void updateAppointmentRoom(Room r, Appointment a){
-		try {
-			a.bookRoom(r);
-		
-//			--- Mot databasen ---
-//			Oppdater Booking: updateBooking(a.getId(), r.getId())		
-//			----------------------
-			
-			DBRooms dbs= new DBRooms();
-			dbs.updateAppointmentRoom(a.getId(), r.getId());
-			
-			
-		} catch (DateTimeException e) {
-//			Error: ugyldig tidspunkt for avtalen
-		} catch (RoomBookedException e) {
-//			Error: rommet er allerede booket på dette tidspunktet
-		} catch (RoomSizeException e) {
-//			Error: rommet er for lite for denne avtalen
-		}
-	}
-	
-	private void updateAppointmentDescription(Appointment a, String description){
-		a.setDescription(description);
-//		--- Mot databasen ---
-//		Oppdater Appointment: updateAppointment(a.getId(), description)			
-//		----------------------
-	}
-	
-	private void updateAppointmentStart(Appointment a, DateTime start){
-		try {
-			a.setStart(start);
-//			--- Mot databasen ---
-//			Oppdater Appointment: updateAppointment(a.getId(), description)
-//			----------------------
-		} catch (DateTimeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RoomBookedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	private void updateAppointmentEnd(Appointment a, DateTime end){
-		try {
-			a.setEnd(end);
-//			--- Mot databasen ---
-//			Oppdater Appointment: updateAppointment(a.getId(), description)
-//			----------------------
-		} catch (DateTimeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RoomBookedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	private void removeAppointment(Appointment a){
+	public void cancelAppointment(Appointment a){
 		a.fireAppointmentCancelled();
-		for(Employee e : Employee.employees){
-			for(Alarm alarm : e.getAlarms()){
-				if(alarm.getAppointment().equals(a)) e.removeAlarm(alarm);
-			}
+		dbapps.deleteAppointment(a);
+	}
+	
+	public void addAlarm(Appointment a, int offset, String label){
+		try {
+			currentUser.addAlarm(new Alarm(label,a,offset));
+			dbalarms.addAlarm(a.getId(), currentUser.getId(), offset, label);
+			System.out.println("Alarm lagt til!");
+		} catch (InvalidAlarmException e) {
+			System.out.println("Ugyldig alarm for denne avtalen.");
 		}
-//		--- Mot databasen ---
-//		Slett Appointment: removeAppointment(a.getId())
-//		----------------------
+		
 	}
 	
-	private void createAlarm(String label, int offsetMins, Appointment a) throws InvalidAlarmException{
-		DateTime alarmtime = a.getStart().minusMinutes(offsetMins);
-		Alarm alarm = new Alarm(alarmtime, label, a, offsetMins);
-		currentUser.addAlarm(alarm);
-		
-//		--- Mot databasen ---
-//		Legg til i Alarm: addAlarm(a.getId(), currentUser.getId(), alarmtime, label)
-		
-		DBAlarms dba= new DBAlarms();
-		dba.addAlarm(a.getId(), currentUser.getId(), offsetMins, label);
-		
-//		----------------------
-	}
-	
-	private void removeAlarm(Alarm alarm){
-		DBAlarms dba= new DBAlarms();
-		
-		dba.removeAlarm(alarm.getAppointment().getId(), currentUser.getId(), alarm.getOffset());
-		
-		currentUser.removeAlarm(alarm);
-//		--- Mot databasen ---
-//		Fjern fra Alarm: removeAlarm(a.getId(), currentUser.getId(), alarm.getTime())
-		
-		
-//		----------------------
-		
-	}
+//	private void removeParticipant(Appointment a, User u){
+//		a.removeParticipant(u);
+////		--- Mot databasen ---
+////		Fjern AppInvitation: removeAppInvitation(a.getId(),u.getId(),u.getStatus())
+////		----------------------
+//	}
+//	
+////	Kjøres når den nåværende brukeren aksepterer en invitasjon
+//	private void updateUserSatus(boolean status, Appointment a){
+//		if(status) currentUser.acceptAppointment(a);
+//		else currentUser.declineAppointment(a);
+////		--- Mot databasen ---
+////		Oppdater AppInvitation: updateAppInvitation(a.getId(),currentUser.getId(),status);
+////		----------------------
+//	}
+//	
+//	private void updateAppointmentRoom(Room r, Appointment a){
+//		try {
+//			a.bookRoom(r);
+//		
+////			--- Mot databasen ---
+////			Oppdater Booking: updateBooking(a.getId(), r.getId())		
+////			----------------------
+//			
+//			DBRooms dbs= new DBRooms();
+//			dbs.updateAppointmentRoom(a.getId(), r.getId());
+//			
+//			
+//		} catch (DateTimeException e) {
+////			Error: ugyldig tidspunkt for avtalen
+//		} catch (RoomBookedException e) {
+////			Error: rommet er allerede booket på dette tidspunktet
+//		} catch (RoomSizeException e) {
+////			Error: rommet er for lite for denne avtalen
+//		}
+//	}
+//	
+//	private void updateAppointmentDescription(Appointment a, String description){
+//		a.setDescription(description);
+////		--- Mot databasen ---
+////		Oppdater Appointment: updateAppointment(a.getId(), description)			
+////		----------------------
+//	}
+//	
+//	private void updateAppointmentStart(Appointment a, DateTime start){
+//		try {
+//			a.setStart(start);
+////			--- Mot databasen ---
+////			Oppdater Appointment: updateAppointment(a.getId(), description)
+////			----------------------
+//		} catch (DateTimeException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (RoomBookedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+//	
+//	private void updateAppointmentEnd(Appointment a, DateTime end){
+//		try {
+//			a.setEnd(end);
+////			--- Mot databasen ---
+////			Oppdater Appointment: updateAppointment(a.getId(), description)
+////			----------------------
+//		} catch (DateTimeException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (RoomBookedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+//	
+//	private void removeAppointment(Appointment a){
+//		a.fireAppointmentCancelled();
+//		for(Employee e : Employee.employees){
+//			for(Alarm alarm : e.getAlarms()){
+//				if(alarm.getAppointment().equals(a)) e.removeAlarm(alarm);
+//			}
+//		}
+////		--- Mot databasen ---
+////		Slett Appointment: removeAppointment(a.getId())
+////		----------------------
+//	}
+//	
+//	private void createAlarm(String label, int offsetMins, Appointment a) throws InvalidAlarmException{
+//		DateTime alarmtime = a.getStart().minusMinutes(offsetMins);
+//		Alarm alarm = new Alarm(alarmtime, label, a, offsetMins);
+//		currentUser.addAlarm(alarm);
+//		
+////		--- Mot databasen ---
+////		Legg til i Alarm: addAlarm(a.getId(), currentUser.getId(), alarmtime, label)
+//		
+//		DBAlarms dba= new DBAlarms();
+//		dba.addAlarm(a.getId(), currentUser.getId(), offsetMins, label);
+//		
+////		----------------------
+//	}
+//	
+//	private void removeAlarm(Alarm alarm){
+//		DBAlarms dba= new DBAlarms();
+//		
+//		dba.removeAlarm(alarm.getAppointment().getId(), currentUser.getId(), alarm.getOffset());
+//		
+//		currentUser.removeAlarm(alarm);
+////		--- Mot databasen ---
+////		Fjern fra Alarm: removeAlarm(a.getId(), currentUser.getId(), alarm.getTime())
+//		
+//		
+////		----------------------
+//		
+//	}
 }

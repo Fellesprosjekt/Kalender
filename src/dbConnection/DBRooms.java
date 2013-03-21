@@ -20,7 +20,7 @@ public class DBRooms {
 	}
 	
 	public void createRoomBooking(int appId, String roomId){
-		db.send(String.format("INSERT INTO Booking VALUES (%s,%s)",appId,roomId));
+		db.send(String.format("INSERT INTO Booking VALUES ('%s','%s')",appId,roomId));
 	}
 	
 	public void loadRooms(){

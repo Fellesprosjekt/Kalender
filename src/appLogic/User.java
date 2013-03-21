@@ -43,6 +43,10 @@ public class User implements AppointmentListener {
 		return null;
 	}
 	
+	public void addInvitation(Appointment a){
+		if(!invitations.contains(a)) invitations.add(a);
+	}
+	
 	public Appointment getAppointment(int id) {
 		for(CalendarRow cr : calendar){
 			if(cr.getAppointment().getId()==id) return cr.getAppointment();

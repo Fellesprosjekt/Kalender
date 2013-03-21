@@ -43,9 +43,6 @@ public class Alarm {
 
 	
 	public boolean isEqual(Alarm other) {
-		return (this.appointment.equals(other.appointment) && this.time.equals(other.time)? true : false);
-		
+		return (this.appointment.equals(other.appointment) && this.getOffset()==other.getOffset() ? true : false);
 	}
-	
-	
 }
