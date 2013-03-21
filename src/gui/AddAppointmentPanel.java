@@ -38,8 +38,6 @@ public class AddAppointmentPanel extends JPanel {
 	public TextArea txtrIngenDeltakere;
 
 	
-	
-	
 	public void addUser(User u) {
 		if (!deltakere.contains(u)) {
 			if(deltakere.isEmpty()) {

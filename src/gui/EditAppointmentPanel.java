@@ -3,6 +3,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import appLogic.Appointment;
+import appLogic.Employee;
+import appLogic.Group;
+import appLogic.MainLogic;
+import appLogic.User;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
@@ -11,12 +17,15 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.Choice;
+import java.util.ArrayList;
+import java.util.Set;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class EditAppointmentPanel extends JPanel {
 
 	public JTextField txtBeskrivelse;
-	public Choice chcRom;
 	public Choice chcLeggTilDeltaker;
 	public Choice chcStartdag;
 	public Choice chcStartmnd;
@@ -25,14 +34,24 @@ public class EditAppointmentPanel extends JPanel {
 	public Choice chcStartmin;
 	public Choice chcSluttime;
 	public Choice chcSluttmin;
-	public JButton btnOpprett;
+	public JButton btnVidere;
 	public JButton btnAvbryt;
 	public JButton btnLeggTil;
-	public JTextArea txtrDeltakere;
 	private JLabel lblDeltaker_1;
 	public Choice chcFjernDeltaker;
 	public JButton btnFjern;
+	public Appointment appointment;
+	public ArrayList<User> deltakere = new ArrayList<User>();
 	
+	public void addUser(User u) {
+		if (!deltakere.contains(u)) { 
+			deltakere.add(u);
+		}
+	}
+	
+	public void removeUser(User u){
+		if(deltakere.contains(u)) deltakere.remove(u);
+	}
 	
 	/**
 	 * Create the panel.
@@ -97,9 +116,6 @@ public class EditAppointmentPanel extends JPanel {
 		btnLeggTil = new JButton("Legg til");
 		add(btnLeggTil, "12, 6, 3, 1");
 		
-		txtrDeltakere = new JTextArea();
-		add(txtrDeltakere, "4, 8, 11, 3, fill, fill");
-		
 		lblDeltaker_1 = new JLabel("Deltaker");
 		add(lblDeltaker_1, "2, 12, right, default");
 		
@@ -109,48 +125,41 @@ public class EditAppointmentPanel extends JPanel {
 		btnFjern = new JButton("Fjern");
 		add(btnFjern, "12, 12, 3, 1");
 		
-		JLabel lblVelgRom = new JLabel("Velg rom");
-		add(lblVelgRom, "2, 14, right, default");
-		
-		
-		chcRom = new Choice();
-		add(chcRom, "4, 14, 7, 1");
-		
 		JLabel lblDato = new JLabel("Dato");
-		add(lblDato, "2, 16, right, default");
+		add(lblDato, "2, 14, right, default");
 		
 		chcStartdag = new Choice();
-		add(chcStartdag, "4, 16");
+		add(chcStartdag, "4, 14");
 		
 		chcStartmnd = new Choice();
-		add(chcStartmnd, "6, 16");
+		add(chcStartmnd, "6, 14");
 		
 		chcStartaar = new Choice();
-		add(chcStartaar, "8, 16");
+		add(chcStartaar, "8, 14");
 		
 		JLabel lblStarttid = new JLabel("Starttid");
-		add(lblStarttid, "10, 16, right, default");
+		add(lblStarttid, "10, 14, right, default");
 		
 		chcStarttime = new Choice();
-		add(chcStarttime, "12, 16");
+		add(chcStarttime, "12, 14");
 		
 		chcStartmin = new Choice();
-		add(chcStartmin, "14, 16");
+		add(chcStartmin, "14, 14");
 		
 		JLabel lblSluttid = new JLabel("Sluttid");
-		add(lblSluttid, "10, 18, right, default");
+		add(lblSluttid, "10, 16, right, default");
 		
 		chcSluttime = new Choice();
-		add(chcSluttime, "12, 18");
+		add(chcSluttime, "12, 16");
 		
 		chcSluttmin = new Choice();
-		add(chcSluttmin, "14, 18");
+		add(chcSluttmin, "14, 16");
 		
-		btnOpprett = new JButton("Endre avtale");
-		add(btnOpprett, "4, 20, 3, 1");
+		btnVidere = new JButton("Videre");
+		add(btnVidere, "4, 18, 3, 1");
 		
 		btnAvbryt = new JButton("Avbryt");
-		add(btnAvbryt, "8, 20, 3, 1");
+		add(btnAvbryt, "8, 18, 3, 1");
 
 		for(int i=1;i<32;i++){
 			chcStartdag.add(String.valueOf(i));
@@ -173,6 +182,32 @@ public class EditAppointmentPanel extends JPanel {
 			chcStartmin.add(String.valueOf(i));
 			chcSluttmin.add(String.valueOf(i));
 		}	
+	}
+	
+	public void loadParticipants(){
+		Set<User> participants = appointment.getParticipants().keySet();
+		for(User u : participants){
+			addUser(u);
+		}
+	}
+	
+	public void showInvited(){
+		txtrDeltakere.setText("");
+		for(User u : deltakere){
+			txtrDeltakere.append(u.toString()+"\n");
+		}
+	}
+	
+	public void showUsers(){
+		chcLeggTilDeltaker.removeAll();
+		chcFjernDeltaker.removeAll();
+			
+		for(Employee e : Employee.employees){
+			if(e.equals(MainLogic.currentUser)) continue;
+			
+			if(deltakere.contains(e)) chcFjernDeltaker.add(e.toString());
+			else chcLeggTilDeltaker.add(e.toString());
+		}
 	}
 }
 

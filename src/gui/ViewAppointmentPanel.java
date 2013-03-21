@@ -33,6 +33,7 @@ public class ViewAppointmentPanel extends JPanel {
         public JButton btnLeggTilAlarm;
         public TextArea participantsField;
         public JButton btnVisAlarmer;
+        public JButton btnEndreAvtale;
 
  
         /**
@@ -83,7 +84,7 @@ public class ViewAppointmentPanel extends JPanel {
                 startField.setColumns(10);
                 
                 btnLeggTilAlarm = new JButton("Legg til alarm");
-                add(btnLeggTilAlarm, "6, 4, 1, 3");
+                add(btnLeggTilAlarm, "6, 4");
                
                 JLabel lblSlutt = new JLabel("Slutt");
                 lblSlutt.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -94,6 +95,9 @@ public class ViewAppointmentPanel extends JPanel {
                 endField.setEditable(false);
                 add(endField, "4, 6, fill, default");
                 endField.setColumns(10);
+                
+                btnVisAlarmer = new JButton("Vis alarmer");
+                add(btnVisAlarmer, "6, 6");
                
                 JLabel lblRom = new JLabel("Rom");
                 lblRom.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -104,9 +108,6 @@ public class ViewAppointmentPanel extends JPanel {
                 roomField.setEditable(false);
                 add(roomField, "4, 8, fill, default");
                 roomField.setColumns(10);
-                
-                btnVisAlarmer = new JButton("Vis alarmer");
-                add(btnVisAlarmer, "6, 8, 1, 3");
                
                 JLabel lblBeskrivelse = new JLabel("Beskrivelse");
                 lblBeskrivelse.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -115,6 +116,9 @@ public class ViewAppointmentPanel extends JPanel {
                 descriptionField = new JTextArea();
                 descriptionField.setEditable(false);
                 add(descriptionField, "4, 10, fill, fill");
+                
+                btnEndreAvtale = new JButton("Endre avtale");
+                add(btnEndreAvtale, "6, 10");
                
                 JLabel lblDeltakere = new JLabel("Deltakere");
                 lblDeltakere.setFont(new Font("Tahoma", Font.PLAIN, 14));

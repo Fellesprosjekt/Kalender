@@ -295,6 +295,16 @@ public class MainFrame extends JFrame {
          		viewalarms.revalidate();
          	}
          });
+		 
+        viewapp.btnEndreAvtale.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent arg0) {
+        		editapp.loadParticipants();
+        		editapp.showUsers();
+        		setContentPane(editapp);
+        		editapp.revalidate();
+        	}
+        });
 		
 		//Knapper for opprettelse av alarm
 		addalarm.btnAvbryt.addMouseListener(new MouseAdapter() {
@@ -375,6 +385,7 @@ public class MainFrame extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				if (!viewcal.choice.getSelectedItem().equals("Velg avtale...")) {
 					viewapp.showAppointment(viewcal.choice.getSelectedItem());
+					editapp.appointment = MainLogic.currentUser.getAppointment(viewcal.choice.getSelectedItem());
 					setContentPane(viewapp);
                     viewapp.revalidate();
 				}
@@ -433,6 +444,74 @@ public class MainFrame extends JFrame {
             }
 		});
 		
+		//Endre avtale
+		editapp.btnVidere.addMouseListener(new MouseAdapter() {
+			@Override
+		public void mouseClicked(MouseEvent e) {
+				if(editapp.chcStartaar.getSelectedItem().equals(" ")
+						|| editapp.chcStartmnd.equals(" ") || editapp.chcStartdag.getSelectedItem().equals(" ")
+						|| editapp.chcStarttime.equals(" ") || editapp.chcStartmin.equals(" ")
+						|| editapp.chcSluttime.equals(" ") || editapp.chcSluttmin.equals(" ")
+						|| editapp.txtBeskrivelse.equals(" ") || editapp.deltakere.isEmpty()
+						|| editapp.txtBeskrivelse.getText().equals("")) 
+				{
+					//Ikke opprett avtale
+				} else {
+					String desc = editapp.txtBeskrivelse.getText();
+					int year = Integer.parseInt(editapp.chcStartaar.getSelectedItem());
+					int month = Integer.parseInt(editapp.chcStartmnd.getSelectedItem());
+					int day = Integer.parseInt(editapp.chcStartdag.getSelectedItem());
+					int hourStart = Integer.parseInt(editapp.chcStarttime.getSelectedItem());
+					int minStart = Integer.parseInt(editapp.chcStartmin.getSelectedItem());
+					int hourEnd = Integer.parseInt(editapp.chcSluttime.getSelectedItem());
+					int minEnd = Integer.parseInt(editapp.chcSluttmin.getSelectedItem());
+					ArrayList<User> participants = editapp.deltakere;
+					DateTime start = new DateTime(year, month, day, hourStart, minStart, 0);
+					DateTime end = new DateTime(year, month, day, hourEnd, minEnd, 0);
+					viewrooms.description = desc;
+					viewrooms.inStart = start;
+					viewrooms.inEnd = end;
+					viewrooms.participants = participants;
+					viewrooms.showAvailableRooms();
+					setContentPane(viewrooms);
+	                viewrooms.revalidate();
+				}
+		}
+		});
+		
+		editapp.btnAvbryt.addMouseListener(new MouseAdapter() {
+			@Override
+		public void mouseClicked(MouseEvent e) {
+				setContentPane(viewapp);
+				viewapp.revalidate();
+			}
+		});
+		
+		editapp.btnLeggTil.addMouseListener(new MouseAdapter() {
+			@Override
+		public void mouseClicked(MouseEvent e) {
+			String name = editapp.chcLeggTilDeltaker.getSelectedItem();
+			int numOfNames = name.split(" ").length;
+			if(numOfNames>1) editapp.addUser(Employee.getEmployee(editapp.chcLeggTilDeltaker.getSelectedItem()));
+			else editapp.addUser(Group.getGroup(editapp.chcLeggTilDeltaker.getSelectedItem()));
+			editapp.showUsers();
+			editapp.showInvited();
+			editapp.revalidate();
+			}
+		});
+		
+		editapp.btnFjern.addMouseListener(new MouseAdapter() {
+			@Override
+		public void mouseClicked(MouseEvent e) {
+			String name = editapp.chcFjernDeltaker.getSelectedItem();
+			int numOfNames = name.split(" ").length;
+			if(numOfNames>1) editapp.removeUser(Employee.getEmployee(editapp.chcLeggTilDeltaker.getSelectedItem()));
+			else editapp.removeUser(Group.getGroup(editapp.chcLeggTilDeltaker.getSelectedItem()));
+			editapp.showUsers();
+			editapp.showInvited();
+			editapp.revalidate();
+			}
+		});
 	}
 	
 }
