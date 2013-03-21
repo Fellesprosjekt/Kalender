@@ -274,7 +274,7 @@ public class MainFrame extends JFrame {
             public void mouseClicked(MouseEvent e) {
 		    	String description = viewapp.descriptionField.getText();
 		    	Appointment app = MainLogic.currentUser.getAppointment(description);
-		    	if(main.currentUser.equals(app.getLeader())){
+		    	if(MainLogic.currentUser.equals(app.getLeader())){
 		    		main.cancelAppointment(app);
 		    	}
 		    	else main.declineAppointment(app);
