@@ -45,7 +45,7 @@ public class DBAlarms {
 		}
 	}
 
-	private void deleteAlarm(int empId, int appId, int offset){
+	public void deleteAlarm(int empId, int appId, int offset){
 		db.send(String.format("DELETE FROM Alarm WHERE AppID = %s, EmpID=%s, AlarmTime=%s", empId,appId,offset));
 	}
 

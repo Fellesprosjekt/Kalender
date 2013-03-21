@@ -293,6 +293,16 @@ public class MainFrame extends JFrame {
             }
 		});
 		
+		 viewapp.btnVisAlarmer.addMouseListener(new MouseAdapter() {
+         	@Override
+         	public void mouseClicked(MouseEvent e) {
+         		viewalarms.showAlarms();
+         		viewalarms.addChoices();
+         		setContentPane(viewalarms);
+         		viewalarms.revalidate();
+         	}
+         });
+		
 		//Knapper for opprettelse av alarm
 		addalarm.btnAvbryt.addMouseListener(new MouseAdapter() {
 		    @Override
@@ -334,7 +344,7 @@ public class MainFrame extends JFrame {
 		    @Override
             public void mouseClicked(MouseEvent e) {
 		    	String description = viewalarms.choice.getSelectedItem();
-		    	MainLogic.currentUser.removeAlarm(description);
+//		    	main.deleteAlarm(a, offset)
 		    	System.out.println("Alarm fjernet");
                    
             }

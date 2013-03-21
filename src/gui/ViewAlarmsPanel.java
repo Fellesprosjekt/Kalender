@@ -61,7 +61,7 @@ public class ViewAlarmsPanel extends JPanel {
 		
 		choice = new Choice();
 		add(choice, "4, 6");
-		choice.add("Velg avtale..."); 
+		choice.add("Velg alarm..."); 
 		
 		btnDeleteAlarm = new JButton("Slett");
 		btnDeleteAlarm.setBackground(Color.RED);
@@ -73,7 +73,7 @@ public class ViewAlarmsPanel extends JPanel {
 
 	}
 
-	public void showWeek(int i) {
+	public void showAlarms() {
 		textArea.setText("");
 		
 		for (Alarm alarm : MainLogic.currentUser.getAlarms() ) {

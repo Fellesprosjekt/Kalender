@@ -18,6 +18,8 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JToggleButton;
 import java.awt.TextArea;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
  
  
 public class ViewAppointmentPanel extends JPanel {
@@ -30,6 +32,7 @@ public class ViewAppointmentPanel extends JPanel {
         public JLabel lblAvtale;
         public JButton btnLeggTilAlarm;
         public TextArea participantsField;
+        public JButton btnVisAlarmer;
 
  
         /**
@@ -80,7 +83,7 @@ public class ViewAppointmentPanel extends JPanel {
                 startField.setColumns(10);
                 
                 btnLeggTilAlarm = new JButton("Legg til alarm");
-                add(btnLeggTilAlarm, "6, 4, 1, 5");
+                add(btnLeggTilAlarm, "6, 4, 1, 3");
                
                 JLabel lblSlutt = new JLabel("Slutt");
                 lblSlutt.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -101,6 +104,9 @@ public class ViewAppointmentPanel extends JPanel {
                 roomField.setEditable(false);
                 add(roomField, "4, 8, fill, default");
                 roomField.setColumns(10);
+                
+                btnVisAlarmer = new JButton("Vis alarmer");
+                add(btnVisAlarmer, "6, 8, 1, 3");
                
                 JLabel lblBeskrivelse = new JLabel("Beskrivelse");
                 lblBeskrivelse.setFont(new Font("Tahoma", Font.PLAIN, 14));

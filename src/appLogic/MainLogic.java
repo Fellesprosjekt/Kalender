@@ -118,6 +118,10 @@ public class MainLogic {
 		
 	}
 	
+	public void deleteAlarm(Appointment a, int offset){
+//		dbalarms.deleteAlarm(currentUser.getA
+	}
+	
 //	private void removeParticipant(Appointment a, User u){
 //		a.removeParticipant(u);
 ////		--- Mot databasen ---
