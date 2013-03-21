@@ -105,7 +105,6 @@ public class MainLogic {
 			dbapps.updateUserStatus(true, a, currentUser);
 		} catch (BusyUserException e) {
 			System.out.println("Du kan ikke godta denne invitasjonen fordi du er opptatt på dette tidspunktet.");
-			declineAppointment(a);
 		}
 	}
 	
