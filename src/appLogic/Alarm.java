@@ -47,6 +47,10 @@ public class Alarm {
 	}
 	
 	public String toString(){
-		return String.format("%s:%s - %s",time.getHourOfDay(),time.getMinuteOfHour(),label);
+		int hour = time.getHourOfDay();
+		String h = hour > 9 ? String.valueOf(hour) : "0"+String.valueOf(hour);
+		int mins = time.getMinuteOfHour();
+		String m = mins > 9 ? String.valueOf(mins) : "0"+String.valueOf(mins);
+		return String.format("%s:%s - %s (%s)",h,m,label,getAppointment().getDescription());
 	}
 }

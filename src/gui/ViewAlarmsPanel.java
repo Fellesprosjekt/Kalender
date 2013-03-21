@@ -84,8 +84,7 @@ public class ViewAlarmsPanel extends JPanel {
 		choice.removeAll();
 		choice.add("Velg alarm...");
 		for (Alarm alarm : MainLogic.currentUser.getAlarms() ) {
-			String appointment = alarm.getAppointment().getDescription();
-			choice.add(appointment); 
+			choice.add(alarm.toString()); 
 		}
 	}
 }

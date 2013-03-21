@@ -339,10 +339,12 @@ public class MainFrame extends JFrame {
 		viewalarms.btnDeleteAlarm.addMouseListener(new MouseAdapter() {
 		    @Override
             public void mouseClicked(MouseEvent e) {
-		    	String description = viewalarms.choice.getSelectedItem();
-//		    	main.deleteAlarm(a, offset)
-		    	System.out.println("Alarm fjernet");
-                   
+		    	String choice = viewalarms.choice.getSelectedItem();
+		    	if(!choice.equals("Velg alarm...")){  		
+		    		main.deleteAlarm(MainLogic.currentUser.getAlarm(choice));
+		    		viewalarms.showAlarms();
+		    		viewalarms.revalidate();
+		    	}   
             }
 		});
 		//Knapper for visning av kalender

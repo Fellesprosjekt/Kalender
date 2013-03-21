@@ -112,6 +112,12 @@ public class Employee extends User{
 		if (removeThis > -1 ) {alarms.remove(removeThis);}
 	}
 	
+	public Alarm getAlarm(String alarmtext){
+		for(Alarm a : alarms){
+			if(a.toString().equals(alarmtext)) return a;
+		}
+		return null;
+	}
 
 	@Override
 	public String toString() {

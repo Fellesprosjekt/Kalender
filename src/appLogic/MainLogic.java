@@ -105,12 +105,15 @@ public class MainLogic {
 			dbapps.updateUserStatus(true, a, currentUser);
 		} catch (BusyUserException e) {
 			System.out.println("Du kan ikke godta denne invitasjonen fordi du er opptatt på dette tidspunktet.");
+			declineAppointment(a);
 		}
 	}
 	
 	public void declineAppointment(Appointment a){
-		currentUser.declineAppointment(a);
-		dbapps.updateUserStatus(false, a, currentUser);
+		if(!currentUser.equals(a.getLeader())){
+			currentUser.declineAppointment(a);
+			dbapps.updateUserStatus(false, a, currentUser);
+		}
 	}
 	
 	public void cancelAppointment(Appointment a){
@@ -129,8 +132,9 @@ public class MainLogic {
 		
 	}
 	
-	public void deleteAlarm(Appointment a, int offset){
-//		dbalarms.deleteAlarm(currentUser.getA
+	public void deleteAlarm(Alarm a){
+		currentUser.removeAlarm(a);
+		dbalarms.deleteAlarm(currentUser.getId(),a.getAppointment().getId(),a.getOffset());
 	}
 	
 //	private void removeParticipant(Appointment a, User u){
