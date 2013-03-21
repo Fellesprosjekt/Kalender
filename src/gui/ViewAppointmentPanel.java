@@ -26,7 +26,6 @@ public class ViewAppointmentPanel extends JPanel {
         public JTextField startField;
         public JTextArea descriptionField;
         public JButton btnTilbake;
-        public JButton btnAccept;
         public JButton btnDecline;
         public JLabel lblAvtale;
         public JButton btnLeggTilAlarm;
@@ -68,7 +67,7 @@ public class ViewAppointmentPanel extends JPanel {
                
                 lblAvtale = new JLabel("Avtale");
                 lblAvtale.setFont(new Font("Tahoma", Font.PLAIN, 20));
-                add(lblAvtale, "2, 1, 5, 3, center, default");
+                add(lblAvtale, "2, 1, 5, 3, left, default");
                
                 JLabel lblStart = new JLabel("Start");
                 lblStart.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -119,19 +118,14 @@ public class ViewAppointmentPanel extends JPanel {
                 add(participantsField, "4, 12");
                 participantsField.setEditable(false);
                
-                btnAccept = new JButton("Godta");
-                btnAccept.setBackground(Color.GREEN);
-                btnAccept.setFont(new Font("Tahoma", Font.PLAIN, 14));
-                add(btnAccept, "4, 14");
-               
-                btnDecline = new JButton("Avsl\u00E5");
-                btnDecline.setBackground(Color.RED);
-                btnDecline.setFont(new Font("Tahoma", Font.PLAIN, 14));
-                add(btnDecline, "6, 14");
-               
                 btnTilbake = new JButton("Tilbake");
                 btnTilbake.setFont(new Font("Tahoma", Font.PLAIN, 14));
-                add(btnTilbake, "4, 16, 3, 1");
+                add(btnTilbake, "4, 16");
+                
+                 btnDecline = new JButton("Avsl\u00E5");
+                 btnDecline.setBackground(Color.RED);
+                 btnDecline.setFont(new Font("Tahoma", Font.PLAIN, 14));
+                 add(btnDecline, "6, 16");
         }
         
         public void showAppointment(String description) {
@@ -151,13 +145,22 @@ public class ViewAppointmentPanel extends JPanel {
         		participantsField.append(u.toString() + " [" + status + "]\n");
         	}
         }
-
-        //fjerner knapp som tilsvarer nåværende status
-        public void viewStatusCurrentUser(String description) {
-        	Boolean bool = MainLogic.currentUser.getAppointment(description).getParticipants().get(MainLogic.currentUser);
-        	if (bool != null) {
-        		if (bool) {btnAccept.setEnabled(false); btnDecline.setEnabled(true);}
-        		else {btnAccept.setEnabled(true); btnDecline.setEnabled(false);};
+        
+        public void showInvitation(String description) {
+        	Appointment appointment = MainLogic.currentUser.getInvitation(description); 
+        	roomField.setText(appointment.getRoom().toString());
+        	descriptionField.setText(appointment.getDescription());
+        	String start = appointment.getStart().toString();
+        	startField.setText(start.substring(0,10) + "\t\t" + start.substring(11, 16));
+        	String end = appointment.getEnd().toString();
+        	endField.setText(end.substring(0,10) + "\t\t" + end.substring(11,16));
+        	participantsField.setText("");
+        	for (User u : appointment.getParticipants().keySet()) {
+        		Boolean bool = appointment.getParticipants().get(u);
+        		String status = "invitert";
+        		if (bool != null)
+        			status = (bool ? "godtatt" : "avslått");
+        		participantsField.append(u.toString() + " [" + status + "]\n");
         	}
         }
 }

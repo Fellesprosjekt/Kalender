@@ -36,6 +36,13 @@ public class User implements AppointmentListener {
 		return null;
 	}
 	
+	public Appointment getInvitation(String description) {
+		for(Appointment app : invitations){
+			if(app.getDescription().equals(description)) return app;
+		}
+		return null;
+	}
+	
 	public Appointment getAppointment(int id) {
 		for(CalendarRow cr : calendar){
 			if(cr.getAppointment().getId()==id) return cr.getAppointment();

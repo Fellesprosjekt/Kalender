@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.text.View;
 
 import org.joda.time.DateTime;
 import org.joda.time.IllegalFieldValueException;
@@ -34,6 +35,8 @@ public class MainFrame extends JFrame {
 	private EditAppointmentPanel editapp;
 	private CalendarPanel viewcal; 
 	private AddAlarmPanel addalarm;
+	private InvitationsPanel viewinv;
+	private ViewInvitationPanel viewappinv;
 
 	/**
 	 * Launch the application.
@@ -89,6 +92,8 @@ public class MainFrame extends JFrame {
 		editapp = new EditAppointmentPanel();
 		viewcal = new CalendarPanel();
 		addalarm = new AddAlarmPanel(); 
+		viewinv = new InvitationsPanel();
+		viewappinv = new ViewInvitationPanel();
 		init(); 
 		
 		
@@ -182,6 +187,15 @@ public class MainFrame extends JFrame {
             }
 		});
 		
+		loggedin.btnVisInvitasjoner.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				setContentPane(viewinv);
+				viewinv.revalidate();
+				viewinv.showInvitations();
+				viewinv.addChoices();
+			}
+		});
+		
 		
 		/*
 		 * START LEGG INN AVTALE
@@ -206,11 +220,15 @@ public class MainFrame extends JFrame {
 		
 		addapp.btnOpprett.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				/*
+				 * SJEKK DENNE (IF) trenger nok ikke sjekk for tallene
+				 */
 				if(addapp.chcRom.getSelectedItem().equals(" ") || addapp.chcStartaar.getSelectedItem().equals(" ")
 						|| addapp.chcStartmnd.equals(" ") || addapp.chcStartdag.getSelectedItem().equals(" ")
 						|| addapp.chcStarttime.equals(" ") || addapp.chcStartmin.equals(" ")
 						|| addapp.chcSluttime.equals(" ") || addapp.chcSluttmin.equals(" ")
-						|| addapp.txtBeskrivelse.equals(" ") || addapp.deltakere.isEmpty()) 
+						|| addapp.txtBeskrivelse.equals(" ") || addapp.deltakere.isEmpty()
+						|| addapp.txtBeskrivelse.getText().equals("")) 
 				{
 					//Ikke opprett avtale
 				} else {
@@ -258,29 +276,15 @@ public class MainFrame extends JFrame {
             }
 		});
 		
-		viewapp.btnAccept.addMouseListener(new MouseAdapter() {
-		    @Override
-            public void mouseClicked(MouseEvent e) {
-		    		viewapp.viewStatusCurrentUser(viewapp.descriptionField.getText());
-		    		/*
-		    		 * Må resettes
-		    		 */
-                   /*
-                    * Set status
-                    */
-            }
-		});
-		
 		viewapp.btnDecline.addMouseListener(new MouseAdapter() {
 		    @Override
             public void mouseClicked(MouseEvent e) {
-		    		viewapp.viewStatusCurrentUser(viewapp.descriptionField.getText());
-		    		/*
-		    		 * Må resettes
-		    		 */
-                    /*
-                     * Set status
-                     */
+		    	String description = viewapp.descriptionField.getText();
+		    	Appointment app = MainLogic.currentUser.getAppointment(description);	
+		    	MainLogic.currentUser.declineAppointment(app);
+		    	System.out.println("Invitasjon avslått");
+		    	setContentPane(loggedin);
+                loggedin.revalidate();
             }
 		});
 		
@@ -360,11 +364,64 @@ public class MainFrame extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				if (!viewcal.choice.getSelectedItem().equals("Velg avtale...")) {
 					viewapp.showAppointment(viewcal.choice.getSelectedItem());
-					viewapp.viewStatusCurrentUser(viewapp.descriptionField.getText());
 					setContentPane(viewapp);
                     viewapp.revalidate();
 				}
 			}
 		});
+	
+		
+		//Knapper for visning av invitasjoner
+		viewinv.btnBack.addMouseListener(new MouseAdapter() {
+				    @Override
+		            public void mouseClicked(MouseEvent e) {
+		                    setContentPane(loggedin);
+		                    loggedin.revalidate();
+		            }
+				});
+		viewinv.btnChooseAppointment.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (!viewinv.choice.getSelectedItem().equals("Velg invitasjon...")) {
+					viewappinv.showInvitation(viewinv.choice.getSelectedItem());
+					setContentPane(viewappinv);
+                    viewappinv.revalidate();
+				}
+			}
+		});
+		
+		//Knapper for visning av én invitasjon
+		viewappinv.btnTilbake.addMouseListener(new MouseAdapter() {
+				    @Override
+		            public void mouseClicked(MouseEvent e) {
+		                    setContentPane(viewinv);
+		                    viewinv.revalidate();
+		            }
+				});
+		
+		viewappinv.btnAccept.addMouseListener(new MouseAdapter() {
+		    @Override
+            public void mouseClicked(MouseEvent e) {
+		    	String description = viewappinv.descriptionField.getText();
+		    	Appointment invitation = MainLogic.currentUser.getInvitation(description);	
+		    	MainLogic.currentUser.acceptAppointment(invitation);
+		    	System.out.println("Invitasjon godtatt");
+		    	setContentPane(loggedin);
+                loggedin.revalidate();
+            }
+		});
+		
+		viewappinv.btnDecline.addMouseListener(new MouseAdapter() {
+		    @Override
+            public void mouseClicked(MouseEvent e) {
+		    	String description = viewappinv.descriptionField.getText();
+		    	Appointment invitation = MainLogic.currentUser.getInvitation(description);	
+		    	MainLogic.currentUser.declineAppointment(invitation);
+		    	System.out.println("Invitasjon avslått");
+		    	setContentPane(loggedin);
+                loggedin.revalidate();
+            }
+		});
+		
 	}
+	
 }

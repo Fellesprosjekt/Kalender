@@ -93,7 +93,7 @@ public class CalendarPanel extends JPanel {
 		add(choice, "4, 6");
 		choice.add("Velg avtale..."); 
 		
-		btnChooseAppointment = new JButton("Velg avtale");
+		btnChooseAppointment = new JButton("Velg");
 		add(btnChooseAppointment, "6, 6");
 		
 		btnBack = new JButton("Tilbake");

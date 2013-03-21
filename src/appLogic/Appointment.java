@@ -9,7 +9,7 @@ import exceptions.RoomBookedException;
 import exceptions.RoomSizeException;
 
 
-public class Appointment implements ObservableAppointment{
+public class Appointment implements ObservableAppointment, Comparable<Appointment>{
 	private int id;
 	private String description;
 	private DateTime start = null; 
@@ -220,5 +220,12 @@ public class Appointment implements ObservableAppointment{
 			}
 		}
 		room.endChanged(this, end);
+	}
+
+	@Override
+	public int compareTo(Appointment other) {
+		if (this.start.isBefore(other.start)) {return -1;}
+		if (this.start.isAfter(other.start)) {return 1;}
+		return 0; 
 	}
 }

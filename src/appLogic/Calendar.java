@@ -52,11 +52,13 @@ public class Calendar implements Iterable<CalendarRow>{
 	
 	/* fjerner CalendarRow som er assosiert med gitt appointment */
 	public void removeCalendarRow(Appointment appointment) {
-		for (CalendarRow row : calendar) {
-			if (row.getAppointment().equals(appointment)) {
-				calendar.remove(row); 
+		int removeThis = -1;
+		for (int i = 0; i < calendar.size(); i++) {
+			if (calendar.get(i).getAppointment().equals(appointment)){
+				removeThis = i;
 			}
 		}
+		if (removeThis > -1) {calendar.remove(removeThis);}
 	}
 	
 	/* returnerer CalendarRow som har gitt start, ellers null */
