@@ -1,6 +1,9 @@
 package gui;
 
 import javax.swing.JPanel;
+
+import appLogic.Employee;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
@@ -70,4 +73,12 @@ public class LogInPanel extends JPanel {
                 btnTilbake.setFont(new Font("Tahoma", Font.PLAIN, 14));
                 add(btnTilbake, "4, 10");
         }
+        
+    	public void showUsers(){
+    		choice.removeAll();
+    		
+    		for(Employee e : Employee.employees){
+    			choice.add(e.toString());
+    		}
+    	}
 }

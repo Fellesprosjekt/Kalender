@@ -11,15 +11,10 @@ import javax.swing.text.View;
 
 import org.joda.time.DateTime;
 import org.joda.time.IllegalFieldValueException;
-
-import exceptions.DateTimeException;
-import exceptions.InvalidAlarmException;
-import exceptions.RoomBookedException;
-import exceptions.RoomSizeException;
-
 import appLogic.Alarm;
 import appLogic.Appointment;
 import appLogic.Employee;
+import appLogic.Group;
 import appLogic.MainLogic;
 import appLogic.Room;
 import appLogic.User;
@@ -56,27 +51,6 @@ public class MainFrame extends JFrame {
 			}
 		});
 	}
-	
-	private void init() {
-		//legger inn brukere til innlogging
-		//legger inn brukere i opprett avtale
-		//legger inn brukere i endre avtale
-		/*
-		 * FLYTT TIL PANELS
-		 */
-		for (Employee e : Employee.employees) {
-			login.choice.add(e.toString()); 
-			addapp.chcDeltaker.add(e.toString());
-			editapp.chcLeggTilDeltaker.add(e.toString());
-			editapp.chcFjernDeltaker.add(e.toString());
-		}
-		for (Room r : Room.rooms) {
-			//
-			editapp.chcRom.add(r.toString());
-			// skal heller hente tilgjengelige/mulige rom
-		}
-	}
-	//END INIT
 
 	/**
 	 * Create the frame.
@@ -97,9 +71,7 @@ public class MainFrame extends JFrame {
 		viewinv = new InvitationsPanel();
 		viewappinv = new ViewInvitationPanel();
 		viewalarms = new ViewAlarmsPanel(); 
-		viewrooms = new RoomPanel(null, null, null, null);
-		init(); 
-		
+		viewrooms = new RoomPanel(null, null, null, null);	
 		
 		setContentPane(home);
 		home.revalidate();
@@ -116,6 +88,7 @@ public class MainFrame extends JFrame {
 		home.btnLoggInn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				login.showUsers();
 				setContentPane(login);
 				login.revalidate();
 			}
@@ -176,6 +149,7 @@ public class MainFrame extends JFrame {
 		loggedin.btnNyAvtale.addMouseListener(new MouseAdapter() {
 		    @Override
             public void mouseClicked(MouseEvent e) {
+		    		addapp.showUsers();
                     setContentPane(addapp);
                     addapp.revalidate();
             }
@@ -214,11 +188,10 @@ public class MainFrame extends JFrame {
 		
 		addapp.btnLeggTil.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				addapp.addUser(Employee.getEmployee(addapp.chcDeltaker.getSelectedItem()));
-				/*
-				 * Hente ut gruppe også
-				 * Sjekk addUser i panelet
-				 */
+				String name = addapp.chcDeltaker.getSelectedItem();
+				int numOfNames = name.split(" ").length;
+				if(numOfNames>1) addapp.addUser(Employee.getEmployee(addapp.chcDeltaker.getSelectedItem()));
+				else addapp.addUser(Group.getGroup(addapp.chcDeltaker.getSelectedItem()));
 			}
 		});
 		
@@ -237,7 +210,6 @@ public class MainFrame extends JFrame {
 					//Ikke opprett avtale
 				} else {
 					String desc = addapp.txtBeskrivelse.getText();
-					Room room = null; 
 					int year = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
 					int month = Integer.parseInt(addapp.chcStartmnd.getSelectedItem());
 					int day = Integer.parseInt(addapp.chcStartdag.getSelectedItem());
@@ -248,8 +220,11 @@ public class MainFrame extends JFrame {
 					ArrayList<User> participants = addapp.deltakere;
 					DateTime start = new DateTime(year, month, day, hourStart, minStart, 0);
 					DateTime end = new DateTime(year, month, day, hourEnd, minEnd, 0);
-					main.createAppointment(desc, room, addapp.deltakere, start, end);
-					viewrooms = new RoomPanel(desc, start, end, participants);
+					viewrooms.description = desc;
+					viewrooms.inStart = start;
+					viewrooms.inEnd = end;
+					viewrooms.participants = participants;
+					viewrooms.showAvailableRooms();
 					setContentPane(viewrooms);
 	                viewrooms.revalidate();
 				}

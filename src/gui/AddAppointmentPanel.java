@@ -3,6 +3,7 @@ package gui;
 import javax.swing.JPanel;
 
 import appLogic.Employee;
+import appLogic.Group;
 import appLogic.MainLogic;
 import appLogic.User;
 
@@ -44,10 +45,8 @@ public class AddAppointmentPanel extends JPanel {
 			if(deltakere.isEmpty()) {
 				txtrIngenDeltakere.setText(""); 
 			}
-			if (!u.equals(MainLogic.currentUser)) {
 			deltakere.add(u);
 			txtrIngenDeltakere.append(u.toString()+ "\n"); 
-			}
 		}
 	}
 	
@@ -65,7 +64,7 @@ public class AddAppointmentPanel extends JPanel {
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("35dlu"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(24dlu;default)"),
+				ColumnSpec.decode("max(26dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("25dlu"),
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -149,10 +148,10 @@ public class AddAppointmentPanel extends JPanel {
 		add(chcSluttmin, "14, 16");
 		
 		btnVidere = new JButton("Videre");
-		add(btnVidere, "4, 18, 5, 1");
+		add(btnVidere, "4, 18, 3, 1");
 		
 		btnAvbryt = new JButton("Avbryt");
-		add(btnAvbryt, "10, 18");
+		add(btnAvbryt, "8, 18");
 
 		for(int i=1;i<32;i++){
 			chcStartdag.add(String.valueOf(i));
@@ -175,5 +174,18 @@ public class AddAppointmentPanel extends JPanel {
 			chcStartmin.add(String.valueOf(i));
 			chcSluttmin.add(String.valueOf(i));
 		}	
+	}
+	
+	public void showUsers(){
+		chcDeltaker.removeAll();
+		
+		for(Employee e : Employee.employees){
+			if(e.equals(MainLogic.currentUser)) continue;
+			chcDeltaker.add(e.toString());
+		}
+		
+		for(Group g : Group.groups){
+			chcDeltaker.add(g.toString());
+		}
 	}
 }

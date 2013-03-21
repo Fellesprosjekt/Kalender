@@ -67,15 +67,29 @@ public class MainLogic {
 		currentUser = e;
 	}
 	
+	private ArrayList<User> participantsAsEmployees(ArrayList<User> participants){
+		ArrayList<User> employees = new ArrayList<User>();
+		for(User u : participants){
+			if(u instanceof Employee) employees.add(u);
+			else{
+				Group g = (Group)u;
+				for(Employee e : g.getMembers()){
+					employees.add(e);
+				}
+			}
+		}
+		return employees;
+	}
 	
 	public void createAppointment(String description, Room room, ArrayList<User> participants, DateTime start, DateTime end){
 		try {
-			Appointment a = new Appointment(description, room, currentUser, participants, start, end);
+			ArrayList<User> employees = participantsAsEmployees(participants);
+			Appointment a = new Appointment(description, room, currentUser, employees, start, end);
 			System.out.println(currentUser.isBusy(new CalendarRow(start,end,null)));
 			dbapps.createAppiontment(a);
 			int appId = dbapps.getAppointmentId(currentUser, start);
 			a.setId(appId);	
-			for(User u : participants){
+			for(User u : employees){
 				addParticipant(a, u);
 			}
 			room.appointmentCreated(a);
@@ -95,8 +109,11 @@ public class MainLogic {
 	}
 	
 	private void addParticipant(Appointment a, User u){
-		a.addParticipant(u);
-		dbapps.createParticipant(a, u);
+		if(u instanceof Employee && u.equals(currentUser)) return;
+		else{
+			a.addParticipant(u);
+			dbapps.createParticipant(a, u);
+		}
 	}
 	
 	public void acceptAppointment(Appointment a){

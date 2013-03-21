@@ -16,7 +16,6 @@ public class LoggedInPanel extends JPanel {
         public JTextField loggedInAsField;
         public JButton btnNyAvtale;
         public JButton btnVisKalender;
-        public JButton btnNyGruppe;
         public JButton btnVisInvitasjoner;
         public JButton btnLoggUt;
  
@@ -67,15 +66,12 @@ public class LoggedInPanel extends JPanel {
                     
                      btnNyAvtale = new JButton("Ny avtale");
                      add(btnNyAvtale, "2, 6, 1, 3");
+                    
+                     btnVisInvitasjoner = new JButton("Vis invitasjoner");
+                     add(btnVisInvitasjoner, "4, 6, 1, 3");
                    
                     btnVisKalender = new JButton("Vis kalender");
-                    add(btnVisKalender, "4, 6, 1, 3");
-                    
-                     btnNyGruppe = new JButton("Ny gruppe");
-                     add(btnNyGruppe, "2, 10, 1, 3");
-                   
-                    btnVisInvitasjoner = new JButton("Vis invitasjoner");
-                    add(btnVisInvitasjoner, "4, 10, 1, 3");
+                    add(btnVisKalender, "2, 10, 3, 3");
                   
                    btnLoggUt = new JButton("Logg ut");
                    add(btnLoggUt, "2, 16, 3, 1");

@@ -62,7 +62,6 @@ public class Group extends User {
 
 	@Override
 	public String toString() {
-		return "** " + name + ":" + members + " **";
+		return getName();
 	}
-	
 }

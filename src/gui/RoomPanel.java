@@ -15,6 +15,8 @@ import org.joda.time.DateTime;
 import appLogic.Appointment;
 import appLogic.Room;
 import appLogic.User;
+import appLogic.Employee;
+import appLogic.Group;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -72,7 +74,6 @@ public class RoomPanel extends JPanel {
 		
 		choice = new Choice();
 		add(choice, "4, 6");
-		choice.add("Velg alarm..."); 
 		
 		btnChooseRoom = new JButton("Velg");
 		btnChooseRoom.setBackground(Color.GREEN);
@@ -90,7 +91,8 @@ public class RoomPanel extends JPanel {
 		choice.add("Velg rom...");
 		ArrayList<Room> freeRooms = null; 
 		try {
-			freeRooms = Room.getFreeRooms(inStart, inEnd, participants.size());
+			freeRooms = Room.getFreeRooms(inStart, inEnd, getEmployeeCount());
+			System.out.println("Rom lastet inn vellykket");
 		} catch (DateTimeException e) {
 			System.out.println("Noe gikk galt");
 		}
@@ -98,9 +100,23 @@ public class RoomPanel extends JPanel {
 			//Vis i tekstområde
 			String id = room.getId();
 			String size = String.valueOf(room.getSize());			
-			textArea.append("Rom: " + id + "\nStørrelse: " + size + "\n\n");
+			textArea.append("Rom: " + id + "\nStorrelse: " + size + "\n\n");
 			//legg til valg
 			choice.add(id); 
 		}
+	}
+	
+	private int getEmployeeCount(){
+		int count = 0;
+		for(User u : participants){
+			if(u instanceof Employee) count+=1;
+			else{
+				Group g = (Group)u;
+				count+=g.getMembers().size();
+			}
+			
+		}
+		//+1 for leder
+		return count+1;
 	}
 }
