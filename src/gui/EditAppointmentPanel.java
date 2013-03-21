@@ -43,7 +43,7 @@ public class EditAppointmentPanel extends JPanel {
 	public JButton btnFjern;
 	public Appointment appointment;
 	public ArrayList<User> deltakere = new ArrayList<User>();
-	private TextArea textArea;
+	public TextArea txtrDeltakere;
 	
 	public void addUser(User u) {
 		if (!deltakere.contains(u)) { 
@@ -82,7 +82,7 @@ public class EditAppointmentPanel extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("max(45dlu;default):grow"),
+				RowSpec.decode("max(27dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.UNRELATED_GAP_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -118,8 +118,8 @@ public class EditAppointmentPanel extends JPanel {
 		btnLeggTil = new JButton("Legg til");
 		add(btnLeggTil, "12, 6, 3, 1");
 		
-		textArea = new TextArea();
-		add(textArea, "4, 8, 7, 3");
+		txtrDeltakere = new TextArea();
+		add(txtrDeltakere, "4, 8, 7, 3");
 		
 		lblDeltaker_1 = new JLabel("Deltaker");
 		add(lblDeltaker_1, "2, 12, right, default");
@@ -186,7 +186,7 @@ public class EditAppointmentPanel extends JPanel {
 		for(int i=0;i<60;i++){
 			chcStartmin.add(String.valueOf(i));
 			chcSluttmin.add(String.valueOf(i));
-		}	
+		}
 	}
 	
 	public void loadParticipants(){
@@ -208,8 +208,7 @@ public class EditAppointmentPanel extends JPanel {
 		chcFjernDeltaker.removeAll();
 			
 		for(Employee e : Employee.employees){
-			if(e.equals(MainLogic.currentUser)) continue;
-			
+			if(e.equals(appointment.getLeader())) continue;	
 			if(deltakere.contains(e)) chcFjernDeltaker.add(e.toString());
 			else chcLeggTilDeltaker.add(e.toString());
 		}

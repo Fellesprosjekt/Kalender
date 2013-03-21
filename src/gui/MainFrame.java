@@ -11,8 +11,11 @@ import javax.swing.text.View;
 
 import org.joda.time.DateTime;
 import org.joda.time.IllegalFieldValueException;
+
+import exceptions.DateTimeException;
 import appLogic.Alarm;
 import appLogic.Appointment;
+import appLogic.CalendarRow;
 import appLogic.Employee;
 import appLogic.Group;
 import appLogic.MainLogic;
@@ -224,6 +227,7 @@ public class MainFrame extends JFrame {
 					viewrooms.inStart = start;
 					viewrooms.inEnd = end;
 					viewrooms.participants = participants;
+					viewrooms.editedAppointment = false;
 					viewrooms.showAvailableRooms();
 					setContentPane(viewrooms);
 	                viewrooms.revalidate();
@@ -236,17 +240,29 @@ public class MainFrame extends JFrame {
 		//Knapper for valg av rom
 		viewrooms.btnBack.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                    setContentPane(addapp);
-                    addapp.revalidate();
+            	if(viewrooms.editedAppointment){
+                    setContentPane(editapp);
+                    editapp.revalidate();
+            	} else{
+            		setContentPane(addapp);
+            		addapp.revalidate();
+            	}
             }
 		});
 		
 		viewrooms.btnChooseRoom.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                     Room room = Room.getRoom(viewrooms.choice.getSelectedItem());
-                    main.createAppointment(viewrooms.description, room, viewrooms.participants, viewrooms.inStart, viewrooms.inEnd); 
+                    if(!viewrooms.editedAppointment)
+                    	main.createAppointment(viewrooms.description, room, viewrooms.participants, viewrooms.inStart, viewrooms.inEnd);
+                    else{
+                    	Appointment old = editapp.appointment;
+                    	main.cancelAppointment(old);
+                    	viewrooms.participants.remove(old.getLeader());
+                    	main.createAppointment(viewrooms.description, room, viewrooms.participants, viewrooms.inStart, viewrooms.inEnd,old.getLeader());
+                    }
             		System.out.println("Avtale opprettet!");
-                    setContentPane(loggedin);
+            		setContentPane(loggedin);
                     loggedin.revalidate();
             }
 		});
@@ -271,7 +287,7 @@ public class MainFrame extends JFrame {
 		    		main.cancelAppointment(app);
 		    	}
 		    	else main.declineAppointment(app);
-		    	System.out.println("Invitasjon avslått");
+		    	System.out.println("Meldt av");
 		    	setContentPane(loggedin);
                 loggedin.revalidate();
             }
@@ -300,6 +316,7 @@ public class MainFrame extends JFrame {
         	@Override
         	public void mouseClicked(MouseEvent arg0) {
         		editapp.loadParticipants();
+        		editapp.showInvited();
         		editapp.showUsers();
         		setContentPane(editapp);
         		editapp.revalidate();
@@ -472,7 +489,13 @@ public class MainFrame extends JFrame {
 					viewrooms.inStart = start;
 					viewrooms.inEnd = end;
 					viewrooms.participants = participants;
-					viewrooms.showAvailableRooms();
+					viewrooms.editedAppointment = true;	
+					Appointment old = editapp.appointment;
+					try {
+						if(old.getRoom().isBooked(new CalendarRow(start,end,null))) viewrooms.showAvailableRooms(old.getRoom());
+					} catch (DateTimeException e1) {
+						viewrooms.showAvailableRooms();
+					}
 					setContentPane(viewrooms);
 	                viewrooms.revalidate();
 				}
@@ -490,10 +513,7 @@ public class MainFrame extends JFrame {
 		editapp.btnLeggTil.addMouseListener(new MouseAdapter() {
 			@Override
 		public void mouseClicked(MouseEvent e) {
-			String name = editapp.chcLeggTilDeltaker.getSelectedItem();
-			int numOfNames = name.split(" ").length;
-			if(numOfNames>1) editapp.addUser(Employee.getEmployee(editapp.chcLeggTilDeltaker.getSelectedItem()));
-			else editapp.addUser(Group.getGroup(editapp.chcLeggTilDeltaker.getSelectedItem()));
+			editapp.addUser(Employee.getEmployee(editapp.chcLeggTilDeltaker.getSelectedItem()));
 			editapp.showUsers();
 			editapp.showInvited();
 			editapp.revalidate();
@@ -503,10 +523,7 @@ public class MainFrame extends JFrame {
 		editapp.btnFjern.addMouseListener(new MouseAdapter() {
 			@Override
 		public void mouseClicked(MouseEvent e) {
-			String name = editapp.chcFjernDeltaker.getSelectedItem();
-			int numOfNames = name.split(" ").length;
-			if(numOfNames>1) editapp.removeUser(Employee.getEmployee(editapp.chcLeggTilDeltaker.getSelectedItem()));
-			else editapp.removeUser(Group.getGroup(editapp.chcLeggTilDeltaker.getSelectedItem()));
+			editapp.removeUser(Employee.getEmployee(editapp.chcFjernDeltaker.getSelectedItem()));
 			editapp.showUsers();
 			editapp.showInvited();
 			editapp.revalidate();

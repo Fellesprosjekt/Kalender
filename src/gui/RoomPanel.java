@@ -35,6 +35,7 @@ public class RoomPanel extends JPanel {
 	public DateTime inStart;
 	public DateTime inEnd; 
 	public ArrayList<User> participants; 
+	public boolean editedAppointment = false;
 	
 	/**
 	 * Create the panel.
@@ -85,6 +86,28 @@ public class RoomPanel extends JPanel {
 
 	}
 
+	public void showAvailableRooms(Room currentRoom) {
+		textArea.setText("");
+		choice.removeAll();
+		choice.add("Velg rom...");
+		ArrayList<Room> freeRooms = null; 
+		try {
+			freeRooms = Room.getFreeRooms(inStart, inEnd, getEmployeeCount());
+			freeRooms.add(currentRoom);
+			System.out.println("Rom lastet inn vellykket");
+		} catch (DateTimeException e) {
+			System.out.println("Noe gikk galt");
+		}
+		for (Room room : freeRooms) {
+			//Vis i tekstområde
+			String id = room.getId();
+			String size = String.valueOf(room.getSize());			
+			textArea.append("Rom: " + id + "\nStorrelse: " + size + "\n\n");
+			//legg til valg
+			choice.add(id); 
+		}
+	}
+	
 	public void showAvailableRooms() {
 		textArea.setText("");
 		choice.removeAll();
@@ -117,6 +140,7 @@ public class RoomPanel extends JPanel {
 			
 		}
 		//+1 for leder
-		return count+1;
+		if(editedAppointment) return count;
+		else return count+1;
 	}
 }

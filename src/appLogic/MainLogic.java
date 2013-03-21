@@ -108,8 +108,42 @@ public class MainLogic {
 		
 	}
 	
+	public void createAppointment(String description, Room room, ArrayList<User> participants, DateTime start, DateTime end, Employee leader){
+		try {
+			ArrayList<User> employees = participantsAsEmployees(participants);
+			Appointment a = new Appointment(description, room, leader, employees, start, end);
+			dbapps.createAppiontment(a);
+			int appId = dbapps.getAppointmentId(leader, start);
+			a.setId(appId);	
+			for(User u : employees){
+				addParticipant(a, u,leader);
+			}
+			room.appointmentCreated(a);
+			dbrooms.createRoomBooking(appId, room.getId());
+			System.out.println("Avtale opprettet!");
+		} catch (DateTimeException e) {
+			System.out.println("Ugyldig tidsrom");
+		} catch (RoomBookedException e) {
+			System.out.println("Rommet er allerede booket.");
+		} catch (RoomSizeException e) {
+			System.out.println("Rommet er ikke stort nok.");
+		} catch (BusyUserException e) {
+			System.out.println("Du er ikke ledig i dette tidsrommet.");
+		}
+		
+		
+	}
+	
 	private void addParticipant(Appointment a, User u){
 		if(u instanceof Employee && u.equals(currentUser)) return;
+		else{
+			a.addParticipant(u);
+			dbapps.createParticipant(a, u);
+		}
+	}
+	
+	private void addParticipant(Appointment a, User u, Employee leader){
+		if(u instanceof Employee && u.equals(leader)) return;
 		else{
 			a.addParticipant(u);
 			dbapps.createParticipant(a, u);
