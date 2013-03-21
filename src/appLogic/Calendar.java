@@ -29,8 +29,8 @@ public class Calendar implements Iterable<CalendarRow>{
 		return calendar;
 	}
 	
-	public void addCalendarRow(CalendarRow calendarRow) {
-		calendar.add(calendarRow);
+	public void addCalendarRow(CalendarRow cr) {
+		if(findCalendarRow(cr.getAppointment())==null) calendar.add(cr);
 	}
 	
 	/* returnerer alle calendarRow som har starttid tilsvarende weekNumber */

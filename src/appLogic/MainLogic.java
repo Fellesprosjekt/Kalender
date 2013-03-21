@@ -6,6 +6,9 @@ import java.util.Scanner;
 import org.joda.time.DateTime;
 
 import dbConnection.DBAlarms;
+import dbConnection.DBAppointments;
+import dbConnection.DBEmployees;
+import dbConnection.DBGroups;
 import dbConnection.DBRooms;
 
 import exceptions.DateTimeException;
@@ -34,29 +37,29 @@ public class MainLogic {
 	 * - Dersom noe ugyldig lastes inn fra databasen (exceptions ved opprettelse av objektet), slett det fra databasen.
 	 */
 	public static Employee currentUser;
-	
-	//Sett opp brukere og grupper
-	private void init() {
-		try {
-			new Employee(0, "Kong Harald", "harald@konge.no");
-			new Employee(1, "Dronning Sonja", "sonja@dronning.no");
-			new Employee(2, "Kronprins Haakon", "haakon@nestenkonge.no");
-			new Room("r1",500);
-			new Room("s656",25);
-			new Room("min1",1);
-			new Room("min2",2);
-		} catch (InvalidNameException e) {
-			e.printStackTrace();
-		} catch (InvalidEmailException e) {
-			e.printStackTrace();
-		}
-		
-	}
+	private DBAlarms dbalarms;
+	private DBAppointments dbapps;
+	private DBEmployees dbemps;
+	private DBGroups dbgroups;
+	private DBRooms dbrooms;
 	
 	//Hjelpemetode for å hente ut employee fra gitt streng	
 	public MainLogic(){
 		currentUser = null;
-		init(); 
+		dbalarms = new DBAlarms();
+		dbapps = new DBAppointments();
+		dbemps = new DBEmployees();
+		dbgroups = new DBGroups();
+		dbrooms = new DBRooms();
+		loadDatabase(); 
+	}
+	
+	private void loadDatabase(){
+		dbemps.loadEmployees();
+		dbgroups.loadGroups();
+		dbrooms.loadRooms();
+		dbapps.loadAppointments();
+		dbalarms.loadAlarms();
 	}
 	
 	public void logInEmployee(Employee e){
@@ -67,17 +70,14 @@ public class MainLogic {
 	private void createAppointment(String description, Room room, ArrayList<User> participants, DateTime start, DateTime end){
 		try {
 			Appointment a = new Appointment(description, room, currentUser, participants, start, end);
-//			--- Mot databasen ---
-//			Legg til i Appointment: createAppointment(start, end, description, currentUser.getId())
-//			Her vil leaderId = currentUser.getId()
-//			Hent fra Appointment: getAppointmentId(leaderId, start), skal returnere id
-//			Legg til i Booking: createBooking(a.getId(), room.getId());
-//			----------------------
-//			a.setId(id);
-			
+			dbapps.createAppiontment(a);
+			int appId = dbapps.getAppointmentId(currentUser, start);
+			a.setId(appId);	
 			for(User u : participants){
 				addParticipant(a, u);
 			}
+			room.appointmentCreated(a);
+			dbrooms.createRoomBooking(appId, room.getId());
 		} catch (DateTimeException e) {
 //			Error: ugyldig tidsrom
 		} catch (RoomBookedException e) {
@@ -88,10 +88,10 @@ public class MainLogic {
 	}
 	
 	private void addParticipant(Appointment a, User u){
-		if(!a.containsParticipant(u)) a.addParticipant(u);
-//		--- Mot databasen ---
-//		Legg til i AppInvitation: createAppInvitation(a.getId(),u.getId(),u.getStatus())
-//		----------------------
+		if(!a.containsParticipant(u)){
+			a.addParticipant(u);
+			dbapps.createParticipant(a, u);
+		}
 	}
 	
 	private void removeParticipant(Appointment a, User u){

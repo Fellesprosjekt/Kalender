@@ -21,6 +21,18 @@ public class DBAppointments {
 	
 	Simpleconnect db = new Simpleconnect("Calendar", "");
 	
+	public int getAppointmentId(Employee leader, DateTime start){
+		int leaderId = leader.getId();
+		String startTime = dateTimeToString(start);
+		String sql = String.format(String.format("SELECT AppID FROM Appointment WHERE LeaderID='%s' AND StartTime='%s'",leaderId,startTime));
+		int appId = Integer.parseInt(db.get(sql).get(0).get("AppID"));
+		return appId;
+	}
+	
+	private String dateTimeToString(DateTime dt){
+		return String.format("%s-%s-%s %s:%s:00",
+				dt.getYear(), dt.getMonthOfYear(),dt.getDayOfMonth(),dt.getHourOfDay(),dt.getMinuteOfHour());
+	}
 	
 	public void createParticipant(Appointment a, User u){
 		int aId = a.getId();
