@@ -74,16 +74,9 @@ public class ViewAlarmsPanel extends JPanel {
 	}
 
 	public void showAlarms() {
-		textArea.setText("");
-		
-		for (Alarm alarm : MainLogic.currentUser.getAlarms() ) {
-			String appointment = alarm.getAppointment().getDescription();
-			int h = alarm.getOffset()/60;
-			int m = alarm.getOffset()%60;
-			String timeBefore = "" + h +" timer " + "" + m +" minutter " ;
-			
-			textArea.append(appointment + " @ " + timeBefore +"før");
-								
+		textArea.setText("");		
+		for (Alarm alarm : MainLogic.currentUser.getAlarms() ) {			
+			textArea.append(alarm.toString()+"\n");					
 		}
 	}
 	

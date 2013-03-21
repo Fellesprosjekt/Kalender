@@ -45,4 +45,8 @@ public class Alarm {
 	public boolean isEqual(Alarm other) {
 		return (this.appointment.equals(other.appointment) && this.getOffset()==other.getOffset() ? true : false);
 	}
+	
+	public String toString(){
+		return String.format("%s:%s - %s",time.getHourOfDay(),time.getMinuteOfHour(),label);
+	}
 }

@@ -72,8 +72,6 @@ public class MainFrame extends JFrame {
 			addapp.chcRom.add(r.toString());
 			editapp.chcRom.add(r.toString());
 		}
-		
-		
 	}
 	//END INIT
 
@@ -235,8 +233,7 @@ public class MainFrame extends JFrame {
 					//Ikke opprett avtale
 				} else {
 					String desc = addapp.txtBeskrivelse.getText();
-					Room room = Room.getRoom(addapp.chcRom.getSelectedItem()); 
-					Employee leader = MainLogic.currentUser; 
+					Room room = Room.getRoom(addapp.chcRom.getSelectedItem());  
 					int year = Integer.parseInt(addapp.chcStartaar.getSelectedItem());
 					int month = Integer.parseInt(addapp.chcStartmnd.getSelectedItem());
 					int day = Integer.parseInt(addapp.chcStartdag.getSelectedItem());
@@ -248,7 +245,6 @@ public class MainFrame extends JFrame {
 					DateTime start = new DateTime(year, month, day, hourStart, minStart, 0);
 					DateTime end = new DateTime(year, month, day, hourEnd, minEnd, 0);
 					main.createAppointment(desc, room, addapp.deltakere, start, end);
-					System.out.println("Avtale opprettet!");
 					setContentPane(loggedin);
 	                loggedin.revalidate();
 				}
@@ -274,7 +270,7 @@ public class MainFrame extends JFrame {
             public void mouseClicked(MouseEvent e) {
 		    	String description = viewapp.descriptionField.getText();
 		    	Appointment app = MainLogic.currentUser.getAppointment(description);
-		    	if(main.currentUser.equals(app.getLeader())){
+		    	if(MainLogic.currentUser.equals(app.getLeader())){
 		    		main.cancelAppointment(app);
 		    	}
 		    	else main.declineAppointment(app);
