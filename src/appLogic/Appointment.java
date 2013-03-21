@@ -20,8 +20,8 @@ public class Appointment implements ObservableAppointment, Comparable<Appointmen
 	
 	public Appointment(String description, Room room, Employee leader, ArrayList<User> participants, DateTime start, DateTime end) throws DateTimeException, RoomBookedException, RoomSizeException, BusyUserException{
 		this.id=-1; //Default id f¿r den settes
-		if(!leader.isBusy(new CalendarRow(start,end,null))) this.leader = leader;
-		else throw new BusyUserException();
+		if(leader.isBusy(new CalendarRow(start,end,null))) throw new BusyUserException();
+		else this.leader = leader;
 		this.participants = new HashMap<User, Boolean>(); 
 		for(User p : participants){
 			this.participants.put(p, null);
@@ -35,9 +35,10 @@ public class Appointment implements ObservableAppointment, Comparable<Appointmen
 		leader.acceptAppointment(this);
 	}
 	
-	public Appointment(int id, String description, Room room, Employee leader, ArrayList<User> participants, DateTime start, DateTime end) throws DateTimeException, RoomBookedException, RoomSizeException{
+	public Appointment(int id, String description, Room room, Employee leader, ArrayList<User> participants, DateTime start, DateTime end) throws DateTimeException, RoomBookedException, RoomSizeException, BusyUserException{
 		this.id=id; //Default id f¿r den settes
-		this.leader=leader;
+		if(leader.isBusy(new CalendarRow(start,end,null))) throw new BusyUserException();
+		else this.leader = leader;
 		this.participants = new HashMap<User, Boolean>(); 
 		for(User p : participants){
 			this.participants.put(p, null);

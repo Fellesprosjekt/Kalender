@@ -11,6 +11,7 @@ import dbConnection.DBEmployees;
 import dbConnection.DBGroups;
 import dbConnection.DBRooms;
 
+import exceptions.BusyUserException;
 import exceptions.DateTimeException;
 import exceptions.InvalidAlarmException;
 import exceptions.InvalidEmailException;
@@ -70,6 +71,7 @@ public class MainLogic {
 	public void createAppointment(String description, Room room, ArrayList<User> participants, DateTime start, DateTime end){
 		try {
 			Appointment a = new Appointment(description, room, currentUser, participants, start, end);
+			System.out.println(currentUser.isBusy(new CalendarRow(start,end,null)));
 			dbapps.createAppiontment(a);
 			int appId = dbapps.getAppointmentId(currentUser, start);
 			a.setId(appId);	
@@ -78,13 +80,18 @@ public class MainLogic {
 			}
 			room.appointmentCreated(a);
 			dbrooms.createRoomBooking(appId, room.getId());
+			System.out.println("Avtale opprettet!");
 		} catch (DateTimeException e) {
-//			Error: ugyldig tidsrom
+			System.out.println("Ugyldig tidsrom");
 		} catch (RoomBookedException e) {
-//			Error: rommet er booked i dette tidsrommet
+			System.out.println("Rommet er allerede booket.");
 		} catch (RoomSizeException e) {
-//			Error: rommet er ikke stort nok til antall deltakere
+			System.out.println("Rommet er ikke stort nok.");
+		} catch (BusyUserException e) {
+			System.out.println("Du er ikke ledig i dette tidsrommet.");
 		}
+		
+		
 	}
 	
 	private void addParticipant(Appointment a, User u){

@@ -62,6 +62,7 @@ public class CalendarRow implements Comparable<CalendarRow>{
 	/* sjekker om to calendarRow overlapper i tid */
 	public boolean isOverlapping(CalendarRow other) {
 		//hvis start eller end for other faller innenfor this
+		if(this.start.equals(other.start) || this.end.equals(other.end)) return true;
 		if (this.start.isBefore(other.start) && this.end.isAfter(other.start)) {return true;}
 		if (this.start.isBefore(other.end) && this.end.isAfter(other.end)) {return true;}
 		//hvis start eller end for this faller innenfor other
