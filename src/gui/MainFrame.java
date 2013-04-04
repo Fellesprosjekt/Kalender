@@ -80,14 +80,6 @@ public class MainFrame extends JFrame {
 		home.revalidate();
 		
 		//Knapper til hjempanelet
-		home.btnRegistrerDeg.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				setContentPane(register);
-				register.revalidate();
-			}
-		});
-		
 		home.btnLoggInn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -259,7 +251,7 @@ public class MainFrame extends JFrame {
                     	Appointment old = editapp.appointment;
                     	main.cancelAppointment(old);
                     	viewrooms.participants.remove(old.getLeader());
-                    	main.createAppointment(viewrooms.description, room, viewrooms.participants, viewrooms.inStart, viewrooms.inEnd,old.getLeader());
+                    	main.createAppointment(viewrooms.description, room, viewrooms.participants, viewrooms.inStart, viewrooms.inEnd, old.getLeader());
                     }
             		System.out.println("Avtale opprettet!");
             		setContentPane(loggedin);
@@ -493,6 +485,7 @@ public class MainFrame extends JFrame {
 					Appointment old = editapp.appointment;
 					try {
 						if(old.getRoom().isBooked(new CalendarRow(start,end,null))) viewrooms.showAvailableRooms(old.getRoom());
+						else viewrooms.showAvailableRooms();
 					} catch (DateTimeException e1) {
 						viewrooms.showAvailableRooms();
 					}

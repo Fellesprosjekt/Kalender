@@ -10,7 +10,6 @@ import javax.swing.JLabel;
 import java.awt.Font;
 
 public class HomePanel extends JPanel {
-	public JButton btnRegistrerDeg;
 	public JButton btnLoggInn;
 	
 	public HomePanel() {
@@ -29,17 +28,14 @@ public class HomePanel extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(21dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+				RowSpec.decode("max(27dlu;default)"),}));
 		
 		JLabel lblHovedmeny = new JLabel("Hovedmeny");
 		lblHovedmeny.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		add(lblHovedmeny, "2, 4, 3, 1, center, default");
 		
 		btnLoggInn = new JButton("Logg inn");
-		add(btnLoggInn, "2, 8, 1, 3");
-		
-		btnRegistrerDeg = new JButton("Registrer deg");
-		add(btnRegistrerDeg, "4, 8, 1, 3");
+		add(btnLoggInn, "2, 8, 3, 3");
 	}
 
 	
