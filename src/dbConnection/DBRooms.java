@@ -24,7 +24,7 @@ public class DBRooms {
 	}
 	
 	public void loadRooms(){
-		ArrayList<HashMap<String,String>> posts = db.get("SELECT * FROM Calendar.room ");
+		ArrayList<HashMap<String,String>> posts = db.get("SELECT * FROM Room ");
 		for(HashMap<String,String> post : posts){
 			String romid = (post.get("RoomID"));
 			int size = Integer.parseInt(post.get("Size"));
