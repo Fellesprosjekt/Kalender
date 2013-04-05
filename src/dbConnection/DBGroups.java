@@ -12,7 +12,7 @@ public class DBGroups {
 	Simpleconnect db;
 	
 	public DBGroups(){
-		db = new Simpleconnect("Calendar", "");
+		db = new Simpleconnect();
 	}
 	
 	public void loadGroups(){

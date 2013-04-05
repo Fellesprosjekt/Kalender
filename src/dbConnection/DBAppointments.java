@@ -20,7 +20,7 @@ import exceptions.RoomSizeException;
 
 public class DBAppointments {
 	
-	Simpleconnect db = new Simpleconnect("Calendar", "");
+	Simpleconnect db = new Simpleconnect();
 	
 	public int getAppointmentId(Employee leader, DateTime start){
 		int leaderId = leader.getId();

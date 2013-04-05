@@ -12,7 +12,7 @@ public class DBRooms {
 	public Simpleconnect db;
 	
 	public DBRooms(){
-		db = new Simpleconnect("Calendar","");
+		db = new Simpleconnect();
 	}
 	
 	public void updateAppointmentRoom(int appId,String roomId){	

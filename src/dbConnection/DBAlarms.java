@@ -18,7 +18,7 @@ public class DBAlarms {
 	private Simpleconnect db;
 
 	public DBAlarms(){
-		db = new Simpleconnect("Calendar", "");
+		db = new Simpleconnect();
 	}
 
 	public void loadAlarms(){

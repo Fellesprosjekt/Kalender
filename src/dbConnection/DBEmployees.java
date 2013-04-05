@@ -12,7 +12,7 @@ public class DBEmployees {
 	Simpleconnect db;
 	
 	public DBEmployees(){
-		db = new Simpleconnect("Calendar", "");
+		db = new Simpleconnect();
 	}
 	
 	public void loadEmployees(){

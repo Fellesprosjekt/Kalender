@@ -6,22 +6,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class Simpleconnect {
-	String dbUrl = "jdbc:mysql://localhost:3306/";
+	String dbUrl = "jdbc:mysql://mysql.stud.ntnu.no/peterts_kalender";
 	String dbClass = "com.mysql.jdbc.Driver";
-	String operation;
-	String brukernavn="root";
-	String passord;
+	String brukernavn="peterts_admin";
+	String passord="Gruppe16";
 	//her trenger man sitt eget passord
 
 
-	public Simpleconnect(String dbName, String passord){
-		this.dbUrl+=dbName;
-		this.passord = passord;
-		//passordet man bruker for å koble til sin lokale DB
-
-
-
+	public Simpleconnect(){
 	}
+	
 	//Skal noe sendes til db, bruk sql kommando som message
 	public void send(String message){
 		try{
